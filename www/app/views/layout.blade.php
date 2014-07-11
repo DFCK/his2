@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="his">
 <head>
     <title>
     </title>
@@ -17,7 +17,7 @@
 </head>
 <body>
     <div class="supercontainer">
-        <div class=" body">
+        <div class=" body" ng-controller="Main">
             @if(Session::has('message'))
             <div class="bg-danger text-center">{{Session::get('message')}}</div>
             @endif
@@ -29,5 +29,6 @@
 <script src="http://code.jquery.com/jquery.js"></script>
 {{HTML::script('src/bootstrap/js/bootstrap.min.js')}}
 {{HTML::script('src/bootstrap/js/bootstrap-datepicker.js')}}
+{{HTML::script('src/angular.min.js')}}
 @yield('jscript')
 
