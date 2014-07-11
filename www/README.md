@@ -1,4 +1,4 @@
-lanews
+HIS 2
 ======
 
-Laravel test project to build cms
+HIS version 2 build on Laravel
