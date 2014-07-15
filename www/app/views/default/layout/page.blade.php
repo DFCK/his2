@@ -13,6 +13,10 @@
    </ul>
 
 <a class=custombutton> Click me </a>
+
+<ul ng-repeat="number in [1,2,3,4,5,6,7]">
+    <li>@{{number}}</li>
+</ul>
 @stop
 @section('jscript')
 <script>
