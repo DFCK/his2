@@ -17,7 +17,7 @@
 </head>
 <body>
     <div class="supercontainer">
-        <div class=" body" ng-controller="Main">
+        <div class=" body" ng-controller="MainCtrl">
             @if(Session::has('message'))
             <div class="bg-danger text-center">{{Session::get('message')}}</div>
             @endif
