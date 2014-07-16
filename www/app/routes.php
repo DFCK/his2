@@ -11,7 +11,9 @@
 |
 */
 
-//Route::controller('facelogin','FacebookController');
+Route::controller('tpl','TplController');
+Route::controller('dashboard','DashboardController');
+Route::controller('admin','AdminController');
 Route::any('login',array('before'=>'guest','uses'=>'UserController@login'));
 Route::any('logout','UserController@logout');
 

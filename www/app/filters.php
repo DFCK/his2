@@ -13,7 +13,9 @@
 
 App::before(function($request)
 {
-	//
+    if ( Session::has('locale') ) {
+        App::setLocale(Session::get('locale'));
+    }
 });
 
 
