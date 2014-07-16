@@ -69,6 +69,7 @@
                                         <select>
                                             <option value="">Root</option>
                                         </select>
+                                        <i></i>
                                     </label>
                                 </section>
                                 </div>
