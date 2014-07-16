@@ -24,10 +24,10 @@ will not initialize.
 <navigation>
     <nav:item data-view="/dashboard" data-icon="fa fa-lg fa-fw fa-home" title="{{trans('common.dashboard')}}" suftitle="{{trans('common.suftitle')}}" />
     <nav:group data-icon="fa fa-lg fa-fw fa-cogs" title="{{trans('common.administration')}}">
-        <nav:item data-view="/admin/module" title="{{trans('common.module')}}"/>
-        <nav:item data-view="/admin/account" title="{{trans('common.account')}}"/>
-        <nav:item data-view="/admin/position" title="{{trans('common.roleposition')}}"/>
-        </nav:group>
+        <nav:item data-view="/admin/module" title="{{trans('common.module')}}"  suftitle="{{trans('common.suftitle')}}" />
+        <nav:item data-view="/admin/account" title="{{trans('common.account')}}"  suftitle="{{trans('common.suftitle')}}" />
+        <nav:item data-view="/admin/position" title="{{trans('common.roleposition')}}"  suftitle="{{trans('common.suftitle')}}" />
+    </nav:group>
     <!--    <nav:group data-icon="fa fa-lg fa-fw fa-code" title="Angular Stuff" >-->
 <!--        <nav:item data-view="/angular/ui" title="UI Bootstrap" />-->
 <!--        <nav:item data-view="/angular/gen-locale" title="Get Locale JSON" />-->

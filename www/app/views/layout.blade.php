@@ -110,7 +110,7 @@
 {{HTML::script('src/smartadmin/js/plugin/select2/select2.min.js')}}
 
 <!-- JQUERY UI + Bootstrap Slider -->
-{{HTML::script('src/smartadmin/js/plugin/bootstrap-slider/bootstrap-slider.min.js')}}
+<!--{{HTML::script('src/smartadmin/js/plugin/bootstrap-slider/bootstrap-slider.min.js')}}-->
 
 <!-- browser msie issue fix -->
 {{HTML::script('src/smartadmin/js/plugin/msie-fix/jquery.mb.browser.min.js')}}
