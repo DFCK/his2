@@ -89,12 +89,17 @@
                                             <label class="input">
                                                 <input ng-model="afunc.moduleorder" name="moduleorder"
                                                        type="text" placeholder="Order">
+                                                <b class="tooltip tooltip-left">Thứ tự các chức năng</b>
                                             </label>
                                         </section>
                                         <section class="col col-2">
                                             <label class="label">Thuộc Nhóm</label>
                                             <label class="select">
                                                 <select ng-model="afunc.moduleparent">
+                                                    <option value="0">/</option>
+                                                    <option data-ng-repeat="item in tree" value="@{{item.id}}">
+                                                        @{{item.modulename}}
+                                                    </option>
                                                 </select>
                                                 <i></i>
                                             </label>
@@ -148,29 +153,24 @@
 
                         <!-- widget content -->
                         <div class="widget-body">
-
-                            <div class="table-responsive">
-
-                                <table class="table table-bordered">
-                                    <thead>
-                                    <tr>
-                                        <th>Chức năng</th>
-                                        <th>Mã</th>
-                                        <th>Đường dẫn</th>
-                                        <th>Biến ngôn ngữ</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody >
-                                      <tr data-ng-repeat="functitem in tree">
-                                            <td>@{{functitem.modulename}}</td>
-                                            <td>@{{functitem.modulecode}}</td>
-                                            <td>@{{functitem.moduleurl}}</td>
-                                            <td>@{{functitem.modulelang}}</td>
-                                      </tr>
-                                    </tbody>
-                                </table>
-
+                            <script type="text/ng-template" id="treecat.html">
+                                <div class="dd-handle">
+                                    @{{functitem.modulename}} <span> -  @{{functitem.modulecode}}</span>
+                                    <span class="label label-info">@{{functitem.moduleurl}}</span>
+                                    <span class="label label-success">@{{functitem.modulelang}}</span>
+                                </div>
+                                <ol class="dd-list" ng-if="functitem.children.length > 0">
+                                    <li ng-repeat="functitem in functitem.children" ng-include="'treecat.html'"  data-id="@{{functitem.id}}">
+                                    </li>
+                                </ol>
+                            </script>
+                            <div class="dd" id="nestable">
+                                <ol class="dd-list">
+                                    <li class="dd-item" ng-repeat="functitem in tree" ng-include="'treecat.html'" data-id="@{{functitem.id}}">
+                                    </li>
+                                </ol>
                             </div>
+                            <textarea id="nestable-output" rows="3" class="form-control font-md"></textarea>
                         </div>
                         <!-- end widget content -->
 
@@ -205,8 +205,8 @@
             modulecode: '',
             moduleparent: 0,
             moduleorder: 0,
-            id:'',
-            children:[]
+            id: '',
+            children: []
         };
         $scope.functionlist = [];
         $scope.tree = [];
@@ -218,9 +218,7 @@
                         data: $scope.afunc
                     })
                     .success(function (data) {
-                        if(data>0){
-//                            $scope.afunc['id'] = data;
-//                            $scope.functionlist.push($scope.afunc);
+                        if (data > 0) {
                             getfunction();
                             angular.copy($scope.initial, $scope.afunc);
 
@@ -228,41 +226,56 @@
                     });
             }
         };
-        var buildtree  = function (data) {
+        var buildtree = function (data) {
             $scope.tree = [];
             var children = [];
-            for (i = 0; i < data.length; i++) {
-               var item = data[i];
-                var id= item['id'];
+            angular.forEach(data, function (item, key) {
+                var id = item['id'];
                 var moduleparent = item['moduleparent'];
-               if(children[moduleparent]){
-                   var tmpitem = item;
-                   if(!children[moduleparent].children){
-                       children[moduleparent].children = [];
-                   }
-                   children[moduleparent].children[children[moduleparent].children.length] = tmpitem;
-                   item[id] = tmpitem;
-               }
-                else{
-                   children[id] = item;
-                   $scope.tree.push(children[id]);
-               }
-            }
+                if (children[moduleparent]) {
+                    if (!children[moduleparent].children) {
+                        children[moduleparent].children = [];
+                    }
+                    children[moduleparent].children.push(item);
+                }
+                else {
+                    children[id] = item;
+                    $scope.tree.push(children[id]);
+                }
+            });
+
 //            return source;
         };
 
-        var getfunction = function(){
+        var getfunction = function () {
             $http.get('admin/functionlist')
                 .success(function (data) {
                     $scope.functionlist = data;
                     buildtree($scope.functionlist);
-                    console.log($scope.tree);
+                    updateOutput($('#nestable').data('output', $('#nestable-output')));
                 });
         }
         getfunction();
 
     }
+    var updateOutput = function(e) {
+        var list = e.length ? e : $(e.target), output = list.data('output');
+        console.log(list);
+        if (window.JSON) {
+            output.val(window.JSON.stringify(list.nestable('serialize')));
+            //, null, 2));
+        } else {
+            output.val('JSON browser support required for this demo.');
+        }
+    };
     var pagefunction = function () {
+
+
+
+        $('#nestable').nestable({
+            group : 1
+        }).on('change', updateOutput);
+        updateOutput($('#nestable').data('output', $('#nestable-output')));
 
         var $checkoutForm = $('#formmodule').validate({
             // Rules for form validation
@@ -299,6 +312,7 @@
         });
     };
     // Load form valisation dependency
-    loadScript("src/smartadmin/js/plugin/jquery-form/jquery-form.min.js", pagefunction);
+    loadScript("src/smartadmin/js/plugin/jquery-nestable/jquery.nestable.min.js");
+    loadScript("src/smartadmin/js/plugin/jquery-form/jquery-form.min.js",pagefunction);
 
 </script>

@@ -1,3 +1,4 @@
+DROP IF EXISTS TABLE dfck_function;
 CREATE TABLE `dfck_mis`.`dfck_function`(
   `id` INT NOT NULL AUTO_INCREMENT,
   `modulename` VARCHAR(50),
