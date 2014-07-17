@@ -7,13 +7,24 @@ class AdminController extends BaseController
     public function postAddmodule(){
         $params = Input::all();
         $arr = array(
-            'modulename' => $params['data']['name'],
-            'moduleurl' => $params['data']['url'],
-            'modulelang' => $params['data']['lang'],
-            'moduleparent' => $params['data']['parent'],
+            'modulename' => $params['data']['modulename'],
+            'moduleurl' => $params['data']['moduleurl'],
+            'modulelang' => $params['data']['modulelang'],
+            'moduleparent' => $params['data']['moduleparent'],
+            'modulecode' => $params['data']['modulecode'],
         );
-        $function = Adminfunction::create($arr);
-        echo $function->id;
-//        return Response::json($params);
+        $find = Adminfunction::where('modulecode',$arr['modulecode'])->count();
+        if($find <=0){
+            $function = Adminfunction::create($arr);
+            echo $function->id;
+        }
+        else echo -1;//duplicate module code;
+    }
+    public function getFunctionlist(){
+        //$functions =  Adminfunction::getFunctionTree();
+
+        //print_r($functions);
+        //return Response::json($functions);
+        return   Adminfunction::orderBy('modulename')->get()->toJson();
     }
 }
