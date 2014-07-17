@@ -43,12 +43,21 @@
 
                         <!-- widget content -->
                         <div class="widget-body no-padding">
+                            <script  type="text/ng-template" id="notif.html">
+                                <div class="alert  fade in @{{notifstyle}}">
+                                    <button class="close" >×</button>
+                                    <i class="fa fa-fw @{{notificon}}"></i>
+                                    <strong>@{{notifmessage}}</strong>
+                                </div>
+                            </script>
+                            <div ng-if="shownotif" data-ng-include="'notif.html'"></div>
                             <form class=" smart-form" id="formmodule">
                                 <fieldset>
                                     <div class="row  ">
                                         <section class="col col-3">
                                             <label class="label">Tên chức năng</label>
                                             <label class="input">
+                                                <input type="hidden" ng-model="afunc.id">
                                                 <input type="text" name="modulename"
                                                        placeholder="Tên chức năng"
                                                        ng-model="afunc.modulename" required>
@@ -153,24 +162,35 @@
 
                         <!-- widget content -->
                         <div class="widget-body">
+                        <span class="label label-warning txt-color-white">Mã chức năng</span>
+                        <span class="label label-info txt-color-white">Đường dẫn</span>
+                        <span class="label label-success txt-color-white">Biến ngôn ngữ</span>
+                            <div class="clear:both"></div>
+                            <hr>
                             <script type="text/ng-template" id="treecat.html">
-                                <div class="dd-handle">
-                                    @{{functitem.modulename}} <span> -  @{{functitem.modulecode}}</span>
-                                    <span class="label label-info">@{{functitem.moduleurl}}</span>
-                                    <span class="label label-success">@{{functitem.modulelang}}</span>
+                                <div class="dd-handle dd3-handle">Drag</div>
+                                <div class="dd3-content">
+                                    <strong>@{{functitem.modulename}}</strong>
+                                    <a href="" ng-click="editmodule(functitem)"><i class="fa fa-pencil"></i></a>
+                                    <div class="pull-right">
+                                        <span class="label label-warning txt-color-white">@{{functitem.modulecode}}</span>
+                                        <span class="label label-info  txt-color-white">@{{functitem.moduleurl}}</span>
+                                        <span class="label label-success  txt-color-white">@{{functitem.modulelang}}</span>
+
+                                    </div>
+
                                 </div>
                                 <ol class="dd-list" ng-if="functitem.children.length > 0">
-                                    <li ng-repeat="functitem in functitem.children" ng-include="'treecat.html'"  data-id="@{{functitem.id}}">
+                                    <li  class="dd-item dd3-item" ng-repeat="functitem in functitem.children" ng-include="'treecat.html'"  data-id="@{{functitem.id}}">
                                     </li>
                                 </ol>
                             </script>
                             <div class="dd" id="nestable">
                                 <ol class="dd-list">
-                                    <li class="dd-item" ng-repeat="functitem in tree" ng-include="'treecat.html'" data-id="@{{functitem.id}}">
+                                    <li class="dd-item dd3-item" ng-repeat="functitem in tree" ng-include="'treecat.html'" data-id="@{{functitem.id}}">
                                     </li>
                                 </ol>
                             </div>
-                            <textarea id="nestable-output" rows="3" class="form-control font-md"></textarea>
                         </div>
                         <!-- end widget content -->
 
@@ -218,13 +238,36 @@
                         data: $scope.afunc
                     })
                     .success(function (data) {
+                        $scope.shownotif=true;
+                        if(data > 0){
+                            $scope.notifstyle="alert-success";
+                            $scope.notifmessage = "Lưu dữ liệu thành công";
+                            $scope.notificon = "fa-check";
+                        }
+                        else if(data == -1){
+                            $scope.notifstyle="alert-danger";
+                            $scope.notifmessage = "Mã chức năng bị trùng";
+                            $scope.notificon = "fa-times";
+                        }
+                        else{
+                            $scope.notifstyle="alert-danger";
+                            $scope.notifmessage = "Lỗi lưu dữ liệu";
+                            $scope.notificon = "fa-times";
+                        }
                         if (data > 0) {
                             getfunction();
-                            angular.copy($scope.initial, $scope.afunc);
-
                         }
+                        angular.copy($scope.initial, $scope.afunc);
+
                     });
             }
+        };
+        $scope.editmodule = function(funcitem){
+            $scope.afunc = funcitem;
+        };
+        var updateOutput = function(e) {
+            var list = e.length ? e : $(e.target);
+            console.log(list.nestable('serialize'));
         };
         var buildtree = function (data) {
             $scope.tree = [];
@@ -252,30 +295,15 @@
                 .success(function (data) {
                     $scope.functionlist = data;
                     buildtree($scope.functionlist);
-                    updateOutput($('#nestable').data('output', $('#nestable-output')));
+                    $('#nestable').nestable().on('change', updateOutput);
                 });
         }
         getfunction();
 
     }
-    var updateOutput = function(e) {
-        var list = e.length ? e : $(e.target), output = list.data('output');
-        console.log(list);
-        if (window.JSON) {
-            output.val(window.JSON.stringify(list.nestable('serialize')));
-            //, null, 2));
-        } else {
-            output.val('JSON browser support required for this demo.');
-        }
-    };
+
     var pagefunction = function () {
-
-
-
-        $('#nestable').nestable({
-            group : 1
-        }).on('change', updateOutput);
-        updateOutput($('#nestable').data('output', $('#nestable-output')));
+        //$('#nestable').nestable().on('change', updateOutput);
 
         var $checkoutForm = $('#formmodule').validate({
             // Rules for form validation
