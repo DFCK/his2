@@ -45,7 +45,7 @@
                         <div class="widget-body no-padding">
                             <script  type="text/ng-template" id="notif.html">
                                 <div class="alert  fade in @{{notifstyle}}">
-                                    <button class="close" >×</button>
+                                    <button class="close">×</button>
                                     <i class="fa fa-fw @{{notificon}}"></i>
                                     <strong>@{{notifmessage}}</strong>
                                 </div>
@@ -238,7 +238,7 @@
                         data: $scope.afunc
                     })
                     .success(function (data) {
-                        $scope.shownotif=true;
+                        $scope.toggle=true;
                         if(data > 0){
                             $scope.notifstyle="alert-success";
                             $scope.notifmessage = "Lưu dữ liệu thành công";
