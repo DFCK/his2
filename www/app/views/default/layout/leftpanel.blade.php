@@ -27,7 +27,7 @@ will not initialize.
         @if(count($cat['children'])>0)
             <nav:group data-icon="{{$cat['moduleicon']}}" title="{{trans($cat['modulelang'])}}">
                 @foreach($cat['children'] as $catchild)
-                <nav:item data-view="{{$catchild['moduleurl']}}" title="{{trans($catchild['modulelang'])}}"
+                <nav:item data-icon="{{$catchild['moduleicon']}}" data-view="{{$catchild['moduleurl']}}" title="{{trans($catchild['modulelang'])}}"
                           suftitle="{{trans('common.suftitle')}}"/>
                 @endforeach
             </nav:group>
