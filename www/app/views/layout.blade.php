@@ -134,7 +134,7 @@ ANGULAR: Handled via "ribbon" directive
 
 @yield('jscript')
 
-<!--<!-- Your GOOGLE ANALYTICS CODE Below -->-->
+<!--<!-- Your GOOGLE ANALYTICS CODE Below -->
 <!--		<script type="text/javascript">-->
 <!---->
 <!--		  var _gaq = _gaq || [];-->
