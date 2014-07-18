@@ -10,6 +10,7 @@ CREATE TABLE `dfck_mis`.`dfck_function`(
   `created_at` TIMESTAMP,
   `deleted` INT DEFAULT 0,
   `moduleorder` INT DEFAULT 0,
+  `moduleicon` VARCHAR(50),
   PRIMARY KEY (`id`)
 ) ENGINE=INNODB;
 ALTER TABLE `dfck_function` ADD UNIQUE INDEX (`modulecode`);

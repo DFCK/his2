@@ -16,11 +16,12 @@ class AdminController extends BaseController
             'moduleparent' => $params['data']['moduleparent'],
             'modulecode' => $params['data']['modulecode'],
             'moduleorder' => $params['data']['moduleorder'],
+            'moduleicon' => $params['data']['moduleicon'],
         );
 
         //dau tien la tim xem code co bi trung khong?
         $find = Adminfunction::where('modulecode', $arr['modulecode'])
-            ->where('id','!=',$params['data']['id'])
+            ->where('id', '!=', $params['data']['id'])
             ->count();
         if ($find <= 0) {
             $find = null;
@@ -35,17 +36,32 @@ class AdminController extends BaseController
                 $find->modulelang = $arr['modulelang'];
                 $find->moduleparent = $arr['moduleparent'];
                 $find->modulecode = $arr['modulecode'];
-                $find->moduleorder = $arr['moduleorder'];
+//                $find->moduleorder = $arr['moduleorder'];
+                $find->moduleicon = $arr['moduleicon'];
                 echo $find->save();
-            } else {
+            }
+            else {
                 //xu li insert moi
                 $function = Adminfunction::create($arr);
                 echo $function->id;
 
             }
-        } else echo -1;
+        }
+        else echo -1;
         //duplicate module code;
 
+    }
+    public function postDeletemodule(){
+        $data = Input::all();
+        echo Adminfunction::find($data['data']['id'])->delete();
+    }
+    public function getSelectlist()
+    {
+        return Adminfunction::where('moduleparent', '0')
+            ->orderBy('moduleparent')
+            ->orderBy('moduleorder')
+            ->get()
+            ->toJson();
     }
 
     public function getFunctionlist()
@@ -56,5 +72,24 @@ class AdminController extends BaseController
         //return Response::json($functions);
         return Adminfunction::orderBy('moduleparent')
             ->orderBy('moduleorder')->get()->toJson();
+    }
+
+    public function postChangemoduleorder()
+    {
+        $data = Input::all();
+        $count = 0;
+        $result = 0;
+        foreach ($data['data'] as $id => $val) {
+            $result += Adminfunction::where('id', $val['id'])->update(array('moduleorder' => $id, 'moduleparent' => 0));
+            $count++;
+            if (isset($val['children']) && count($val['children']) > 0) {
+                foreach ($val['children'] as $idc => $valc) {
+                    $result += Adminfunction::where('id', $valc['id'])->update(array('moduleorder' => $idc, 'moduleparent' => $val['id']));
+                    $count++;
+                }
+            }
+        }
+        if ($count == $result) echo 1;
+        else echo 0;
     }
 }

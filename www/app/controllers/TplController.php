@@ -5,7 +5,8 @@ class TplController extends BaseController
         return View::make(Config::get('main.theme').'.layout.header');
     }
     public function getLeftpanel(){
-        return View::make(Config::get('main.theme').'.layout.leftpanel');
+        $data['categories'] = Adminfunction::getFunctionTree(0);
+        return View::make(Config::get('main.theme').'.layout.leftpanel',$data);
     }
     public function getRibbon(){
         return View::make(Config::get('main.theme').'.layout.ribbon');

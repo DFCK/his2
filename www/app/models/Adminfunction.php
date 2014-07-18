@@ -1,7 +1,7 @@
 <?php
 class Adminfunction extends Eloquent{
     protected $table = 'dfck_function';
-    protected $fillable = array('modulename', 'moduleurl','modulelang','moduleparent','modulecode','moduleorder');
+    protected $fillable = array('modulename', 'moduleurl','modulelang','moduleparent','modulecode','moduleorder','moduleicon');
 
     public static function getFunctionTree($id = 0)
     {
@@ -22,6 +22,7 @@ class Adminfunction extends Eloquent{
                  'moduleorder' => $func->moduleorder,
                  'moduleparent' => $func->moduleparent,
                  'modulecode' => $func->modulecode,
+                 'moduleicon' => $func->moduleicon,
 
                 'children' => array()
             );
