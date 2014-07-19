@@ -20,7 +20,7 @@
                     </button>
                     <h4 class="modal-title" id="myModalLabel">Camera</h4>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body" style="text-align: center">
                     <video id="video" width="640" height="480" autoplay ng-show="iscamera"></video>
                     <canvas id="canvas" width="480" height="480" style="display: none"></canvas>
                     <img id="modelcapture" src="" ng-show="!iscamera">
@@ -33,7 +33,7 @@
                     <button type="button" class="btn btn-default" id="stop" data-ng-click="stopcamera()">Dừng camera
                     </button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">
-                        Thoát
+                        Xong
                     </button>
 
                 </div>
