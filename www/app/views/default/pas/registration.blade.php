@@ -1,19 +1,20 @@
-<a href="" data-toggle="modal" data-target="#remoteModal" class="btn btn-primary">
-    Lấy ảnh
-</a>
-<img id="pasavatar" src="">
+<div data-ng-controller="camctrl">
+    <a href="" ng-click="camera()" data-toggle="modal" data-target="#remoteModal" class="btn btn-primary">
+        Lấy ảnh
+    </a>
+    <img id="pasavatar" src="">
 
-<!-- Dynamic Modal -->
-<style>
-    .modal-dialog {
-        width: 680px;
-    }
-</style>
-<div class="modal fade" id="remoteModal" tabindex="-1" role="dialog" aria-labelledby="remoteModalLabel"
-     aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div data-ng-controller="camctrl">
+    <!-- Dynamic Modal -->
+    <style>
+        .modal-dialog {
+            width: 680px;
+        }
+    </style>
+    <div class="modal fade" id="remoteModal" tabindex="-1" role="dialog" aria-labelledby="remoteModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
                         &times;
@@ -39,11 +40,9 @@
                 </div>
             </div>
             <!-- content will be filled here from "ajax/modal-content/model-content-1.html" -->
-
         </div>
     </div>
 </div>
-
 
 <script type="text/javascript">
     /* DO NOT REMOVE : GLOBAL FUNCTIONS!
@@ -68,19 +67,24 @@
         }
         $scope.camcapture = function () {
             $scope.iscamera = false;
-//            context.drawImage(video, 0, 0, 640, 480);
             context.drawImage(video, 80, 0, 480, 480, 0, 0, 480, 480);
             // "image/webp" works in Chrome.
             // Other browsers will fall back to image/png.
             document.getElementById("modelcapture").src = canvas.toDataURL('image/webp');
             document.getElementById("pasavatar").src = canvas.toDataURL('image/webp');
-//            video.src = null;
-//            video.stop();
+            $scope.stopcamera();
         }
         $scope.stopcamera = function () {
-            video.src = null;
-            video.stop();
-            localMediaStream.stop();
+            video.pause();
+            if (navigator.getUserMedia){
+                video.src = null;
+            }
+            else if (navigator.mozGetUserMedia){
+                video.mozSrcObject = null;
+            }
+            else if (navigator.webkitGetUserMedia){
+                video.src = "";
+            }
         }
         var opencamera = function () {
             // Put video listeners into place
