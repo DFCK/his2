@@ -24,13 +24,11 @@ return array(
     /**
      * 404 error
      */
-    'error' => 'Lỗi',
-    'page' => 'Trang',
-    'not' => 'không',
-    'found'=> 'tồn tại',
-    'errortext' =>'Trang bạn yêu cầu không tìm thấy, vui lòng liên hệ quản trị viên để biết thêm thông tin.
-    Bạn có thể nhấn nút <b>back</b> trên trình duyệt để quay lại trang trước.',
-    'errorsearch' => 'Bạn có thể thử tìm kiếm thông tin tại đây',
-
+    'error' => 'Error',
+    'page' => 'Page',
+    'not' => 'Not',
+    'found'=> 'Found',
+    'errortext' =>'The page you requested could not be found, either contact your webmaster or try again. Use your browsers <b>Back</b> button to navigate to the page you have prevously come from',
+    'errorsearch' => '... That didn`t work on you? Dang. May we suggest a search, then?',
 
 );
