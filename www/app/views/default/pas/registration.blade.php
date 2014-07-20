@@ -31,7 +31,7 @@
                     <button type="button" class="btn btn-success" id="snap" data-ng-click="camcapture()">Lấy hình
                     </button>
                     <!--                    <button type="button" class="btn btn-success" data-ng-click="cropimg()">Crop</button>-->
-                    <button type="button" class="btn btn-default" id="stop" data-ng-click="stopcamera()">Dừng camera
+<!--                    <button type="button" class="btn btn-default" id="stop" data-ng-click="stopcamera()">Dừng camera-->
                     </button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">
                         Xong
