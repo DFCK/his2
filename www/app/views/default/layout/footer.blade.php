@@ -1,7 +1,7 @@
 <!-- PAGE FOOTER -->
 <div class="row">
     <div class="col-xs-12 col-sm-6">
-        <span class="txt-color-white">Hệ thống thông tin Y Tế DFCK - MIS - &copy {{date('Y')}}</span>
+        <span class="txt-color-white">Hệ thống thông tin Y Tế DFCK - MIS - &copy {{date('Y')}} - Phiên bản {{Config::get('main.version')}}</span>
     </div>
 
 <!--    <div class="col-xs-6 col-sm-6 text-right hidden-xs">-->
