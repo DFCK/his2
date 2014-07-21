@@ -7,7 +7,7 @@
 #
 # Host: localhost (MySQL 5.6.14)
 # Database: dfck_mis
-# Generation Time: 2014-07-18 08:22:06 +0000
+# Generation Time: 2014-07-21 08:18:18 +0000
 # ************************************************************
 
 
@@ -50,7 +50,7 @@ VALUES
 	(9,'Cận Lâm Sàn','','ris.cls','riscls',0,'2014-07-18 15:19:18','2014-07-17 15:01:05',0,2,'fa fa-lg fa-fw fa-codepen'),
 	(12,'Tiếp nhận','pas/tiep-nhan','pas.admit','pasadmit',1,'2014-07-18 15:19:18','2014-07-17 15:03:36',0,0,NULL),
 	(13,'Khám bệnh','pas/kham-benh','pas.kb','paskb',1,'2014-07-18 15:19:18','2014-07-17 15:05:01',0,1,''),
-	(15,'Đăng ký mới','pas/registration','pas.dk','pasdk',0,'2014-07-18 15:19:18','2014-07-17 15:10:58',0,0,'fa fa-lg fa-lw fa-barcode');
+	(15,'Đăng ký mới','pas/person','pas.dk','pasdk',0,'2014-07-21 15:15:54','2014-07-17 15:10:58',0,0,'fa fa-lg fa-lw fa-barcode');
 
 /*!40000 ALTER TABLE `dfck_function` ENABLE KEYS */;
 UNLOCK TABLES;
