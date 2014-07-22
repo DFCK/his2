@@ -32,5 +32,11 @@ return array(
     Bạn có thể nhấn nút <b>back</b> trên trình duyệt để quay lại trang trước.',
     'errorsearch' => 'Bạn có thể thử tìm kiếm thông tin tại đây',
 
+    /**
+     * Chức danh
+     */
+    'bs' => 'Bác sĩ',
+    'dd' => 'Điều dưỡng',
+
 
 );
