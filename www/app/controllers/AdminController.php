@@ -5,6 +5,16 @@ class AdminController extends BaseController
     {
         return View::make(Config::get('main.theme') . '.admin.module');
     }
+   public function getDmchucvu()
+    {
+        return View::make(Config::get('main.theme') . '.admin.dmchucvu');
+    }
+    public function postAdddmchucvu(){
+        $input = Input::all();
+        //var_dump($input);
+        $chucvu = Dmchucvu::create($input['data']);
+        echo $chucvu->id;
+    }
 
     public function postAddmodule()
     {

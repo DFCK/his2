@@ -11,6 +11,7 @@ return array(
     'module' => 'Danh mục chức năng',
     'account' => 'Tài khoản',
     'roleposition' => 'Chức danh',
+    'dmchucvu' => 'Danh mục chức vụ',
 
     /**
      * Thao tác
