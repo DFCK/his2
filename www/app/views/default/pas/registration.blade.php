@@ -232,6 +232,10 @@
     function personregistercontroller($scope) {
         $scope.person = {
             sex: 0,
+            province: 0,
+            district: 0,
+            addressward: 0,
+            doituong: 0,
         };
         $scope.noavatar = {
             m:"{{asset('images/noavatarm.jpg')}}",
