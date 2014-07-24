@@ -17,3 +17,9 @@
  * - BODY
  * - CUSTOM STYLES
  */
+.smart-form section{
+    margin-bottom:5px;
+}
+.smart-form fieldset{
+    padding-top: 15px;
+}
