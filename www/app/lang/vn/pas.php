@@ -12,7 +12,7 @@ return array(
     'femal' => 'Nữ',
     'sex' => 'Giới tính',
     'DOB' => 'Ngày sinh',
-    'dateformat' => 'ngày / tháng / năm ',
+    'dateformat' => 'ngày - tháng - năm ',
     'YOB' => 'Năm sinh',
     'age' => 'Tuổi',
     'month' => 'tháng',

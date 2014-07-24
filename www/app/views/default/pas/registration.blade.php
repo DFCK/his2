@@ -1,6 +1,6 @@
 <div ng-app="doc.ui-utils">
 <div data-ng-controller="personregistercontroller">
-<div class="row" >
+<div class="row">
     <div class="col-xs-12">
         <h1 class="page-title txt-color-blueDark">
             <i class="fa fa-barcode fa-fw"></i> {{trans('pas.dk')}}
@@ -56,28 +56,33 @@
                     <fieldset>
                         <div class="row  ">
                             <div class="col-xs-9">
-                                <section class="col col-lg-4 col-xs-6 col-sm-4 col-md-4">
+                                <section class="col col-lg-3 col-xs-4 col-sm-3 col-md-3">
                                     <label class="label">{{trans('pas.lastname')}}</label>
                                     <label class="input">
                                         <input type="hidden" ng-model="person.id">
                                         <input type="text" name="lastname"
                                                placeholder="{{trans('pas.lastname')}}"
-                                               ng-model="person.lastname" required tabindex="1" ui-keydown="{'enter': 'nextinputCallback($event)','shift-enter': 'submitCallback($event)'}">
+                                               ng-model="person.lastname" required tabindex="1"
+                                               ui-keydown="{'enter': 'nextinputCallback($event)','shift-enter': 'submitCallback($event)'}">
                                     </label>
                                 </section>
-                                <section class="col col-lg-4 col-xs-6 col-sm-4 col-md-4">
+                                <section class="col col-lg-2 col-xs-4 col-sm-2 col-md-2">
                                     <label class="label">{{trans('pas.firstname')}}</label>
                                     <label class="input">
-                                        <input ng-model="person.firstname" name="firstname"  tabindex="2" ui-keydown="{'enter': 'nextinputCallback($event)','shift-enter': 'submitCallback($event)'}"
+                                        <input ng-model="person.firstname" name="firstname"
+                                               tabindex="2"
+                                               ui-keydown="{'enter': 'nextinputCallback($event)','shift-enter': 'submitCallback($event)'}"
                                                type="text" placeholder="{{trans('pas.firstname')}}">
 
 
                                     </label>
                                 </section>
-                                <section class="col col-lg-4 col-xs-6 col-sm-4 col-md-4">
+                                <section class="col col-lg-2 col-xs-4 col-sm-2 col-md-2">
                                     <label class="label">{{trans('pas.sex')}}</label>
                                     <label class="select">
-                                        <select ng-model="person.sex" ng-change="changeavatar()" tabindex="3" ui-keydown="{'enter': 'nextinputCallback($event)','shift-enter': 'submitCallback($event)'}">
+                                        <select ng-model="person.sex" ng-change="changeavatar()"
+                                                tabindex="3"
+                                                ui-keydown="{'enter': 'nextinputCallback($event)','shift-enter': 'submitCallback($event)'}">
                                             <option value="0">{{trans('pas.sex')}}</option>
                                             <option value="m">{{trans('pas.men')}}</option>
                                             <option value="f">{{trans('pas.femal')}}</option>
@@ -86,48 +91,49 @@
                                     </label>
                                 </section>
 
-                                <section class="col col-lg-4 col-xs-6 col-sm-4 col-md-4">
+                                <section class=" col-lg-2 col-xs-4 col-sm-2 col-md-2">
                                     <label class="label">{{trans('pas.DOB')}}</label>
                                     <label class="input">
-                                        <i class="icon-append fa fa-calendar"></i>
-                                        <input ng-model="person.dob" name="dob"   tabindex="4" ui-keydown="{'enter': 'nextinputCallback($event)','shift-enter': 'submitCallback($event)'}"
-                                               type="text" placeholder="{{trans('pas.DOB')}}"
-                                               data-mask="99/99/9999">
+                                        <input ng-model="person.dob" name="dob" tabindex="4"
+                                               ui-keydown="{'enter': 'nextinputCallback($event)','shift-enter': 'submitCallback($event)'}"
+                                               type="text" placeholder="dd-mm-yyyy"
+                                               ui-mask="99-99-9999">
                                         <b class="tooltip tooltip-bottom-right">{{trans('pas.dateformat')}}</b>
                                     </label>
                                 </section>
-                                <section class="col col-lg-4 col-xs-6 col-sm-4 col-md-4">
-                                    <section class="col-xs-6">
+                                <section class=" col-lg-3 col-xs-6 col-sm-3 col-md-3">
+                                    <section class="col col-xs-6">
                                         <label class="label">{{trans('pas.YOB')}}</label>
                                         <label class="input">
-                                            <input ng-model="person.yob" name="yob" tabindex="5" ui-keydown="{'enter': 'nextinputCallback($event)','shift-enter': 'submitCallback($event)'}"
-                                                   type="text" placeholder="{{trans('pas.YOB')}}"
-                                                   data-mask="9999">
+                                            <input ng-model="person.yob" name="yob" tabindex="5"
+                                                   ui-keydown="{'enter': 'nextinputCallback($event)','shift-enter': 'submitCallback($event)'}"
+                                                   type="text" placeholder="yyyy" ui-mask="9999"
+                                                >
                                         </label>
                                     </section>
                                     <section class="col col-xs-6">
-                                        <label class="label">{{trans('pas.age')}}</label>
+                                        <label class="label">@{{labelage}}</label>
                                         <label class="input">
-                                            <input ng-model="person.age" name="age" tabindex="6" ui-keydown="{'enter': 'nextinputCallback($event)','shift-enter': 'submitCallback($event)'}"
-                                                   type="text" placeholder="{{trans('pas.age')}}">
+                                            <input ng-model="person.age" name="age" tabindex="6"
+                                                   ui-keydown="{'enter': 'nextinputCallback($event)','shift-enter': 'submitCallback($event)'}"
+                                                   type="text" placeholder="">
                                         </label>
                                     </section>
                                 </section>
-                                <section class="col col-lg-4 col-xs-6 col-sm-4 col-md-4">
-
-                                </section>
-                                <div style="clear:both;"></div>
                                 <section class="col col-lg-6 col-xs-6 col-sm-6 col-md-6">
                                     <label class="label">{{trans('pas.address')}}</label>
                                     <label class="input">
-                                        <input ng-model="person.address" name="address"  tabindex="7" ui-keydown="{'enter': 'nextinputCallback($event)','shift-enter': 'submitCallback($event)'}"
+                                        <input ng-model="person.address" name="address" tabindex="7"
+                                               ui-keydown="{'enter': 'nextinputCallback($event)','shift-enter': 'submitCallback($event)'}"
                                                type="text" placeholder="{{trans('pas.address')}}">
                                     </label>
                                 </section>
                                 <section class="col col-lg-2 col-xs-6 col-sm-2 col-md-2">
                                     <label class="label">{{trans('pas.shortcut')}}</label>
                                     <label class="input">
-                                        <input ng-model="person.shortcut" name="shortcut"  tabindex="8" ui-keydown="{'enter': 'nextinputCallback($event)','shift-enter': 'submitCallback($event)'}"
+                                        <input ng-model="person.shortcut" name="shortcut"
+                                               tabindex="8"
+                                               ui-keydown="{'enter': 'nextinputCallback($event)','shift-enter': 'submitCallback($event)'}"
                                                type="text" placeholder="{{trans('pas.shortcut')}}">
                                     </label>
                                 </section>
@@ -165,10 +171,13 @@
                                     <label class="label">{{trans('pas.doituong')}}</label>
                                     <label class="select">
                                         <select ng-model="person.doituong"
-                                                onchange="changedoituong(this)" tabindex="9" ui-keydown="{'enter': 'nextinputCallback($event)','shift-enter': 'submitCallback($event)'}">
-                                            <option value="0">{{trans('pas.doituong')}}</option>
-                                            <option value="tp">Thu Phí</option>
+                                                onchange="changedoituong(this)" tabindex="9"
+                                                ui-keydown="{'enter': 'nextinputCallback($event)','shift-enter': 'submitCallback($event)'}">
                                             <option value="bhyt">BHYT</option>
+                                            <option value="tp">Thu Phí</option>
+                                            <option value="mp">Miễn Phí</option>
+                                            <option value="dv">Dịch vụ</option>
+                                            <option value="k">Khác</option>
 
                                         </select>
                                         <i></i>
@@ -179,8 +188,9 @@
                                 <section class="col col-xs-12">
                                     <input type="hidden" ng-model="person.avatar" id="inputavatar">
                                     <img src="{{asset('images/noavatarm.jpg')}}"
-                                        id="pasavatar"
-                                         class="img-responsive img-thumbnail">
+                                         id="pasavatar"
+                                         class="img-responsive img-thumbnail"
+                                         style="max-height: 210px">
                                     <a style="position: absolute; top:15px;left:30px;" href=""
                                        ng-click="camera()"
                                        data-toggle="modal" data-target="#remoteModal"
@@ -221,9 +231,11 @@
                             <section class="col col-lg-3 col-xs-6 col-sm-3 col-md-3">
                                 <label class="label">{{trans('pas.insurancecode')}}</label>
                                 <label class="input">
+                                    <label class="icon-append">@{{countisurancecode}}</label>
                                     <input type="text" name="insurancecode"
-                                           placeholder="{{trans('pas.insurancecode')}}"
-                                           ng-model="person.insurancecode" data-mask="999999999999999-99999">
+                                           placeholder="Mã bảo hiểm"
+                                           ng-model="person.insurancecode"
+
                                 </label>
                             </section>
                             <section class="col col-lg-3 col-xs-6 col-sm-3 col-md-3">
@@ -233,8 +245,8 @@
                                     <input ng-model="person.insurancefromdate"
                                            name="insurancefromdate"
                                            type="text"
-                                           placeholder="{{trans('pas.insurancefromdate')}}"
-                                           data-mask="99/99/9999">
+                                           placeholder="dd-mm-yyyy"
+                                           ui-mask="99-99-9999">
                                 </label>
                             </section>
                             <section class="col col-lg-3 col-xs-6 col-sm-3 col-md-3">
@@ -243,15 +255,15 @@
                                     <i class="icon-append fa fa-calendar"></i>
                                     <input ng-model="person.insurancetodate" name="insurancetodate"
                                            type="text"
-                                           placeholder="{{trans('pas.insurancetodate')}}"
-                                           data-mask="99/99/9999">
+                                           placeholder="dd-mm-yyyy"
+                                           ui-mask="99-99-9999">
                                 </label>
                             </section>
                             <section class="col col-lg-3 col-xs-6 col-sm-3 col-md-3">
                                 <label class="label">{{trans('pas.insurancecompany')}}</label>
                                 <label class="select">
                                     <select ng-model="person.insurancecompany">
-
+                                        <option value="0">Bảo hiểm Y Tế</option>
                                     </select>
                                     <i></i>
                                 </label>
@@ -323,8 +335,8 @@
                                 <label class="input">
                                     <i class="icon-append fa fa-calendar"></i>
                                     <input ng-model="person.dateissue" name="dateissue"
-                                           type="text" placeholder="{{trans('pas.dateissue')}}"
-                                           data-mask="99/99/9999">
+                                           type="text" placeholder="dd-mm-yyyy"
+                                           ui-mask="99-99-9999">
                                 </label>
                             </section>
                             <section class="col col-lg-3 col-xs-6 col-sm-3 col-md-3">
@@ -493,29 +505,34 @@
      */
     pageSetUp();
     //    console.log(smartApp);
-    function personregistercontroller($scope) {
+    function personregistercontroller($scope,$http) {
         $scope.person = {
             sex: 0,
             province: 0,
             district: 0,
             addressward: 0,
-            doituong: 0,
+            doituong: 'bhyt',
             insurancefromdate: '',
             insurancetodate: '',
-            avatar:''
+            insurancecompany: 0,
+            avatar: '',
+            country: 'vn',
+            dob: '',
         };
+        $scope.countisurancecode = 0;
+        $scope.labelage = "Tuổi";
         $scope.noavatar = {
             m: "{{asset('images/noavatarm.jpg')}}",
             f: "{{asset('images/noavatarf.jpg')}}"
         }
 
-        $scope.changeavatar = function(){
-            if($scope.person.avatar == ""){
-                if($scope.person.sex == 'm'){
-                    document.getElementById("pasavatar").src= $scope.noavatar.m;
+        $scope.changeavatar = function () {
+            if ($scope.person.avatar == "") {
+                if ($scope.person.sex == 'm') {
+                    document.getElementById("pasavatar").src = $scope.noavatar.m;
                 }
-                else{
-                    document.getElementById("pasavatar").src= $scope.noavatar.f;
+                else {
+                    document.getElementById("pasavatar").src = $scope.noavatar.f;
                 }
             }
 
@@ -545,9 +562,121 @@
             $scope.person.avatar = canvas.toDataURL('image/webp');
             $scope.stopcamera();
         }
-        $scope.$watch('person.avatar', function() {
+        $scope.$watch('person.avatar', function () {
             document.getElementById("inputavatar").value = $scope.person.avatar;
         });
+        $scope.$watch('person.dob', function () {
+            if ($scope.person.dob) {
+                var tdob = $scope.person.dob;
+                var y = tdob.substr(4, 4);
+                var d = tdob.substr(0, 2);
+                var m = tdob.substr(2, 2);
+                var date = new Date();
+                var crryear = date.getFullYear();
+                var crrmon = date.getMonth() + 1;
+                if (y < 1900 || y > crryear || d < 1 || d > 31 || m < 1 || m > 12 || (y == crryear && m > crrmon)) {
+                    alert("Ngày tháng " + $scope.person.dob + " năm không đúng!");
+                    $scope.person.dob = "";
+                }
+                else {
+                    var monthage = monthDiff(new Date(y, (m - 1), d), date);
+                    $scope.person.yob = y;
+                    if (monthage > 12) {
+                        $scope.labelage = "Tuổi";
+                        $scope.person.age = date.getFullYear() - y;
+                    }
+                    else {
+                        $scope.person.age = monthage;
+                        $scope.labelage = "Tháng";
+                    }
+                }
+            }
+        });
+        $scope.$watch('person.insurancetodate', function () {
+            if ($scope.person.insurancetodate) {
+                var tdob = $scope.person.insurancetodate;
+                var y = tdob.substr(4, 4);
+                var d = tdob.substr(0, 2);
+                var m = tdob.substr(2, 2);
+                var date = new Date();
+                var crryear = date.getFullYear();
+                var crrmon = date.getMonth() + 1;
+                var crrday = date.getDate();
+                if (y < crryear || d < 1 || d > 31 || m < 1 || m > 12 || (y == crryear && m < crrmon) || (y == crryear && m == crrmon && d < crrday)) {
+                    alert("Bảo hiểm đã hết hạn!");
+                    $scope.person.insurancetodate = "";
+                }
+
+            }
+        });
+        var monthDiff = function (d1, d2) {
+            var months;
+            months = (d2.getFullYear() - d1.getFullYear()) * 12;
+            months -= d1.getMonth();
+            months += d2.getMonth() + 1;
+            return months <= 0 ? 0 : months;
+        }
+        $scope.$watch('person.yob', function () {
+            if ($scope.person.yob) {
+                var date = new Date();
+                var crryear = date.getFullYear();
+                if ($scope.person.yob > 1900 && $scope.person.yob <= crryear) {
+                    if ($scope.person.dob) {
+                        var tdob = $scope.person.dob;
+                        var y = tdob.substr(4, 4);
+                        if (y != $scope.person.yob) {
+                            $scope.person.dob = "";
+                            $scope.person.age = crryear - $scope.person.yob;
+                        }
+                    }
+                    else {
+                        $scope.person.age = crryear - $scope.person.yob;
+                    }
+                }
+                else {
+                    alert("Năm sinh " + $scope.person.yob + " không đúng ");
+                    $scope.person.yob = "";
+                }
+            }
+        });
+        $scope.$watch('person.age', function () {
+            if ($scope.person.age !== false) {
+                if (!$scope.person.dob && $scope.person.yob) {
+                    if ($scope.person.age <= 1) {
+                        $scope.person.yob = "";
+                        alert("Trẻ em dưới 1 tuổi phải nhập đủ ngày sinh!");
+                        $('input[tabindex=4]').focus();
+                    }
+                }
+            }
+        });
+        $scope.$watch('person.lastname', function () {
+            if ($scope.person.lastname) {
+                $scope.person.lastname = toTitleCase($scope.person.lastname);
+            }
+        });
+        $scope.$watch('person.firstname', function () {
+            if ($scope.person.firstname) {
+                $scope.person.firstname = toTitleCase($scope.person.firstname);
+            }
+        });
+        $scope.$watch('person.address', function () {
+            if ($scope.person.address) {
+                $scope.person.address = toTitleCase($scope.person.address);
+            }
+        });
+        $scope.$watch('person.insurancecode', function () {
+            if ($scope.person.insurancecode) {
+                $scope.countisurancecode = ($scope.person.insurancecode).length;
+                $scope.person.insurancecode = $scope.person.insurancecode.toUpperCase();
+            }
+            else {
+                $scope.countisurancecode = 0;
+            }
+        });
+        var toTitleCase = function (str) {
+            return str.replace(/\w\S*/g, function (txt) {return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+        }
         $scope.stopcamera = function () {
             video.pause();
             if (navigator.getUserMedia) {
@@ -582,13 +711,24 @@
             }
 
         };
-        $scope.nextinputCallback = function($event) {
+//        var searchshortcut = function(){
+//
+//        }
+        $scope.nextinputCallback = function ($event) {
             var $target = $($event.target);
-            $('[tabindex=' + (parseInt($target.attr("tabindex")) + 1) + ']').focus();
+            var currentindex = parseInt($target.attr("tabindex"));
+            if (currentindex == 8) {
+                var shortcut = $($target).val();
+                $http.get('pas/searchshortcut/'+shortcut)
+                    .success(function(data){
+                        console.log(data);
+                    });
+            }
+            $('[tabindex=' + (currentindex + 1) + ']').focus();
             $event.preventDefault();
         };
-        $scope.submitCallback = function($event){
-            console.log('call submit');
+        $scope.submitCallback = function ($event) {
+//            console.log('call submit');
             $event.preventDefault();
         }
 
