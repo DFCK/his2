@@ -1,47 +1,446 @@
-<div data-ng-controller="camctrl">
-    <a href="" ng-click="camera()" data-toggle="modal" data-target="#remoteModal" class="btn btn-primary">
-        Lấy ảnh
-    </a>
-    <img id="pasavatar" src="">
-
-    <!-- Dynamic Modal -->
-    <style>
-        .modal-dialog {
-            width: 680px;
-        }
-    </style>
-    <div class="modal fade" id="remoteModal" tabindex="-1" role="dialog" aria-labelledby="remoteModalLabel"
-         aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                        &times;
-                    </button>
-                    <h4 class="modal-title" id="myModalLabel">Camera</h4>
-                </div>
-                <div class="modal-body" style="text-align: center">
-                    <video id="video" width="640" height="480" autoplay ng-show="iscamera"></video>
-                    <canvas id="canvas" width="480" height="480" style="display: none"></canvas>
-                    <img id="modelcapture" src="" ng-show="!iscamera">
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" id="star" data-ng-click="camera()">Mở camera</button>
-                    <button type="button" class="btn btn-success" id="snap" data-ng-click="camcapture()">Lấy hình
-                    </button>
-                    <!--                    <button type="button" class="btn btn-success" data-ng-click="cropimg()">Crop</button>-->
-<!--                    <button type="button" class="btn btn-default" id="stop" data-ng-click="stopcamera()">Dừng camera-->
-                    </button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">
-                        Xong
-                    </button>
-
-                </div>
-            </div>
-            <!-- content will be filled here from "ajax/modal-content/model-content-1.html" -->
-        </div>
+<div data-ng-controller="personregistercontroller">
+<div class="row">
+    <div class="col-xs-12">
+        <h1 class="page-title txt-color-blueDark">
+            <i class="fa fa-barcode fa-fw"></i> {{trans('pas.dk')}}
+        </h1>
     </div>
+
+</div>
+<section id="widget-grid" class="">
+
+<!-- row -->
+<div class="row">
+
+<!-- NEW WIDGET START -->
+<article class="col-xs-12">
+
+    <!-- Widget ID (each widget will need unique ID)-->
+    <div class="jarviswidget jarviswidget-color-teal" id="wid-id-0"
+         data-widget-editbutton="false" data-widget-deletebutton="false" data-widget-sortable="false" data-widget-fullscreenbutton="false" >
+        <!-- widget options:
+        data-widget-colorbutton="false"
+        data-widget-editbutton="false"
+        data-widget-togglebutton="false"
+        data-widget-deletebutton="false"
+        data-widget-fullscreenbutton="false"
+        data-widget-custombutton="false"
+        data-widget-collapsed="true"
+        data-widget-sortable="false"
+        -->
+        <header>
+            <span class="widget-icon"> <i class="fa fa-user"></i> </span>
+
+            <h2>{{trans('pas.personinfo')}}</h2>
+        </header>
+        <!-- widget div-->
+        <div class="">
+
+            <!-- widget content -->
+            <div class="widget-body no-padding">
+                <div class="alert  fade in @{{notifstyle}}" ng-show="toggle">
+                    <button class="close" ng-click="toggle = !toggle">×</button>
+                    <i class="fa fa-fw @{{notificon}}"></i>
+                    <strong>@{{notifmessage}}</strong>
+                </div>
+                <form class=" smart-form" id="formpersoninfo">
+                    <fieldset>
+                        <div class="row  ">
+                            <div class="col-xs-9">
+                                <section class="col col-lg-4 col-xs-6 col-sm-4 col-md-4">
+                                    <label class="label">{{trans('pas.lastname')}}</label>
+                                    <label class="input">
+                                        <input type="hidden" ng-model="person.id">
+                                        <input type="text" name="lastname"
+                                               placeholder="{{trans('pas.lastname')}}"
+                                               ng-model="person.lastname" required>
+                                    </label>
+                                </section>
+                                <section class="col col-lg-4 col-xs-6 col-sm-4 col-md-4">
+                                    <label class="label">{{trans('pas.firstname')}}</label>
+                                    <label class="input">
+                                        <input ng-model="person.firstname" name="firstname"
+                                               type="text" placeholder="{{trans('pas.firstname')}}">
+
+
+                                    </label>
+                                </section>
+                                <section class="col col-lg-4 col-xs-6 col-sm-4 col-md-4">
+                                    <label class="label">{{trans('pas.sex')}}</label>
+                                    <label class="select">
+                                        <select ng-model="person.sex">
+                                            <option value="0">{{trans('pas.sex')}}</option>
+                                            <option value="m">{{trans('pas.men')}}</option>
+                                            <option value="f">{{trans('pas.femal')}}</option>
+                                        </select>
+                                        <i></i>
+                                    </label>
+                                </section>
+
+                                <section class="col col-lg-4 col-xs-6 col-sm-4 col-md-4">
+                                    <label class="label">{{trans('pas.DOB')}}</label>
+                                    <label class="input">
+                                        <i class="icon-append fa fa-calendar"></i>
+                                        <input ng-model="person.dob" name="dob"
+                                               type="text" placeholder="{{trans('pas.DOB')}}" data-mask="99/99/9999">
+                                        <b class="tooltip tooltip-bottom-right">{{trans('pas.dateformat')}}</b>
+                                    </label>
+                                </section>
+                                <section class="col col-lg-4 col-xs-6 col-sm-4 col-md-4">
+                                    <section class="col-xs-6">
+                                        <label class="label">{{trans('pas.YOB')}}</label>
+                                        <label class="input">
+                                            <input ng-model="person.yob" name="yob"
+                                                   type="text" placeholder="{{trans('pas.YOB')}}" data-mask="9999">
+                                        </label>
+                                    </section>
+                                    <section class="col col-xs-6">
+                                        <label class="label">{{trans('pas.age')}}</label>
+                                        <label class="input">
+                                            <input ng-model="person.age" name="age"
+                                                   type="text" placeholder="{{trans('pas.age')}}">
+                                        </label>
+                                    </section>
+                                </section>
+                                <section class="col col-lg-4 col-xs-6 col-sm-4 col-md-4">
+
+                                </section>
+                                <div style="clear:both;"></div>
+                                <section class="col col-lg-6 col-xs-6 col-sm-6 col-md-6">
+                                    <label class="label">{{trans('pas.address')}}</label>
+                                    <label class="input">
+                                        <input ng-model="person.address" name="address"
+                                               type="text" placeholder="{{trans('pas.address')}}">
+                                    </label>
+                                </section>
+                                <section class="col col-lg-2 col-xs-6 col-sm-2 col-md-2">
+                                    <label class="label">{{trans('pas.shortcut')}}</label>
+                                    <label class="input">
+                                        <input ng-model="person.shortcut" name="shortcut"
+                                               type="text" placeholder="{{trans('pas.shortcut')}}">
+                                    </label>
+                                </section>
+                                <section class="col col-lg-4 col-xs-6 col-sm-4 col-md-4">
+                                    <label class="label">{{trans('pas.province')}}</label>
+                                    <label class="select">
+                                        <select ng-model="person.province">
+                                            <option value="0">{{trans('pas.province')}}</option>
+
+                                        </select>
+                                        <i></i>
+                                    </label>
+                                </section>
+                                <section class="col col-lg-4 col-xs-6 col-sm-4 col-md-4">
+                                    <label class="label">{{trans('pas.district')}}</label>
+                                    <label class="select">
+                                        <select ng-model="person.district">
+                                            <option value="0">{{trans('pas.district')}}</option>
+
+                                        </select>
+                                        <i></i>
+                                    </label>
+                                </section>
+                                <section class="col col-lg-4 col-xs-6 col-sm-4 col-md-4">
+                                    <label class="label">{{trans('pas.addressward')}}</label>
+                                    <label class="select">
+                                        <select ng-model="person.addressward">
+                                            <option value="0">{{trans('pas.addressward')}}</option>
+
+                                        </select>
+                                        <i></i>
+                                    </label>
+                                </section>
+                                <section class="col col-lg-4 col-xs-6 col-sm-4 col-md-4">
+                                    <label class="label">{{trans('pas.doituong')}}</label>
+                                    <label class="select">
+                                        <select ng-model="person.doituong" onchange="changedoituong(this)">
+                                            <option value="0">{{trans('pas.doituong')}}</option>
+                                            <option value="tp">Thu Phí</option>
+                                            <option value="bhyt">BHYT</option>
+
+                                        </select>
+                                        <i></i>
+                                    </label>
+                                </section>
+                            </div>
+                            <div class="col-xs-3">
+                                <section class="col col-xs-12">
+                                    <input type="hidden" ng-model="person.avatar" id="inputavatar">
+                                    <img src="{{asset('images/noavatarm.jpg')}}" ng-model="person.avatar" id="pasavatar"
+                                         class="img-responsive img-thumbnail">
+                                    <a style="position: absolute; top:15px;left:30px;" href="" ng-click="camera()"
+                                       data-toggle="modal" data-target="#remoteModal" class="btn btn-primary">
+                                        &nbsp;&nbsp;&nbsp;<i class="fa fa-camera"></i>&nbsp;&nbsp;&nbsp;
+                                    </a>
+                                </section>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+            <!-- end widget content -->
+        </div>
+        <!-- end widget div -->
+    </div>
+    <!-- end widget -->
+</article>
+<!-- end article -->
+<!-- NEW WIDGET START -->
+<article class="col-xs-12">
+    <!-- Widget ID (each widget will need unique ID)-->
+    <div class="jarviswidget jarviswidget-color-pinkDark" id="wid-id-1" data-widget-collapsed=""
+         data-widget-editbutton="false" data-widget-deletebutton="false" data-widget-sortable="false"  data-widget-fullscreenbutton="false">
+        <header>
+            <span class="widget-icon"> <i class="fa fa-credit-card"></i> </span>
+
+            <h2>{{trans('pas.insuranceinfo')}}</h2>
+        </header>
+        <!-- widget div-->
+        <div class="">
+            <!-- widget content -->
+            <div class="widget-body no-padding">
+                <form class=" smart-form" id="forminsurance">
+                    <fieldset>
+                        <div class="row  ">
+                            <section class="col col-lg-3 col-xs-6 col-sm-3 col-md-3">
+                                <label class="label">{{trans('pas.insurancecode')}}</label>
+                                <label class="input">
+                                    <input type="text" name="insurancecode"
+                                           placeholder="{{trans('pas.insurancecode')}}"
+                                           ng-model="person.insurancecode">
+                                </label>
+                            </section>
+                            <section class="col col-lg-3 col-xs-6 col-sm-3 col-md-3">
+                                <label class="label">{{trans('pas.insurancefromdate')}}</label>
+                                <label class="input">
+                                    <i class="icon-append fa fa-calendar"></i>
+                                    <input ng-model="person.insurancefromdate" name="insurancefromdate"
+                                           type="text" placeholder="{{trans('pas.insurancefromdate')}}" data-mask="99/99/9999">
+                                </label>
+                            </section>
+                            <section class="col col-lg-3 col-xs-6 col-sm-3 col-md-3">
+                                <label class="label">{{trans('pas.insurancetodate')}}</label>
+                                <label class="input">
+                                    <i class="icon-append fa fa-calendar"></i>
+                                    <input ng-model="person.insurancetodate" name="insurancetodate"
+                                           type="text" placeholder="{{trans('pas.insurancetodate')}}"  data-mask="99/99/9999">
+                                </label>
+                            </section>
+                            <section class="col col-lg-3 col-xs-6 col-sm-3 col-md-3">
+                                <label class="label">{{trans('pas.insurancecompany')}}</label>
+                                <label class="select">
+                                    <select ng-model="person.insurancecompany">
+
+                                    </select>
+                                    <i></i>
+                                </label>
+                            </section>
+                            <section class="col col-lg-3 col-xs-6 col-sm-3 col-md-3">
+                                <label class="label">{{trans('pas.route')}}</label>
+                                <label class="select">
+                                    <select ng-model="person.route">
+                                        <option value="0">{{trans('pas.routecorrect')}}</option>
+                                        <option value="1">{{trans('pas.routewrong')}}</option>
+                                    </select>
+                                    <i></i>
+                                </label>
+                            </section>
+                            <section class="col col-lg-3 col-xs-6 col-sm-3 col-md-3">
+                                <label class="label">{{trans('pas.insuranceplace')}}</label>
+                                <label class="select">
+                                    <select ng-model="person.insuranceplace">
+                                        <option value="0">{{trans('pas.insuranceplace')}}</option>
+                                    </select>
+                                    <i></i>
+                                </label>
+                            </section>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+            <!-- end widget content -->
+        </div>
+        <!-- end widget div -->
+    </div>
+    <!-- end widget -->
+</article>
+<!-- end article -->
+<article class="col-xs-12">
+    <!-- Widget ID (each widget will need unique ID)-->
+    <div class="jarviswidget jarviswidget-color-yellow" id="wid-id-2"
+         data-widget-editbutton="false" data-widget-deletebutton="false" data-widget-sortable="false" data-widget-collapsed="true"  data-widget-fullscreenbutton="false">
+        <header>
+            <span class="widget-icon"> <i class="fa fa-info-circle"></i> </span>
+            <h2>{{trans('pas.moreinfo')}}</h2>
+        </header>
+        <!-- widget div-->
+        <div class="">
+            <!-- widget content -->
+            <div class="widget-body no-padding">
+                <form class=" smart-form" id="forminsurance">
+                    <fieldset>
+                        <div class="row  ">
+                            <section class="col col-lg-3 col-xs-6 col-sm-3 col-md-3">
+                                <label class="label">{{trans('pas.country')}}</label>
+                                <label class="select">
+                                    <select ng-model="person.country">
+                                    </select>
+                                </label>
+                            </section>
+                            <section class="col col-lg-3 col-xs-6 col-sm-3 col-md-3">
+                                <label class="label">{{trans('pas.CMND')}}</label>
+                                <label class="input">
+                                    <input ng-model="person.cmnd" name="cmnd"
+                                           type="text" placeholder="{{trans('pas.CMND')}}">
+                                </label>
+                            </section>
+                            <section class="col col-lg-3 col-xs-6 col-sm-3 col-md-3">
+                                <label class="label">{{trans('pas.dateissue')}}</label>
+                                <label class="input">
+                                    <i class="icon-append fa fa-calendar"></i>
+                                    <input ng-model="person.dateissue" name="dateissue"
+                                           type="text" placeholder="{{trans('pas.dateissue')}}" data-mask="99/99/9999">
+                                </label>
+                            </section>
+                            <section class="col col-lg-3 col-xs-6 col-sm-3 col-md-3">
+                                <label class="label">{{trans('pas.placeissue')}}</label>
+                                <label class="input">
+                                    <input ng-model="person.placeissue" name="placeissue"
+                                           type="text" placeholder="{{trans('pas.placeissue')}}">
+                                </label>
+                            </section>
+                            <section class="col col-lg-3 col-xs-6 col-sm-3 col-md-3">
+                                <label class="label">{{trans('pas.ethnic')}}</label>
+                                <label class="select">
+                                    <select ng-model="person.ethnic">
+
+                                    </select>
+                                    <i></i>
+                                </label>
+                            </section>
+                            <section class="col col-lg-3 col-xs-6 col-sm-3 col-md-3">
+                                <section class="col-xs-3">
+                                    <label class="label">&nbsp;</label>
+                                    <label class="input">
+                                        <input ng-model="person.careercode" name="careercode"
+                                               type="text">
+                                    </label>
+                                </section>
+                                <section class="col col-xs-9">
+                                    <label class="label">{{trans('pas.career')}}</label>
+                                    <label class="select">
+                                        <select ng-model="person.career">
+                                        </select>
+                                        <i></i>
+                                    </label>
+                                </section>
+                            </section>
+                            <section class="col col-lg-3 col-xs-6 col-sm-3 col-md-3">
+                                <label class="label">{{trans('pas.blood')}}</label>
+                                <label class="select">
+                                    <select ng-model="person.blood">
+                                        <option value="0">{{trans('pas.blood')}}</option>
+                                    </select>
+                                    <i></i>
+                                </label>
+                            </section>
+                            <div style="clear:both;"></div>
+                            <section class="col col-lg-3 col-xs-6 col-sm-3 col-md-3">
+                                <label class="label">{{trans('pas.phone')}}</label>
+                                <label class="input">
+                                    <input ng-model="person.phone" name="phone"
+                                           type="text" placeholder="{{trans('pas.phone')}}">
+                                </label>
+                            </section>
+                            <section class="col col-lg-3 col-xs-6 col-sm-3 col-md-3">
+                                <label class="label">{{trans('pas.email')}}</label>
+                                <label class="input">
+                                    <input ng-model="person.email" name="email"
+                                           type="text" placeholder="{{trans('pas.email')}}">
+                                </label>
+                            </section>
+                            <div style="clear:both;"></div>
+                            <section class="col col-lg-3 col-xs-6 col-sm-3 col-md-3">
+                                <label class="label">{{trans('pas.relative')}}</label>
+                                <label class="relative">
+                                    <input ng-model="person.relative" name="relative"
+                                           type="text" placeholder="{{trans('pas.relative')}}">
+                                </label>
+                            </section>
+                            <section class="col col-lg-3 col-xs-6 col-sm-3 col-md-3">
+                                <label class="label">{{trans('pas.relativetype')}}</label>
+                                <label class="input">
+                                    <input ng-model="person.relativetype" name="relativetype"
+                                           type="text" placeholder="{{trans('pas.relativetype')}}">
+                                </label>
+                            </section>
+                            <section class="col col-lg-3 col-xs-6 col-sm-3 col-md-3">
+                                <label class="label">{{trans('pas.relativephone')}}</label>
+                                <label class="input">
+                                    <input ng-model="person.relativephone" name="relativephone"
+                                           type="text" placeholder="{{trans('pas.relativephone')}}">
+                                </label>
+                            </section>
+                            <section class="col col-lg-3 col-xs-6 col-sm-3 col-md-3">
+                                <label class="label">{{trans('pas.relativeaddress')}}</label>
+                                <label class="input">
+                                    <input ng-model="person.relativeaddress" name="relativeaddress"
+                                           type="text" placeholder="{{trans('pas.relativeaddress')}}">
+                                </label>
+                            </section>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+            <!-- end widget content -->
+        </div>
+        <!-- end widget div -->
+    </div>
+    <!-- end widget -->
+</article>
+<!-- end article -->
+</div>
+<!-- end row of grid widget -->
+</section>
+<!-- end section grid widget -->
+<!-- Dynamic Modal -->
+<style>
+    .modal-dialog {
+        width: 680px;
+    }
+</style>
+<div class="modal fade" id="remoteModal" tabindex="-1" role="dialog" aria-labelledby="remoteModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel">Camera</h4>
+            </div>
+            <div class="modal-body" style="text-align: center">
+                <video id="video" width="640" height="480" autoplay ng-show="iscamera"></video>
+                <canvas id="canvas" width="480" height="480" style="display: none"></canvas>
+                <img id="modelcapture" src="" ng-show="!iscamera">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="star" data-ng-click="camera()">Mở camera</button>
+                <button type="button" class="btn btn-success" id="snap" data-ng-click="camcapture()">Lấy hình
+                </button>
+                <!--                    <button type="button" class="btn btn-success" data-ng-click="cropimg()">Crop</button>-->
+                <!--                    <button type="button" class="btn btn-default" id="stop" data-ng-click="stopcamera()">Dừng camera-->
+                </button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    Xong
+                </button>
+
+            </div>
+        </div>
+        <!-- content will be filled here from "ajax/modal-content/model-content-1.html" -->
+    </div>
+</div>
 </div>
 
 <script type="text/javascript">
@@ -49,7 +448,20 @@
      */
     pageSetUp();
     //    console.log(smartApp);
-    function camctrl($scope) {
+    function personregistercontroller($scope) {
+        $scope.person = {
+            sex: 0,
+            province: 0,
+            district: 0,
+            addressward: 0,
+            doituong: 0,
+            insurancefromdate: '',
+            insurancetodate: ''
+        };
+        $scope.noavatar = {
+            m: "{{asset('images/noavatarm.jpg')}}",
+            f: "{{asset('images/noavatarf.jpg')}}"
+        }
         var canvas = document.getElementById("canvas"),
             context = canvas.getContext("2d"),
             video = document.getElementById("video"),
@@ -76,13 +488,13 @@
         }
         $scope.stopcamera = function () {
             video.pause();
-            if (navigator.getUserMedia){
+            if (navigator.getUserMedia) {
                 video.src = null;
             }
-            else if (navigator.mozGetUserMedia){
+            else if (navigator.mozGetUserMedia) {
                 video.mozSrcObject = null;
             }
-            else if (navigator.webkitGetUserMedia){
+            else if (navigator.webkitGetUserMedia) {
                 video.src = "";
             }
         }
@@ -115,6 +527,17 @@
                 aspectRatio: 1 / 1
             }
         );
+    }
+     function changedoituong(select){
+//        if($(select).val()=="tp"){
+//            $("#wid-id-1").addClass("jarviswidget-collapsed");
+//            $("#wid-id-1").attr("data-widget-collapsed","true");
+//            $('#widget-grid').jarvisWidgets();
+//        }
+//        else{
+//            $("#wid-id-1").removeClass("jarviswidget-collapsed");
+//            $("#wid-id-1").attr("data-widget-collapsed","");
+//        }
     }
 
     var pagefunction = function () {
