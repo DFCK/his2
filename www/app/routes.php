@@ -20,9 +20,6 @@ Route::any('logout','UserController@logout');
 
 
 Route::get('/','HomeController@getIndex');
-Route::get('testdm', function(){
-    return View::make('testdm');
-});
 
 
 
