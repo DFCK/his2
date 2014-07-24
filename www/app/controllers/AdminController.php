@@ -11,7 +11,6 @@ class AdminController extends BaseController
     }
     public function postAdddmchucvu(){
         $input = Input::all();
-        //var_dump($input);
         $chucvu = Dmchucvu::create($input['data']);
         echo $chucvu->id;
     }
