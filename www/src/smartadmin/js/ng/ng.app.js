@@ -9,7 +9,9 @@ var smartApp = angular.module('smartApp', [
   	'app.navigation',
 //  	'app.localize',
   	'app.activity',
-  	'app.smartui'
+  	'app.smartui',
+    //load angular UI
+    'ui.utils'
 ]);
 
 smartApp.config(['$routeProvider', '$provide', function($routeProvider, $provide) {

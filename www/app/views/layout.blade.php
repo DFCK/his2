@@ -129,8 +129,11 @@ ANGULAR: Handled via "ribbon" directive
 {{HTML::script('src/smartadmin/js/ng/ng.controllers.js')}}
 {{HTML::script('src/smartadmin/js/ng/ng.directives.js')}}
 
+
 <!-- PLUNKER -->
 {{HTML::script('src/smartadmin/js/ng/plunker.js')}}
+
+{{HTML::script('src/ui-utils.min.js')}}
 
 @yield('jscript')
 
