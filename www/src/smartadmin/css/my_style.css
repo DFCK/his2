@@ -23,3 +23,8 @@
 .smart-form fieldset{
     padding-top: 15px;
 }
+.clear{
+    clear:both;
+    min-height: 1px;
+    display: block;
+}

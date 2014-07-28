@@ -28,8 +28,16 @@ class PasController extends BaseController
         } else {
         }
     }
-
-    public function getAllprovince($countrycode = 'vn')
+    public function getAlljobs(){
+        return Jobs::all()->tojson();
+    }
+    public function getAllethnic(){
+        return Ethnic::orderBy('order','DESC')->orderby('name')->get()->tojson();
+    }
+    public function getAllcountry(){
+        return Country::orderby("order","DESC")->orderBy("name")->get()->tojson();
+    }
+    public function getAllprovince($countrycode = 'VN')
     {
         return AddressProvince::orderBy('name')->get()->tojson();
     }
@@ -49,6 +57,24 @@ class PasController extends BaseController
         $bv = InsurancePlace::where('code', $dkbd)->first();
         if ($bv)
             return $bv->toJson();
+    }
+
+    /**
+     * Lưu người mới, tạo mã con người cau truc Tinh-year-stt = 12 so
+     * @return mixed
+     */
+    public function postSaveperson(){
+        $input = Input::get('data');
+//        return Response::json($input);
+        if($input['id']<=0){
+            $province = 711;
+            $pid = Autoid::buildPID($province);
+            //$person = Person::create($input);
+            //return $person->id;
+        }
+        else{
+
+        }
     }
 
 }

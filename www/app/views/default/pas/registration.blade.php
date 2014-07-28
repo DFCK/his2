@@ -18,7 +18,7 @@
 <section id="widget-grid" class="">
 
 <!-- row -->
-<div class="row">
+<div class="row" id="formperson">
 
 <!-- NEW WIDGET START -->
 <article class="col-xs-12">
@@ -62,7 +62,7 @@
                                         <input type="hidden" ng-model="person.id">
                                         <input type="text" name="lastname"
                                                placeholder="{{trans('pas.lastname')}}"
-                                               ng-model="person.lastname" required tabindex="1"
+                                               ng-model="person.lastname" tabindex="1"
                                                ui-keydown="{'enter': 'nextinputCallback($event)','shift-enter': 'submitCallback($event)'}">
                                     </label>
                                 </section>
@@ -80,12 +80,12 @@
                                 <section class="col col-lg-2 col-xs-4 col-sm-2 col-md-2">
                                     <label class="label">{{trans('pas.sex')}}</label>
                                     <label class="select">
-                                        <select ng-model="person.sex" ng-change="changeavatar()"
+                                        <select name="sex" ng-model="person.sex" ng-change="changeavatar()"
                                                 tabindex="3"
                                                 ui-keydown="{'enter': 'nextinputCallback($event)','shift-enter': 'submitCallback($event)'}">
                                             <option value="0">{{trans('pas.sex')}}</option>
-                                            <option value="m">{{trans('pas.men')}}</option>
-                                            <option value="f">{{trans('pas.femal')}}</option>
+                                            <option value="1">{{trans('pas.men')}}</option>
+                                            <option value="2">{{trans('pas.femal')}}</option>
                                         </select>
                                         <i></i>
                                     </label>
@@ -120,6 +120,7 @@
                                         </label>
                                     </section>
                                 </section>
+                                <div class="clear"></div>
                                 <section class="col col-lg-6 col-xs-6 col-sm-6 col-md-6">
                                     <label class="label">{{trans('pas.address')}}</label>
                                     <label class="input">
@@ -140,7 +141,7 @@
                                 <section class="col col-lg-4 col-xs-6 col-sm-4 col-md-4">
                                     <label class="label">{{trans('pas.province')}}</label>
                                     <label class="select">
-                                        <select ng-model="person.province" style="width:100%" class="select-2" tabindex="9"  ui-keydown="{'enter': 'nextinputCallback($event)','shift-enter': 'submitCallback($event)'}">
+                                        <select name="province" ng-model="person.province" style="width:100%" class="select-2" tabindex="9"  ui-keydown="{'enter': 'nextinputCallback($event)','shift-enter': 'submitCallback($event)'}">
                                             <option data-ng-repeat="province in provinces" value="@{{province.code}}">
                                                 @{{province.name}}
                                             </option>
@@ -150,7 +151,7 @@
                                 <section class="col col-lg-4 col-xs-6 col-sm-4 col-md-4">
                                     <label class="label">{{trans('pas.district')}}</label>
                                     <label class="select">
-                                        <select ng-model="person.district" class="select-2" tabindex="10"  ui-keydown="{'enter': 'nextinputCallback($event)','shift-enter': 'submitCallback($event)'}">
+                                        <select name="district" ng-model="person.district" class="select-2" tabindex="10"  ui-keydown="{'enter': 'nextinputCallback($event)','shift-enter': 'submitCallback($event)'}">
                                             <option data-ng-repeat="district in districts" value="@{{district.code}}"
                                                     ng-selected="@{{district.code == person.district}}">
                                                 @{{district.name}}
@@ -162,7 +163,7 @@
                                 <section class="col col-lg-4 col-xs-6 col-sm-4 col-md-4">
                                     <label class="label">{{trans('pas.addressward')}}</label>
                                     <label class="select">
-                                        <select ng-model="person.addressward" class="select-2" tabindex="11"  ui-keydown="{'enter': 'nextinputCallback($event)','shift-enter': 'submitCallback($event)'}">
+                                        <select name="addressward" ng-model="person.addressward" class="select-2" tabindex="11"  ui-keydown="{'enter': 'nextinputCallback($event)','shift-enter': 'submitCallback($event)'}">
                                             <option data-ng-repeat="addressward in addresswards"
                                                     value="@{{addressward.code}}"
                                                     ng-selected="@{{addressward.code == person.addressward}}">
@@ -330,6 +331,7 @@
                                 <label class="label">{{trans('pas.country')}}</label>
                                 <label class="select">
                                     <select ng-model="person.country" >
+                                        <option ng-repeat="country in countries" value="@{{country.code}}" ng-selected="person.country == country.code">@{{country.namevn}}</option>
                                     </select>
                                 </label>
                             </section>
@@ -373,6 +375,9 @@
                                     <label class="label">{{trans('pas.career')}}</label>
                                     <label class="select">
                                         <select ng-model="person.career">
+                                            <option data-ng-repeat="job in jobs" value="@{{job.code}}">
+                                                @{{(job.namevn)}}
+                                            </option>
                                         </select>
                                         <i></i>
                                     </label>
@@ -385,7 +390,7 @@
                                     <label class="select">
                                         <select ng-model="person.ethnic"  tabindex="21"
                                                 ui-keydown="{'enter': 'nextinputCallback($event)','shift-enter': 'submitCallback($event)'}">
-
+                                            <option ng-repeat="ethnic in ethnics" value="@{{ethnic.code}}" ng-selected="person.ethnic == ethnic.code">@{{ethnic.name}}</option>
                                         </select>
                                         <i></i>
                                     </label>
@@ -395,7 +400,11 @@
                                     <label class="select">
                                         <select ng-model="person.blood"  tabindex="22"
                                                 ui-keydown="{'enter': 'nextinputCallback($event)','shift-enter': 'submitCallback($event)'}">
-                                            <option value="0">{{trans('pas.blood')}}</option>
+                                            <option value="0">KXĐ</option>
+                                            <option value="o">O</option>
+                                            <option value="a">A</option>
+                                            <option value="b">B</option>
+                                            <option value="ab">AB</option>
                                         </select>
                                         <i></i>
                                     </label>
@@ -528,17 +537,39 @@
 pageSetUp();
 //    console.log(smartApp);
 function personregistercontroller($scope, $http) {
+    //init person object
     $scope.person = {
+        id:'0',
+        pid:'',
+        lastname:'',
+        firstname:'',
         sex: 0,
+        dob: '',
+        yob: '',
+        address:'',
+        province:0,    // sau nay se tu dong lay tinh cua benh vien
         district: 0,
         addressward: 0,
         doituong: 'bhyt',
+        insurancecode:'',
         insurancefromdate: '',
         insurancetodate: '',
         insurancecompany: 0,
         avatar: '',
-        country: 'vn',
-        dob: ''
+        country: 'VN',
+        route: 0,
+        cmnd:'',
+        dateissue:'',
+        placeissue:'',
+        careercode:'',
+        ethnic:25,
+        blood:0,
+        phone:'',
+        email:'',
+        relative:'',
+        relativephone:'',
+        relativeaddress:'',
+        relativetype:''
     };
     $scope.provinces = [];
     $scope.districts = [];
@@ -547,9 +578,24 @@ function personregistercontroller($scope, $http) {
     $scope.labelage = "Tuổi";
     $scope.currHospitalCode = '20004';
     $scope.noavatar = {
-        m: "{{asset('images/noavatarm.jpg')}}",
-        f: "{{asset('images/noavatarf.jpg')}}"
-    }
+        0: "{{asset('images/noavatarm.jpg')}}",
+        1: "{{asset('images/noavatarf.jpg')}}"
+    };
+
+    $scope.save = function(){
+        if($("#formpersoninfo").valid()){
+//            console.log($scope.person);
+             $http.post('pas/saveperson',{
+                 data:$scope.person
+             })
+                 .success(function(data){
+
+                 })
+                 .error(function(){
+
+                 });
+        }
+    };
 
     $scope.changeavatar = function () {
         if ($scope.person.avatar == "") {
@@ -561,7 +607,7 @@ function personregistercontroller($scope, $http) {
             }
         }
 
-    }
+    };
     var canvas = document.getElementById("canvas"),
         context = canvas.getContext("2d"),
         video = document.getElementById("video"),
@@ -573,10 +619,10 @@ function personregistercontroller($scope, $http) {
     $scope.camera = function () {
         $scope.iscamera = true;
         opencamera();
-    }
+    };
     $scope.cropimg = function () {
         jquerycropimg();
-    }
+    };
     $scope.camcapture = function () {
         $scope.iscamera = false;
         context.drawImage(video, 80, 0, 480, 480, 0, 0, 480, 480);
@@ -586,7 +632,7 @@ function personregistercontroller($scope, $http) {
         document.getElementById("pasavatar").src = canvas.toDataURL('image/webp');
         $scope.person.avatar = canvas.toDataURL('image/webp');
         $scope.stopcamera();
-    }
+    };
     $scope.$watch('person.avatar', function () {
         document.getElementById("inputavatar").value = $scope.person.avatar;
     });
@@ -609,10 +655,12 @@ function personregistercontroller($scope, $http) {
                 if (monthage > 12) {
                     $scope.labelage = "Tuổi";
                     $scope.person.age = date.getFullYear() - y;
+                    getjobfromage($scope.person.age,'y');
                 }
                 else {
                     $scope.person.age = monthage;
                     $scope.labelage = "Tháng";
+                    getjobfromage($scope.person.age,'m');
                 }
             }
         }
@@ -640,7 +688,26 @@ function personregistercontroller($scope, $http) {
         months -= d1.getMonth();
         months += d2.getMonth() + 1;
         return months <= 0 ? 0 : months;
-    }
+    };
+    var getjobfromage = function(age,type){
+        if((age < 6 && type=='y') || type=='m'){
+            $scope.person.careercode = "01";
+        }
+        else if(age >=0 && age <=18){
+            $scope.person.careercode = "02";
+        }
+        else if(age>18 && age < 50){
+            $scope.person.careercode = "04";
+        }
+        else if(age>=50 && age <= 60){
+            $scope.person.careercode = "03";
+        }
+        else if(age>60 ){
+            $scope.person.careercode = "13";
+        }
+
+
+    };
     $scope.$watch('person.yob', function () {
         if ($scope.person.yob) {
             var date = new Date();
@@ -656,6 +723,7 @@ function personregistercontroller($scope, $http) {
                 }
                 else {
                     $scope.person.age = crryear - $scope.person.yob;
+                    getjobfromage($scope.person.age,'y');
                 }
             }
             else {
@@ -673,11 +741,29 @@ function personregistercontroller($scope, $http) {
                     $('input[tabindex=4]').focus();
                 }
             }
+            else{
+
+            }
         }
     });
+    var calYobFromAge = function(){
+        var date = new Date();
+        var crryear = date.getFullYear();
+        $scope.person.yob = crryear - $scope.person.age;
+    };
     $scope.$watch('person.lastname', function () {
         if ($scope.person.lastname) {
             $scope.person.lastname = toTitleCase($scope.person.lastname);
+        }
+    });
+    $scope.$watch('person.relative', function () {
+        if ($scope.person.relative) {
+            $scope.person.relative = toTitleCase($scope.person.relative);
+        }
+    });
+    $scope.$watch('person.relativetype', function () {
+        if ($scope.person.relativetype) {
+            $scope.person.relativetype = toTitleCase($scope.person.relativetype);
         }
     });
     $scope.$watch('person.firstname', function () {
@@ -708,7 +794,7 @@ function personregistercontroller($scope, $http) {
         return str.replace(/\w\S*/g, function (txt) {
             return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
         });
-    }
+    };
     $scope.stopcamera = function () {
         video.pause();
         if (navigator.getUserMedia) {
@@ -720,7 +806,7 @@ function personregistercontroller($scope, $http) {
         else if (navigator.webkitGetUserMedia) {
             video.src = "";
         }
-    }
+    };
     var opencamera = function () {
         // Put video listeners into place
         if (navigator.getUserMedia) { // Standard
@@ -766,11 +852,15 @@ function personregistercontroller($scope, $http) {
             }
 
         }
+        else if(currentindex == 6 && $scope.person.yob==''){
+            calYobFromAge();
+        }
         $('[tabindex=' + (currentindex + 1) + ']').focus();
         $event.preventDefault();
     };
     $scope.submitCallback = function ($event) {
 //            console.log('call submit');
+        save();
         $event.preventDefault();
     };
     $scope.$watch('person.province', function () {
@@ -784,6 +874,16 @@ function personregistercontroller($scope, $http) {
         if ($scope.person.district) {
             $scope.addresswards = [];
             getWard($scope.person.district);
+        }
+    });
+    $scope.$watch('person.career', function () {
+        if ($scope.person.career) {
+            $scope.person.careercode =  $scope.person.career;
+        }
+    });
+    $scope.$watch('person.careercode', function () {
+        if ($scope.person.careercode) {
+            $scope.person.career =  $scope.person.careercode;
         }
     });
     $scope.$watch('person.insurancecode', function () {
@@ -828,24 +928,108 @@ function personregistercontroller($scope, $http) {
                 $scope.addresswards = data;
             });
     };
+    $scope.countries = [];
+    var getCountry = function () {
+        $http.get('pas/allcountry')
+            .success(function (data) {
+                $scope.countries = data;
+            });
+    };
+    $scope.ethnics = [];
+    var getEthnic = function () {
+        $http.get('pas/allethnic')
+            .success(function (data) {
+                $scope.ethnics = data;
+            });
+    };
+    $scope.jobs = [];
+    var getJob = function () {
+        $http.get('pas/alljobs')
+            .success(function (data) {
+                $scope.jobs = data;
+            });
+    };
+    getEthnic();
+    getCountry();
     getProvince();
+    getJob();
 
-}
-
-var jquerycropimg = function () {
-    $('#modelcapture').Jcrop(
-        {
-            aspectRatio: 1 / 1
-        }
-    );
-}
+};
 
 
 var pagefunction = function () {
 //    }, false);
 
-}
-loadScript("src/smartadmin/js/plugin/jcrop/jquery.Jcrop.min.js", function () {
-    loadScript("src/smartadmin/js/plugin/jcrop/jquery.color.min.js", pagefunction);
-});
+    var $checkoutForm = $('#formpersoninfo').validate({
+        rules:{
+            lastname:{
+                required:true,
+                minlength:3,
+                maxlength:20
+            },
+            firstname:{
+                required:true,
+                minlength:3,
+                maxlength:20
+            },
+            sex:{
+                required:true,
+                min: 1
+            },
+            yob:{
+                required:true
+            },
+            address:{
+                minlength:3,
+                maxlength:50
+            },
+            province:{
+                min:1
+            },
+            district:{
+                min:1
+            },
+            addressward:{
+                min:1
+            }
+        },
+        messages:{
+            lastname:{
+                required: 'Chưa nhập Họ',
+                minlength: 'Tối thiểu 3 kí tự',
+                maxlength: 'Tối đa 20 kí tự'
+            },
+            firstname:{
+                required: 'Chưa nhập Tên',
+                minlength: 'Tối thiểu 3 kí tự',
+                maxlength: 'Tối đa 20 kí tự'
+            },
+            sex:{
+                min:"Chưa có giới tính"
+            },
+            yob:{
+                required:'Chưa có năm sinh'
+            },
+            address:{
+                minlength:'Nhập tối thiểu 3 kí tự',
+                maxlength:'Tối đa 50 kí tự'
+            },
+            province:{
+                min:"Chưa chọn tỉnh"
+            },
+            district:{
+                min:"Chưa chọn quận"
+            },
+            addressward:{
+                required:true,
+                min:"Chưa chọn phường"
+            }
+        },
+        errorPlacement: function (error, element) {
+        error.insertAfter(element.parent());
+    }
+
+    });
+};
+    loadScript("src/smartadmin/js/plugin/jquery-form/jquery-form.min.js", pagefunction);
 </script>

@@ -50,4 +50,23 @@ return array(
     'relativephone' => 'Điện thoại người thân',
     'relativeaddress' => 'Địa chỉ người thân',
 
+    /**
+     * Nghe nghiep
+     */
+    'treem' => 'Trẻ em dưới 6 tuổi',
+    'sinhvien' => 'Sinh viên - Học sinh',
+    'duoi60' => 'Dưới 60 tuổi',
+    'congnhan' => 'Công nhân',
+    'nongdan' => 'Nông dân',
+    'vutrang' => 'Vũ Trang',
+    'trithuc' => 'Trí thức',
+    'hanhchanh' => 'Hàng chánh',
+    'yte' => 'Y tế',
+    'dichvu' => 'Dịch vụ',
+    'vietkieu' => 'Việt kiều',
+    'gia' => 'Già',
+    'congnhanvien' =>'Công nhân Viên',
+    'thomay' => 'Thợ máy',
+    'khac' => 'Khác'
+
 );
