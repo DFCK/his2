@@ -15,6 +15,13 @@
     </div>
 
 </div>
+@if(isset($message))
+<div class="alert alert-warning fade in">
+    <button class="close" data-dismiss="alert">×</button>
+    <i class="fa-fw fa fa-warning"></i>
+    <strong> {{$message}} </strong>
+</div>
+@endif
 <section id="widget-grid" class="">
 
 <!-- row -->
@@ -47,11 +54,7 @@
 
             <!-- widget content -->
             <div class="widget-body no-padding">
-                <div class="alert  fade in @{{notifstyle}}" ng-show="toggle">
-                    <button class="close" ng-click="toggle = !toggle">×</button>
-                    <i class="fa fa-fw @{{notificon}}"></i>
-                    <strong>@{{notifmessage}}</strong>
-                </div>
+
                 <form class=" smart-form" id="formpersoninfo">
                     <fieldset>
                         <div class="row  ">
@@ -80,7 +83,8 @@
                                 <section class="col col-lg-2 col-xs-4 col-sm-2 col-md-2">
                                     <label class="label">{{trans('pas.sex')}}</label>
                                     <label class="select">
-                                        <select name="sex" ng-model="person.sex" ng-change="changeavatar()"
+                                        <select name="sex" ng-model="person.sex"
+                                                ng-change="changeavatar()"
                                                 tabindex="3"
                                                 ui-keydown="{'enter': 'nextinputCallback($event)','shift-enter': 'submitCallback($event)'}">
                                             <option value="0">{{trans('pas.sex')}}</option>
@@ -141,8 +145,11 @@
                                 <section class="col col-lg-4 col-xs-6 col-sm-4 col-md-4">
                                     <label class="label">{{trans('pas.province')}}</label>
                                     <label class="select">
-                                        <select name="province" ng-model="person.province" style="width:100%" class="select-2" tabindex="9"  ui-keydown="{'enter': 'nextinputCallback($event)','shift-enter': 'submitCallback($event)'}">
-                                            <option data-ng-repeat="province in provinces" value="@{{province.code}}">
+                                        <select name="province" ng-model="person.province"
+                                                style="width:100%" class="select-2" tabindex="9"
+                                                ui-keydown="{'enter': 'nextinputCallback($event)','shift-enter': 'submitCallback($event)'}">
+                                            <option data-ng-repeat="province in provinces"
+                                                    value="@{{province.code}}">
                                                 @{{province.name}}
                                             </option>
                                         </select>
@@ -151,8 +158,11 @@
                                 <section class="col col-lg-4 col-xs-6 col-sm-4 col-md-4">
                                     <label class="label">{{trans('pas.district')}}</label>
                                     <label class="select">
-                                        <select name="district" ng-model="person.district" class="select-2" tabindex="10"  ui-keydown="{'enter': 'nextinputCallback($event)','shift-enter': 'submitCallback($event)'}">
-                                            <option data-ng-repeat="district in districts" value="@{{district.code}}"
+                                        <select name="district" ng-model="person.district"
+                                                class="select-2" tabindex="10"
+                                                ui-keydown="{'enter': 'nextinputCallback($event)','shift-enter': 'submitCallback($event)'}">
+                                            <option data-ng-repeat="district in districts"
+                                                    value="@{{district.code}}"
                                                     ng-selected="@{{district.code == person.district}}">
                                                 @{{district.name}}
                                             </option>
@@ -163,7 +173,9 @@
                                 <section class="col col-lg-4 col-xs-6 col-sm-4 col-md-4">
                                     <label class="label">{{trans('pas.addressward')}}</label>
                                     <label class="select">
-                                        <select name="addressward" ng-model="person.addressward" class="select-2" tabindex="11"  ui-keydown="{'enter': 'nextinputCallback($event)','shift-enter': 'submitCallback($event)'}">
+                                        <select name="addressward" ng-model="person.addressward"
+                                                class="select-2" tabindex="11"
+                                                ui-keydown="{'enter': 'nextinputCallback($event)','shift-enter': 'submitCallback($event)'}">
                                             <option data-ng-repeat="addressward in addresswards"
                                                     value="@{{addressward.code}}"
                                                     ng-selected="@{{addressward.code == person.addressward}}">
@@ -177,7 +189,7 @@
                                     <label class="label">{{trans('pas.doituong')}}</label>
                                     <label class="select">
                                         <select ng-model="person.doituong"
-                                                onchange="changedoituong(this)"  tabindex="12"
+                                                onchange="changedoituong(this)" tabindex="12"
                                                 ui-keydown="{'enter': 'nextinputCallback($event)','shift-enter': 'submitCallback($event)'}">
                                             <option value="bhyt">BHYT</option>
                                             <option value="tp">Thu Phí</option>
@@ -238,7 +250,8 @@
                                     <label class="icon-append">@{{countisurancecode}}</label>
                                     <input type="text" name="insurancecode"
                                            placeholder="Mã bảo hiểm"
-                                           ng-model="person.insurancecode" maxlength="20"  tabindex="13"
+                                           ng-model="person.insurancecode" maxlength="20"
+                                           tabindex="13"
                                            ui-keydown="{'enter': 'nextinputCallback($event)','shift-enter': 'submitCallback($event)'}">
 
                                 </label>
@@ -251,17 +264,18 @@
                                                name="insurancefromdate"
                                                type="text"
                                                placeholder="dd-mm-yyyy"
-                                               ui-mask="99-99-9999"  tabindex="14"
+                                               ui-mask="99-99-9999" tabindex="14"
                                                ui-keydown="{'enter': 'nextinputCallback($event)','shift-enter': 'submitCallback($event)'}">
                                     </label>
                                 </section>
                                 <section class="col col-xs-6">
                                     <label class="label">{{trans('pas.insurancetodate')}}</label>
                                     <label class="input">
-                                        <input ng-model="person.insurancetodate" name="insurancetodate"
+                                        <input ng-model="person.insurancetodate"
+                                               name="insurancetodate"
                                                type="text"
                                                placeholder="dd-mm-yyyy"
-                                               ui-mask="99-99-9999"  tabindex="15"
+                                               ui-mask="99-99-9999" tabindex="15"
                                                ui-keydown="{'enter': 'nextinputCallback($event)','shift-enter': 'submitCallback($event)'}">
                                     </label>
                                 </section>
@@ -271,7 +285,7 @@
                                 <section class="col col-xs-6">
                                     <label class="label">{{trans('pas.insurancecompany')}}</label>
                                     <label class="select">
-                                        <select ng-model="person.insurancecompany"  tabindex="16"
+                                        <select ng-model="person.insurancecompany" tabindex="16"
                                                 ui-keydown="{'enter': 'nextinputCallback($event)','shift-enter': 'submitCallback($event)'}">
                                             <option value="0">BHYT</option>
                                         </select>
@@ -292,8 +306,11 @@
                             <section class="col col-lg-3 col-xs-6 col-sm-3 col-md-3">
                                 <label class="label">{{trans('pas.insuranceplace')}}</label>
                                 <label class="select">
-                                    <select ng-model="person.insuranceplace" >
-                                        <option ng-repeat="bv in bvdkbd" value="@{{bv.code}}" ng-selected="person.insuranceplace == bv.code">@{{bv.name}}</option>
+                                    <select ng-model="person.insuranceplace">
+                                        <option ng-repeat="bv in bvdkbd" value="@{{bv.code}}"
+                                                ng-selected="person.insuranceplace == bv.code">
+                                            @{{bv.name}}
+                                        </option>
                                     </select>
                                     <i></i>
                                 </label>
@@ -330,8 +347,12 @@
                             <section class="col col-lg-3 col-xs-6 col-sm-3 col-md-3">
                                 <label class="label">{{trans('pas.country')}}</label>
                                 <label class="select">
-                                    <select ng-model="person.country" >
-                                        <option ng-repeat="country in countries" value="@{{country.code}}" ng-selected="person.country == country.code">@{{country.namevn}}</option>
+                                    <select ng-model="person.country">
+                                        <option ng-repeat="country in countries"
+                                                value="@{{country.code}}"
+                                                ng-selected="person.country == country.code">
+                                            @{{country.namevn}}
+                                        </option>
                                     </select>
                                 </label>
                             </section>
@@ -339,7 +360,8 @@
                                 <label class="label">{{trans('pas.CMND')}}</label>
                                 <label class="input">
                                     <input ng-model="person.cmnd" name="cmnd"
-                                           type="text" placeholder="{{trans('pas.CMND')}}"  tabindex="17"
+                                           type="text" placeholder="{{trans('pas.CMND')}}"
+                                           tabindex="17"
                                            ui-keydown="{'enter': 'nextinputCallback($event)','shift-enter': 'submitCallback($event)'}">
                                 </label>
                             </section>
@@ -349,7 +371,7 @@
                                     <i class="icon-append fa fa-calendar"></i>
                                     <input ng-model="person.dateissue" name="dateissue"
                                            type="text" placeholder="dd-mm-yyyy"
-                                           ui-mask="99-99-9999"  tabindex="18"
+                                           ui-mask="99-99-9999" tabindex="18"
                                            ui-keydown="{'enter': 'nextinputCallback($event)','shift-enter': 'submitCallback($event)'}">
                                 </label>
                             </section>
@@ -357,7 +379,8 @@
                                 <label class="label">{{trans('pas.placeissue')}}</label>
                                 <label class="input">
                                     <input ng-model="person.placeissue" name="placeissue"
-                                           type="text" placeholder="{{trans('pas.placeissue')}}"  tabindex="19"
+                                           type="text" placeholder="{{trans('pas.placeissue')}}"
+                                           tabindex="19"
                                            ui-keydown="{'enter': 'nextinputCallback($event)','shift-enter': 'submitCallback($event)'}">
                                 </label>
                             </section>
@@ -367,7 +390,7 @@
                                     <label class="label">&nbsp;</label>
                                     <label class="input">
                                         <input ng-model="person.careercode" name="careercode"
-                                               type="text"  tabindex="20"
+                                               type="text" tabindex="20"
                                                ui-keydown="{'enter': 'nextinputCallback($event)','shift-enter': 'submitCallback($event)'}">
                                     </label>
                                 </section>
@@ -375,7 +398,8 @@
                                     <label class="label">{{trans('pas.career')}}</label>
                                     <label class="select">
                                         <select ng-model="person.career">
-                                            <option data-ng-repeat="job in jobs" value="@{{job.code}}">
+                                            <option data-ng-repeat="job in jobs"
+                                                    value="@{{job.code}}">
                                                 @{{(job.namevn)}}
                                             </option>
                                         </select>
@@ -388,9 +412,13 @@
                                 <section class="col col-xs-6">
                                     <label class="label">{{trans('pas.ethnic')}}</label>
                                     <label class="select">
-                                        <select ng-model="person.ethnic"  tabindex="21"
+                                        <select ng-model="person.ethnic" tabindex="21"
                                                 ui-keydown="{'enter': 'nextinputCallback($event)','shift-enter': 'submitCallback($event)'}">
-                                            <option ng-repeat="ethnic in ethnics" value="@{{ethnic.code}}" ng-selected="person.ethnic == ethnic.code">@{{ethnic.name}}</option>
+                                            <option ng-repeat="ethnic in ethnics"
+                                                    value="@{{ethnic.code}}"
+                                                    ng-selected="person.ethnic == ethnic.code">
+                                                @{{ethnic.name}}
+                                            </option>
                                         </select>
                                         <i></i>
                                     </label>
@@ -398,7 +426,7 @@
                                 <section class="col col-xs-6">
                                     <label class="label">{{trans('pas.blood')}}</label>
                                     <label class="select">
-                                        <select ng-model="person.blood"  tabindex="22"
+                                        <select ng-model="person.blood" tabindex="22"
                                                 ui-keydown="{'enter': 'nextinputCallback($event)','shift-enter': 'submitCallback($event)'}">
                                             <option value="0">KXĐ</option>
                                             <option value="o">O</option>
@@ -414,7 +442,8 @@
                                 <label class="label">{{trans('pas.phone')}}</label>
                                 <label class="input">
                                     <input ng-model="person.phone" name="phone"
-                                           type="text" placeholder="{{trans('pas.phone')}}"  tabindex="23"
+                                           type="text" placeholder="{{trans('pas.phone')}}"
+                                           tabindex="23"
                                            ui-keydown="{'enter': 'nextinputCallback($event)','shift-enter': 'submitCallback($event)'}">
                                 </label>
                             </section>
@@ -422,7 +451,8 @@
                                 <label class="label">{{trans('pas.email')}}</label>
                                 <label class="input">
                                     <input ng-model="person.email" name="email"
-                                           type="text" placeholder="{{trans('pas.email')}}"  tabindex="24"
+                                           type="text" placeholder="{{trans('pas.email')}}"
+                                           tabindex="24"
                                            ui-keydown="{'enter': 'nextinputCallback($event)','shift-enter': 'submitCallback($event)'}">
                                 </label>
                             </section>
@@ -431,7 +461,8 @@
                                 <label class="label">{{trans('pas.relative')}}</label>
                                 <label class="input">
                                     <input ng-model="person.relative" name="relative"
-                                           type="text" placeholder="{{trans('pas.relative')}}"  tabindex="25"
+                                           type="text" placeholder="{{trans('pas.relative')}}"
+                                           tabindex="25"
                                            ui-keydown="{'enter': 'nextinputCallback($event)','shift-enter': 'submitCallback($event)'}">
                                 </label>
                             </section>
@@ -439,7 +470,8 @@
                                 <label class="label">{{trans('pas.relativetype')}}</label>
                                 <label class="input">
                                     <input ng-model="person.relativetype" name="relativetype"
-                                           type="text" placeholder="{{trans('pas.relativetype')}}"  tabindex="26"
+                                           type="text" placeholder="{{trans('pas.relativetype')}}"
+                                           tabindex="26"
                                            ui-keydown="{'enter': 'nextinputCallback($event)','shift-enter': 'submitCallback($event)'}">
                                 </label>
                             </section>
@@ -447,7 +479,8 @@
                                 <label class="label">{{trans('pas.relativephone')}}</label>
                                 <label class="input">
                                     <input ng-model="person.relativephone" name="relativephone"
-                                           type="text" placeholder="{{trans('pas.relativephone')}}"  tabindex="27"
+                                           type="text" placeholder="{{trans('pas.relativephone')}}"
+                                           tabindex="27"
                                            ui-keydown="{'enter': 'nextinputCallback($event)','shift-enter': 'submitCallback($event)'}">
                                 </label>
                             </section>
@@ -456,7 +489,8 @@
                                 <label class="input">
                                     <input ng-model="person.relativeaddress" name="relativeaddress"
                                            type="text"
-                                           placeholder="{{trans('pas.relativeaddress')}}"  tabindex="28"
+                                           placeholder="{{trans('pas.relativeaddress')}}"
+                                           tabindex="28"
                                            ui-keydown="{'enter': 'nextinputCallback($event)','shift-enter': 'submitCallback($event)'}">
                                 </label>
                             </section>
@@ -500,7 +534,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" id="star" data-ng-click="camera()">Mở
-                    camera
+                                                                                                 camera
                 </button>
                 <button type="button" class="btn btn-success" id="snap"
                         data-ng-click="camcapture()">Lấy hình
@@ -520,7 +554,8 @@
 <div class="row ">
 
     <div class="col col-xs-12">
-        <button type="button" class="btn btn-labeled btn-success pull-right" data-ng-click="save()"  tabindex="29">
+        <button type="button" class="btn btn-labeled btn-success pull-right" data-ng-click="save()"
+                tabindex="29">
          <span class="btn-label">
           <i class="fa fa-save"></i>
          </span>Lưu
@@ -539,37 +574,37 @@ pageSetUp();
 function personregistercontroller($scope, $http) {
     //init person object
     $scope.person = {
-        id:'0',
-        pid:'',
-        lastname:'',
-        firstname:'',
+        id: '0',
+        pid: '',
+        lastname: '',
+        firstname: '',
         sex: 0,
         dob: '',
         yob: '',
-        address:'',
-        province:0,    // sau nay se tu dong lay tinh cua benh vien
+        address: '',
+        province: 0,    // sau nay se tu dong lay tinh cua benh vien
         district: 0,
         addressward: 0,
         doituong: 'bhyt',
-        insurancecode:'',
+        insurancecode: '',
         insurancefromdate: '',
         insurancetodate: '',
         insurancecompany: 0,
         avatar: '',
         country: 'VN',
         route: 0,
-        cmnd:'',
-        dateissue:'',
-        placeissue:'',
-        careercode:'',
-        ethnic:25,
-        blood:0,
-        phone:'',
-        email:'',
-        relative:'',
-        relativephone:'',
-        relativeaddress:'',
-        relativetype:''
+        cmnd: '',
+        dateissue: '',
+        placeissue: '',
+        careercode: '',
+        ethnic: 25,
+        blood: 0,
+        phone: '',
+        email: '',
+        relative: '',
+        relativephone: '',
+        relativeaddress: '',
+        relativetype: ''
     };
     $scope.provinces = [];
     $scope.districts = [];
@@ -578,32 +613,42 @@ function personregistercontroller($scope, $http) {
     $scope.labelage = "Tuổi";
     $scope.currHospitalCode = '20004';
     $scope.noavatar = {
-        0: "{{asset('images/noavatarm.jpg')}}",
-        1: "{{asset('images/noavatarf.jpg')}}"
+        1: "{{asset('images/noavatarm.jpg')}}",
+        2: "{{asset('images/noavatarf.jpg')}}"
     };
 
-    $scope.save = function(){
-        if($("#formpersoninfo").valid()){
+    $scope.save = function () {
+//        window.location.href="/#/pas/person/711140000030";
+//        return;
+        if ($("#formpersoninfo").valid()) {
 //            console.log($scope.person);
-             $http.post('pas/saveperson',{
-                 data:$scope.person
-             })
-                 .success(function(data){
-
-                 })
-                 .error(function(){
-
-                 });
+            $http.post('pas/saveperson', {
+                data: $scope.person
+            })
+                .success(function (data) {
+                    if (data > 0) {
+                        window.location = "/#/pas/person/" + data;
+                    }
+                    else if (data == -99) {
+                        myalert("Lỗi tạo người mới", "Không tạo được mã người mới, vui lòng thử lại hoặc liên hệ Quản trị viên.");
+                    }
+                    else {
+                        myalert("Lỗi tạo người mới", "Không thể tạo người mới, vui lòng thử lại hoặc liên hệ Quản trị viên.");
+                    }
+                })
+                .error(function () {
+                    myalert("Lỗi tạo người mới", "Không thể tạo người mới, vui lòng thử lại hoặc liên hệ Quản trị viên.");
+                });
         }
     };
 
     $scope.changeavatar = function () {
         if ($scope.person.avatar == "") {
-            if ($scope.person.sex == 'm') {
-                document.getElementById("pasavatar").src = $scope.noavatar.m;
+            if ($scope.person.sex == 1) {
+                document.getElementById("pasavatar").src = $scope.noavatar[1];
             }
             else {
-                document.getElementById("pasavatar").src = $scope.noavatar.f;
+                document.getElementById("pasavatar").src = $scope.noavatar[2];
             }
         }
 
@@ -646,7 +691,7 @@ function personregistercontroller($scope, $http) {
             var crryear = date.getFullYear();
             var crrmon = date.getMonth() + 1;
             if (y < 1900 || y > crryear || d < 1 || d > 31 || m < 1 || m > 12 || (y == crryear && m > crrmon)) {
-                alert("Ngày tháng " + $scope.person.dob + " năm không đúng!");
+                myalert("Lỗi nhập liệu", "Ngày tháng " + $scope.person.dob + " năm không đúng!")
                 $scope.person.dob = "";
             }
             else {
@@ -655,12 +700,12 @@ function personregistercontroller($scope, $http) {
                 if (monthage > 12) {
                     $scope.labelage = "Tuổi";
                     $scope.person.age = date.getFullYear() - y;
-                    getjobfromage($scope.person.age,'y');
+                    getjobfromage($scope.person.age, 'y');
                 }
                 else {
                     $scope.person.age = monthage;
                     $scope.labelage = "Tháng";
-                    getjobfromage($scope.person.age,'m');
+                    getjobfromage($scope.person.age, 'm');
                 }
             }
         }
@@ -676,7 +721,7 @@ function personregistercontroller($scope, $http) {
             var crrmon = date.getMonth() + 1;
             var crrday = date.getDate();
             if (y < crryear || d < 1 || d > 31 || m < 1 || m > 12 || (y == crryear && m < crrmon) || (y == crryear && m == crrmon && d < crrday)) {
-                alert("Bảo hiểm đã hết hạn!");
+                myalert("Lỗi nhập liệu", "Bảo hiểm đã hết hạn!")
                 $scope.person.insurancetodate = "";
             }
 
@@ -689,23 +734,22 @@ function personregistercontroller($scope, $http) {
         months += d2.getMonth() + 1;
         return months <= 0 ? 0 : months;
     };
-    var getjobfromage = function(age,type){
-        if((age < 6 && type=='y') || type=='m'){
+    var getjobfromage = function (age, type) {
+        if ((age < 6 && type == 'y') || type == 'm') {
             $scope.person.careercode = "01";
         }
-        else if(age >=0 && age <=18){
+        else if (age >= 0 && age <= 18) {
             $scope.person.careercode = "02";
         }
-        else if(age>18 && age < 50){
+        else if (age > 18 && age < 50) {
             $scope.person.careercode = "04";
         }
-        else if(age>=50 && age <= 60){
+        else if (age >= 50 && age <= 60) {
             $scope.person.careercode = "03";
         }
-        else if(age>60 ){
+        else if (age > 60) {
             $scope.person.careercode = "13";
         }
-
 
     };
     $scope.$watch('person.yob', function () {
@@ -723,30 +767,41 @@ function personregistercontroller($scope, $http) {
                 }
                 else {
                     $scope.person.age = crryear - $scope.person.yob;
-                    getjobfromage($scope.person.age,'y');
+                    getjobfromage($scope.person.age, 'y');
                 }
             }
             else {
-                alert("Năm sinh " + $scope.person.yob + " không đúng ");
+                myalert("Lỗi nhập liệu", "Năm sinh " + $scope.person.yob + " không đúng.");
                 $scope.person.yob = "";
             }
         }
     });
+    var myalert = function (title, message) {
+        $.SmartMessageBox({
+            title: "<i class='fa fa-info-circle txt-color-orangeDark'></i> " + title + "!",
+            content: "<br>" + message,
+            buttons: '[OK]'
+
+        }, function (ButtonPressed) {
+            if (ButtonPressed == "Cancel") {
+            }
+        });
+    }
     $scope.$watch('person.age', function () {
         if ($scope.person.age !== false) {
             if (!$scope.person.dob && $scope.person.yob) {
                 if ($scope.person.age <= 1) {
                     $scope.person.yob = "";
-                    alert("Trẻ em dưới 1 tuổi phải nhập đủ ngày sinh!");
+                    myalert("Lỗi nhập liệu", "Trẻ em dưới 1 tuổi phải nhập đủ ngày sinh!")
                     $('input[tabindex=4]').focus();
                 }
             }
-            else{
+            else {
 
             }
         }
     });
-    var calYobFromAge = function(){
+    var calYobFromAge = function () {
         var date = new Date();
         var crryear = date.getFullYear();
         $scope.person.yob = crryear - $scope.person.age;
@@ -771,7 +826,7 @@ function personregistercontroller($scope, $http) {
             $scope.person.firstname = toTitleCase($scope.person.firstname);
             var fname = $scope.person.firstname;
             if (fname.trim().indexOf(" ") >= 0) {
-                alert("Tên thì chỉ nhập 1 từ!");
+                myalert("Lỗi nhập liệu", "Tên thì chỉ nhập 1 từ!")
                 $scope.person.firstname = '';
             }
         }
@@ -837,10 +892,10 @@ function personregistercontroller($scope, $http) {
 //                $scope.addresswards = [];
 //                $scope.districts = [];
             $scope.person.province = 0;
-            if(shortcut.trim().length > 0){
+            if (shortcut.trim().length > 0) {
                 $http.get('pas/searchshortcut/' + shortcut)
                     .success(function (data) {
-                        if(data){
+                        if (data) {
                             $scope.person.addressward = data['ward'].code;
 //                        $scope.addresswards = data['allward'];
                             $scope.person.district = data['district'].code;
@@ -852,7 +907,7 @@ function personregistercontroller($scope, $http) {
             }
 
         }
-        else if(currentindex == 6 && $scope.person.yob==''){
+        else if (currentindex == 6 && $scope.person.yob == '') {
             calYobFromAge();
         }
         $('[tabindex=' + (currentindex + 1) + ']').focus();
@@ -860,7 +915,7 @@ function personregistercontroller($scope, $http) {
     };
     $scope.submitCallback = function ($event) {
 //            console.log('call submit');
-        save();
+        $scope.save();
         $event.preventDefault();
     };
     $scope.$watch('person.province', function () {
@@ -878,34 +933,34 @@ function personregistercontroller($scope, $http) {
     });
     $scope.$watch('person.career', function () {
         if ($scope.person.career) {
-            $scope.person.careercode =  $scope.person.career;
+            $scope.person.careercode = $scope.person.career;
         }
     });
     $scope.$watch('person.careercode', function () {
         if ($scope.person.careercode) {
-            $scope.person.career =  $scope.person.careercode;
+            $scope.person.career = $scope.person.careercode;
         }
     });
     $scope.$watch('person.insurancecode', function () {
         if ($scope.person.insurancecode) {
             if ($scope.person.insurancecode.length == 20) {
                 var insurance = $scope.person.insurancecode;
-                var dkbd = insurance.substr(15,5);
+                var dkbd = insurance.substr(15, 5);
                 getbvdkbd(dkbd);
             }
         }
     });
     $scope.bvdkbd = [];
-    var getbvdkbd = function(dkbd){
+    var getbvdkbd = function (dkbd) {
         $scope.bvdkbd = [];
-        $http.get('pas/bvdkbd/'+dkbd)
-            .success(function (data)
-            {
+        $http.get('pas/bvdkbd/' + dkbd)
+            .success(function (data) {
                 $scope.person.insuranceplace = data.code;
                 $scope.bvdkbd.push(data);
-                if($scope.currHospitalCode == $scope.person.insuranceplace){
+                if ($scope.currHospitalCode == $scope.person.insuranceplace) {
                     $scope.person.route = 0;
-                }else{
+                }
+                else {
                     $scope.person.route = 1;
                 }
             });
@@ -954,82 +1009,82 @@ function personregistercontroller($scope, $http) {
     getProvince();
     getJob();
 
-};
-
+}
+;
 
 var pagefunction = function () {
 //    }, false);
 
     var $checkoutForm = $('#formpersoninfo').validate({
-        rules:{
-            lastname:{
-                required:true,
-                minlength:3,
-                maxlength:20
+        rules: {
+            lastname: {
+                required: true,
+                minlength: 3,
+                maxlength: 20
             },
-            firstname:{
-                required:true,
-                minlength:3,
-                maxlength:20
+            firstname: {
+                required: true,
+                minlength: 3,
+                maxlength: 20
             },
-            sex:{
-                required:true,
+            sex: {
+                required: true,
                 min: 1
             },
-            yob:{
-                required:true
+            yob: {
+                required: true
             },
-            address:{
-                minlength:3,
-                maxlength:50
+            address: {
+                minlength: 3,
+                maxlength: 50
             },
-            province:{
-                min:1
+            province: {
+                min: 1
             },
-            district:{
-                min:1
+            district: {
+                min: 1
             },
-            addressward:{
-                min:1
+            addressward: {
+                min: 1
             }
         },
-        messages:{
-            lastname:{
+        messages: {
+            lastname: {
                 required: 'Chưa nhập Họ',
                 minlength: 'Tối thiểu 3 kí tự',
                 maxlength: 'Tối đa 20 kí tự'
             },
-            firstname:{
+            firstname: {
                 required: 'Chưa nhập Tên',
                 minlength: 'Tối thiểu 3 kí tự',
                 maxlength: 'Tối đa 20 kí tự'
             },
-            sex:{
-                min:"Chưa có giới tính"
+            sex: {
+                min: "Chưa có giới tính"
             },
-            yob:{
-                required:'Chưa có năm sinh'
+            yob: {
+                required: 'Chưa có năm sinh'
             },
-            address:{
-                minlength:'Nhập tối thiểu 3 kí tự',
-                maxlength:'Tối đa 50 kí tự'
+            address: {
+                minlength: 'Nhập tối thiểu 3 kí tự',
+                maxlength: 'Tối đa 50 kí tự'
             },
-            province:{
-                min:"Chưa chọn tỉnh"
+            province: {
+                min: "Chưa chọn tỉnh"
             },
-            district:{
-                min:"Chưa chọn quận"
+            district: {
+                min: "Chưa chọn quận"
             },
-            addressward:{
-                required:true,
-                min:"Chưa chọn phường"
+            addressward: {
+                required: true,
+                min: "Chưa chọn phường"
             }
         },
         errorPlacement: function (error, element) {
-        error.insertAfter(element.parent());
-    }
+            error.insertAfter(element.parent());
+        }
 
     });
 };
-    loadScript("src/smartadmin/js/plugin/jquery-form/jquery-form.min.js", pagefunction);
+loadScript("src/smartadmin/js/plugin/jquery-form/jquery-form.min.js", pagefunction);
 </script>
