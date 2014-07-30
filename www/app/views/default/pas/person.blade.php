@@ -8,7 +8,7 @@
                 <i class="fa fa-female"></i>
                 @endif
                 <strong>{{$person->lastname.' '.$person->firstname}}</strong>&nbsp;({{$person->pid}})
-
+                <a href="/#/pas/editperson/{{$person->pid}}/{{time()}}"><i class="fa fa-pencil-square"></i></a>
             </h1>
 
         </div>
@@ -28,7 +28,7 @@
                     <header>
                         <span class="widget-icon"> <i class="fa fa-info-circle"></i> </span>
 
-                        <h2>Thông tin cá nhân</h2>
+                        <h2>{{trans('pas.personinfo')}}</h2>
                     </header>
                     <!-- widget div-->
                     <div class="">
@@ -109,7 +109,7 @@
                     </div>
 
                 </div>
-                @if($person->doituong != 'tp' && $person->doituong != 'mp')
+                @if($person->doituong != 'tp' && $person->doituong != 'mp' && $person->insurancecode!='')
                 <!-- Widget ID (each widget will need unique ID)-->
                 <div class="jarviswidget " id="wid-id-11"
                      data-widget-editbutton="false" data-widget-deletebutton="false"
@@ -118,7 +118,7 @@
                     <header>
                         <span class="widget-icon"> <i class="fa fa-info-circle"></i> </span>
 
-                        <h2>Thông tin bảo hiểm</h2>
+                        <h2>{{trans('pas.insuranceinfo')}}</h2>
                     </header>
                     <!-- widget div-->
                     <div class="">

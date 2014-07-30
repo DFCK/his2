@@ -3,7 +3,17 @@
 <div class="row">
     <div class="col-xs-12">
         <h1 class="page-title txt-color-blueDark">
-            <i class="fa fa-barcode fa-fw"></i> {{trans('pas.dk')}}
+            <i class="fa fa-barcode fa-fw"></i>
+            @if(!isset($person))
+                {{trans('pas.dk')}}
+            @else
+                Sửa thông tin {{$pid}}
+            <a href="/#/pas/person/{{$pid}}" class="btn btn-labeled  pull-right">
+            <span class="btn-label">
+            <i class="fa fa-reply txt-color-white"></i>
+            </span>Quay lại
+            </a>
+            @endif
             <button type="button" class="btn btn-labeled btn-success pull-right"
                     data-ng-click="save()">
          <span class="btn-label">
@@ -62,7 +72,7 @@
                                 <section class="col col-lg-3 col-xs-4 col-sm-3 col-md-3">
                                     <label class="label">{{trans('pas.lastname')}}</label>
                                     <label class="input">
-                                        <input type="hidden" ng-model="person.id">
+                                        <input type="hidden" ng-model="person.pid">
                                         <input type="text" name="lastname"
                                                placeholder="{{trans('pas.lastname')}}"
                                                ng-model="person.lastname" tabindex="1"
@@ -627,18 +637,21 @@ function personregistercontroller($scope, $http) {
                 data: $scope.person
             })
                 .success(function (data) {
-                    if (data > 0) {
+                    if (data.length > 10) {
                         window.location = "/#/pas/person/" + data;
+                    }
+                    else if(data >= 0  && $scope.person.pid!=''){
+                        window.location = "/#/pas/person/" + $scope.person.pid+"/"+Date.now();
                     }
                     else if (data == -99) {
                         myalert("Lỗi tạo người mới", "Không tạo được mã người mới, vui lòng thử lại hoặc liên hệ Quản trị viên.");
                     }
                     else {
-                        myalert("Lỗi tạo người mới", "Không thể tạo người mới, vui lòng thử lại hoặc liên hệ Quản trị viên.");
+                        myalert("Lỗi tạo người mới", "Không thể lưu, vui lòng thử lại hoặc liên hệ Quản trị viên.");
                     }
                 })
                 .error(function () {
-                    myalert("Lỗi tạo người mới", "Không thể tạo người mới, vui lòng thử lại hoặc liên hệ Quản trị viên.");
+                    myalert("Lỗi tạo người mới", "Không thể lưu, vui lòng thử lại hoặc liên hệ Quản trị viên.");
                 });
         }
     };
@@ -1009,7 +1022,12 @@ function personregistercontroller($scope, $http) {
     getCountry();
     getProvince();
     getJob();
-
+    @if(isset($person))
+    $scope.person = {{$person}};
+    if($scope.person.avatar != ''){
+        $("#pasavatar").attr("src",$scope.person.avatar);
+    }
+    @endif
 }
 ;
 
