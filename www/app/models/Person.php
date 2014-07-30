@@ -5,9 +5,9 @@ class Person extends Eloquent
     protected $fillable = array(
         'pid', 'lastname', 'firstname', 'sex', 'dob', 'yob',
         'address', 'province', 'district', 'addressward',
-        'doituong', 'insurancecode', 'insurancefromdate', 'insurancetodate', 'insurancecompany',
+        'doituong', 'insurancecode', 'insurancefromdate', 'insurancetodate', 'insurancecompany','insuranceplace',
         'avatar', 'country', 'route', 'cmnd', 'dateissue', 'placeissue',
-        'careercode', 'ethinic', 'blood', 'phone', 'email',
+        'careercode', 'ethnic', 'blood', 'phone', 'email',
         'relative', 'relativephone', 'relativeaddress', 'relativetype'
     );
 
@@ -18,7 +18,7 @@ class Person extends Eloquent
         $months += date('m') + 1;
 //        return $months <= 0 ? 0 : $months;
         if($months <= 12){
-            return $months." ".trans("pas.month");
+            return $months." ".trans("pas.month").' '.trans("pas.age");
         }
         else return (date("Y") - date("Y",$d1))." ".trans("pas.age");
     }

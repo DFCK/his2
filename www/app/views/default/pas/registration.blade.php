@@ -590,6 +590,7 @@ function personregistercontroller($scope, $http) {
         insurancefromdate: '',
         insurancetodate: '',
         insurancecompany: 0,
+        insuranceplace:'',
         avatar: '',
         country: 'VN',
         route: 0,
@@ -673,9 +674,9 @@ function personregistercontroller($scope, $http) {
         context.drawImage(video, 80, 0, 480, 480, 0, 0, 480, 480);
         // "image/webp" works in Chrome.
         // Other browsers will fall back to image/png.
-        document.getElementById("modelcapture").src = canvas.toDataURL('image/webp');
-        document.getElementById("pasavatar").src = canvas.toDataURL('image/webp');
-        $scope.person.avatar = canvas.toDataURL('image/webp');
+        document.getElementById("modelcapture").src = canvas.toDataURL("image/jpeg");
+        document.getElementById("pasavatar").src = canvas.toDataURL("image/jpeg");
+        $scope.person.avatar = canvas.toDataURL("image/jpeg");
         $scope.stopcamera();
     };
     $scope.$watch('person.avatar', function () {

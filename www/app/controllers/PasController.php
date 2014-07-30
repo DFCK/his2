@@ -7,19 +7,20 @@ class PasController extends BaseController
         if (strlen($pid) > 0) {
             $data['pid'] = $pid;
 //            $person = Person::where("pid", $pid)->province();
-            $person = DB::table('dfck_person')
-                ->leftJoin('dfck_address_province','dfck_address_province.code','=','dfck_person.province')
-            ->select('dfck_address_province.name AS province_name')
-                ->leftJoin('dfck_address_district','dfck_address_district.code','=','dfck_person.district')
-            ->select('dfck_address_district.name AS district_name')
-                ->leftJoin('dfck_address_ward','dfck_address_ward.code','=','dfck_person.addressward')
-            ->select('dfck_address_ward.name AS ward_name')
-                ->select('dfck_person.*');
-//                ->select('dfck_person.*','dfck_address_province.name AS province_name');
-            if ($person->count()) {
-                $data['person'] = $person->get();
-                $data['person'] = $data['person'][0];
-                var_dump($data['person']);
+            $person = DB::table('dfck_person AS p')
+                ->join('dfck_address_ward AS w','w.code','=','p.addressward')
+                ->join('dfck_address_district AS d','d.code','=','p.district')
+                ->join('dfck_address_province AS pr','pr.code','=','p.province')
+                ->join('dfck_jobs AS j','j.code','=','p.careercode')
+                ->join('dfck_ethnic AS e','e.code','=','p.ethnic')
+                ->leftJoin('dfck_noicap_bhyt AS n','n.code','=','p.insuranceplace')
+                ->where("p.pid",$pid)
+                ->select('p.*','pr.name AS province_name','d.name AS district_name','w.name AS ward_name','j.namevn AS career',
+                'e.name AS ethnicname','n.name AS insurancename')
+                ->get();
+            if ($person) {
+                $data['person'] = $person[0];
+//                $data['person'] = $data['person'][0];
                 return View::make(Config::get('main.theme') . '.pas.person', $data);
             }
 

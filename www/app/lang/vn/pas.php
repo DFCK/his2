@@ -15,7 +15,7 @@ return array(
     'dateformat' => 'ngày - tháng - năm ',
     'YOB' => 'Năm sinh',
     'age' => 'Tuổi',
-    'month' => 'tháng',
+    'month' => 'Tháng',
     'day' => 'ngày',
     'address' =>'Địa chỉ',
     'shortcut' =>'Địa chỉ tắt',
@@ -36,7 +36,7 @@ return array(
 
     'moreinfo' => 'Thông tin bổ sung',
     'country' => 'Quốc tịch',
-    'CMND' => 'CMND/Hộ chiếu',
+    'CMND' => 'CMND',
     'dateissue' => 'Ngày cấp',
     'placeissue' => 'Nơi cấp',
     'ethnic' => 'Dân tộc',
