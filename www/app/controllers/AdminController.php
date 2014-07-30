@@ -1,15 +1,41 @@
 <?php
+
 class AdminController extends BaseController
 {
     public function getModule()
     {
         return View::make(Config::get('main.theme') . '.admin.module');
     }
-   public function getDmchucvu()
+
+    public function getDmchucvu()
     {
         return View::make(Config::get('main.theme') . '.admin.dmchucvu');
     }
-    public function postAdddmchucvu(){
+
+    public function getDepartment(){
+        return View::make(Config::get('main.theme') . '.admin.department');
+    }
+
+    public function postSavedept(){
+        $input = Input::get('data');
+        $find = TypeDepartment::where('code', $input['code'])
+            ->where('id', '!=', $input['id'])
+            ->count();
+        if ($find <= 0) {
+            if ($input['id'] == '' || $input['id'] <= 0) {
+                $dept = TypeDepartment::create($input);
+                return $dept->id;
+            } else {
+
+            }
+        }
+        else return -1;
+    }
+    public function getLoaddept(){
+        return TypeDepartment::all()->tojson();
+    }
+    public function postAdddmchucvu()
+    {
         $input = Input::all();
         $chucvu = Dmchucvu::create($input['data']);
         echo $chucvu->id;
@@ -48,22 +74,23 @@ class AdminController extends BaseController
 //                $find->moduleorder = $arr['moduleorder'];
                 $find->moduleicon = $arr['moduleicon'];
                 echo $find->save();
-            }
-            else {
+            } else {
                 //xu li insert moi
                 $function = Adminfunction::create($arr);
                 echo $function->id;
 
             }
-        }
-        else echo -1;
+        } else echo -1;
         //duplicate module code;
 
     }
-    public function postDeletemodule(){
+
+    public function postDeletemodule()
+    {
         $data = Input::all();
         echo Adminfunction::find($data['data']['id'])->delete();
     }
+
     public function getSelectlist()
     {
         return Adminfunction::where('moduleparent', '0')

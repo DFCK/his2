@@ -46,6 +46,8 @@ will not initialize.
                   suftitle="{{trans('common.suftitle')}}"/>
         <nav:item data-view="/admin/dmchucvu" title="{{trans('common.dmchucvu')}}"
                   suftitle="{{trans('common.suftitle')}}"/>
+        <nav:item data-view="/admin/department" title="{{trans('common.department')}}"
+                  suftitle="{{trans('common.suftitle')}}"/>
     </nav:group>
 
 </navigation>

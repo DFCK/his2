@@ -12,6 +12,7 @@ return array(
     'account' => 'Tài khoản',
     'roleposition' => 'Chức danh',
     'dmchucvu' => 'Danh mục chức vụ',
+    'department' => 'Khoa Phòng',
 
     /**
      * Thao tác
