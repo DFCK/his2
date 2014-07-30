@@ -7,18 +7,18 @@
             @if(!isset($person))
                 {{trans('pas.dk')}}
             @else
-                Sửa thông tin {{$pid}}
+            {{trans('common.edit')}} {{$pid}}
             <a href="/#/pas/person/{{$pid}}" class="btn btn-labeled  pull-right">
             <span class="btn-label">
             <i class="fa fa-reply txt-color-white"></i>
-            </span>Quay lại
+            </span>{{trans('common.back')}}
             </a>
             @endif
             <button type="button" class="btn btn-labeled btn-success pull-right"
                     data-ng-click="save()">
          <span class="btn-label">
           <i class="fa fa-save txt-color-white"></i>
-         </span>Lưu
+         </span>{{trans('common.save')}}
             </button>
         </h1>
 
@@ -41,7 +41,7 @@
 <article class="col-xs-12">
 
     <!-- Widget ID (each widget will need unique ID)-->
-    <div class="jarviswidget jarviswidget-color-teal" id="wid-id-0"
+    <div class="jarviswidget jarviswidget-color-teal" id="wid-id-pasreg0"
          data-widget-editbutton="false" data-widget-deletebutton="false"
          data-widget-sortable="false" data-widget-fullscreenbutton="false">
         <!-- widget options:
@@ -239,7 +239,7 @@
 <!-- NEW WIDGET START -->
 <article class="col-xs-12">
     <!-- Widget ID (each widget will need unique ID)-->
-    <div class="jarviswidget jarviswidget-color-pinkDark" id="wid-id-1" data-widget-collapsed=""
+    <div class="jarviswidget jarviswidget-color-pinkDark" id="wid-id-pasreg1" data-widget-collapsed=""
          data-widget-editbutton="false" data-widget-deletebutton="false"
          data-widget-sortable="false" data-widget-fullscreenbutton="false">
         <header>
@@ -338,7 +338,7 @@
 <!-- end article -->
 <article class="col-xs-12">
     <!-- Widget ID (each widget will need unique ID)-->
-    <div class="jarviswidget jarviswidget-color-yellow" id="wid-id-2"
+    <div class="jarviswidget jarviswidget-color-yellow" id="wid-id-pasreg2"
          data-widget-editbutton="false" data-widget-deletebutton="false"
          data-widget-sortable="false" data-widget-collapsed=""
          data-widget-fullscreenbutton="false">

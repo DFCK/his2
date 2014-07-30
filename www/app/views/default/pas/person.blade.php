@@ -22,7 +22,7 @@
             <!-- NEW WIDGET START -->
             <article class="col-xs-12 col-md-8">
                 <!-- Widget ID (each widget will need unique ID)-->
-                <div class="jarviswidget jarviswidget-color-teal" id="wid-id-10"
+                <div class="jarviswidget jarviswidget-color-teal" id="wid-id-passhow0"
                      data-widget-editbutton="false" data-widget-deletebutton="false"
                      data-widget-sortable="false" data-widget-fullscreenbutton="false">
                     <header>
@@ -111,12 +111,12 @@
                 </div>
                 @if($person->doituong != 'tp' && $person->doituong != 'mp' && $person->insurancecode!='')
                 <!-- Widget ID (each widget will need unique ID)-->
-                <div class="jarviswidget " id="wid-id-11"
+                <div class="jarviswidget " id="wid-id-passhow1"
                      data-widget-editbutton="false" data-widget-deletebutton="false"
                      data-widget-sortable="false" data-widget-fullscreenbutton="false"
                     data-widget-collapsed="true" >
                     <header>
-                        <span class="widget-icon"> <i class="fa fa-info-circle"></i> </span>
+                        <span class="widget-icon"> <i class="fa fa-credit-card"></i> </span>
 
                         <h2>{{trans('pas.insuranceinfo')}}</h2>
                     </header>
@@ -138,10 +138,28 @@
                     </div>
                 </div>
                 @endif
+                <div class="jarviswidget " id="wid-id-passhow2"
+                     data-widget-editbutton="false" data-widget-deletebutton="false"
+                     data-widget-sortable="false" data-widget-fullscreenbutton="false"
+                     data-widget-collapsed="true" >
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-history"></i> </span>
+
+                        <h2>Lịch sử điều trị</h2>
+                    </header>
+                    <!-- widget div-->
+                    <div class="">
+
+                        <!-- widget content -->
+                        <div class="widget-body " style="min-height: 10px !important;">
+
+                        </div>
+                    </div>
+                </div>
             </article>
             <article class="col-xs-12 col-md-4">
                 <!-- Widget ID (each widget will need unique ID)-->
-                <div class="jarviswidget jarviswidget-color-white" id="wid-id-12"
+                <div class="jarviswidget jarviswidget-color-white" id="wid-id-passhow3"
                      data-widget-editbutton="false" data-widget-deletebutton="false"
                      data-widget-sortable="false" data-widget-fullscreenbutton="false">
                     <header>
@@ -153,12 +171,35 @@
                     <div class="">
 
                         <!-- widget content -->
-                        <div class="widget-body no-padding">
+                        <div class="widget-body ">
+                            <ul  class="nav nav-pills nav-stacked" >
+                                <li>
+                                    <a><i class="fa fa-stethoscope"></i> Thông tin nhập viện</a>
+                                </li>
+                                <li>
+                                    <a><i class="fa fa-bolt"></i> Lấy sinh hiệu </a>
+                                </li>
+                                <li>
+                                    <a><i class="fa fa-certificate"></i> Khám sức khỏe </a>
+                                </li>
+                                <li>
+                                    <a><i class="fa fa-flask"></i> Thông tin dị ứng </a>
+                                </li>
+                                <li>
+                                    <a><i class="fa fa-usd"></i> Tạm ứng</a>
+                                </li>
+                                <li>
+                                    <a><i class="fa fa-ambulance"></i> Cấp cứu</a>
+                                </li>
+                                <li>
+                                    <a><i class="fa fa-codepen"></i> Chỉ định Cận Lâm Sàn</a>
+                                </li>
+                            </ul>
                         </div>
                     </div>
 
                 </div>
-                <div class="jarviswidget jarviswidget-color-white" id="wid-id-13"
+                <div class="jarviswidget jarviswidget-color-white" id="wid-id-passhow4"
                      data-widget-editbutton="false" data-widget-deletebutton="false"
                      data-widget-sortable="false" data-widget-fullscreenbutton="false">
                     <header>
@@ -170,7 +211,42 @@
                     <div class="">
 
                         <!-- widget content -->
-                        <div class="widget-body no-padding">
+                        <div class="widget-body ">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <a  rel="tooltip" title="Reload"><i class="fa fa-refresh"></i></a>
+                                    <strong>Bác sĩ A</strong> - Khu 1 - Phòng 1
+                                    <i class="fa fa-check-square" rel="tooltip" title="Bệnh nhân đang chờ tại đây"></i>
+                                    <div class="pull-right txt-color-green">
+                                        <strong>
+                                        <i class="fa fa-lightbulb-o fa-2x"  rel="tooltip" title="Online"></i>
+                                        </strong>
+                                    </div>
+
+                                </div>
+                                <div class="panel-body">
+                                    <label class="label label-info" rel="tooltip" data-placement="left" title="7 Bệnh nhân Đang chờ ">7</label>
+                                    / <label class="label label-success"  rel="tooltip" title="Hôm nay đã khám 20 Bệnh nhân">20</label>
+                                    <a href="#" rel="tooltip" title="Chuyển bệnh nhân vào phòng khám" class="pull-right"><i class="fa fa-exchange"> Chuyển bệnh</i></a>
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <a  rel="tooltip" title="Reload"><i class="fa fa-refresh"></i></a>
+                                    <strong>Bác sĩ B</strong> - Khu 1 - Phòng 2
+                                    <div class="pull-right txt-color-green">
+                                        <strong>
+                                        <i class="fa fa-lightbulb-o fa-2x"  rel="tooltip" title="Online"></i>
+                                        </strong>
+                                    </div>
+
+                                </div>
+                                <div class="panel-body">
+                                    <label class="label label-info" rel="tooltip" data-placement="left" title="19 Bệnh nhân Đang chờ ">19</label>
+                                    / <label class="label label-success"  rel="tooltip" title="Hôm nay đã khám 50 Bệnh nhân">50</label>
+                                    <a href="#" rel="tooltip" title="Chuyển bệnh nhân vào phòng khám" class="pull-right"><i class="fa fa-exchange"> Chuyển bệnh</i></a>
+                                </div>
+                            </div>
                         </div>
                     </div>
 

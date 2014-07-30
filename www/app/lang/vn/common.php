@@ -21,6 +21,7 @@ return array(
     'delete' => 'Xóa',
     'update'    => 'Cập nhật',
     'save'    => 'Lưu',
+    'back' => 'Quay lại',
 
     /**
      * 404 error
