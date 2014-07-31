@@ -163,6 +163,7 @@
                                                 @{{province.name}}
                                             </option>
                                         </select>
+                                        <i></i>
                                     </label>
                                 </section>
                                 <section class="col col-lg-4 col-xs-6 col-sm-4 col-md-4">
@@ -178,6 +179,7 @@
                                             </option>
 
                                         </select>
+                                        <i></i>
                                     </label>
                                 </section>
                                 <section class="col col-lg-4 col-xs-6 col-sm-4 col-md-4">
@@ -193,6 +195,7 @@
                                             </option>
 
                                         </select>
+                                        <i></i>
                                     </label>
                                 </section>
                                 <section class="col col-lg-4 col-xs-6 col-sm-4 col-md-4">
@@ -207,6 +210,7 @@
                                             <option value="dv">Dịch vụ</option>
                                             <option value="k">Khác</option>
                                         </select>
+                                        <i></i>
                                     </label>
                                 </section>
                             </div>
@@ -364,6 +368,7 @@
                                             @{{country.namevn}}
                                         </option>
                                     </select>
+                                    <i></i>
                                 </label>
                             </section>
                             <section class="col col-lg-3 col-xs-6 col-sm-3 col-md-3">
@@ -790,17 +795,7 @@ function personregistercontroller($scope, $http) {
             }
         }
     });
-    var myalert = function (title, message) {
-        $.SmartMessageBox({
-            title: "<i class='fa fa-info-circle txt-color-orangeDark'></i> " + title + "!",
-            content: "<br>" + message,
-            buttons: '[OK]'
 
-        }, function (ButtonPressed) {
-            if (ButtonPressed == "Cancel") {
-            }
-        });
-    }
     $scope.$watch('person.age', function () {
         if ($scope.person.age !== false) {
             if (!$scope.person.dob && $scope.person.yob) {

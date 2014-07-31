@@ -15,6 +15,69 @@ class AdminController extends BaseController
     public function getDepartment(){
         return View::make(Config::get('main.theme') . '.admin.department');
     }
+    public function getHospital(){
+        $data = array();
+        $data['tuyenhanhchinh'] = DB::table('dfck_tuyen_hanhchinh')->select("*")->get();
+        $data['tuyenbenhvien'] = DB::table('dfck_tuyen_benhvien')->select("*")->get();
+        $data['tuyenyte'] = DB::table('dfck_tuyen_yte')->select("*")->get();
+        $data['countries'] = DB::table('dfck_address_countries')->select("*")->get();
+        $data['provinces'] = DB::table('dfck_address_province')->where('country_code','vn')->select("*")->get();
+        return View::make(Config::get('main.theme') . '.admin.hospital',$data);
+    }
+    public function postSavehospital(){
+        $input = Input::get('data');
+        $find = Hospital::where('code', $input['code'])
+            ->where('id', '!=', $input['id'])
+            ->count();
+        if ($find <= 0) {
+            if ($input['id'] == '' || $input['id'] <= 0) {
+                $dept = Hospital::create($input);
+                return $dept->id;
+            } else {
+                $effect = Hospital::find($input['id'])->update($input);
+                echo $effect;
+            }
+        }
+        else return -1;
+    }
+    public function getLoadhospital(){
+        return Hospital::all()->tojson();
+    }
+    public function deleteDeldept($id){
+        $effect = TypeDepartment::find($id)->delete();
+        echo $effect;
+    }
+    public function postSavedeptfunc($type='i',$dept_code,$func_code){
+        if($type=='d'){
+            $effect = DeptFunc::where('department_code',$dept_code)
+                ->where('function_code',$func_code)
+                ->delete();
+            echo $effect;
+        }
+        else if($type=='i'){
+            $arr = array(
+                'department_code' => $dept_code,
+                'function_code' => $func_code,
+            );
+            $df = DeptFunc::create($arr);
+            echo $df->id;
+        }
+
+    }
+    public function getDeptfunclist($dept)
+    {
+        $deptfunc =  DB::table('dfck_function AS f')
+            ->leftjoin('dfck_type_department_function AS d',function($join) use ($dept){
+                $join->on('f.modulecode','=','d.function_code')
+                        ->where('d.department_code','=',$dept);
+                })
+            ->select('f.*','d.id AS ischeck')
+            ->orderBy('f.moduleparent')
+            ->orderby('f.moduleorder')
+            ->get();
+        return Response::json($deptfunc);
+    }
+
 
     public function postSavedept(){
         $input = Input::get('data');
@@ -26,7 +89,8 @@ class AdminController extends BaseController
                 $dept = TypeDepartment::create($input);
                 return $dept->id;
             } else {
-
+                $effect = TypeDepartment::find($input['id'])->update($input);
+                echo $effect;
             }
         }
         else return -1;
@@ -102,10 +166,6 @@ class AdminController extends BaseController
 
     public function getFunctionlist()
     {
-        //$functions =  Adminfunction::getFunctionTree();
-
-        //print_r($functions);
-        //return Response::json($functions);
         return Adminfunction::orderBy('moduleparent')
             ->orderBy('moduleorder')->get()->toJson();
     }

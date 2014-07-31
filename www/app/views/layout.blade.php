@@ -134,6 +134,7 @@ ANGULAR: Handled via "ribbon" directive
 {{HTML::script('src/smartadmin/js/ng/plunker.js')}}
 
 {{HTML::script('src/ui-utils.min.js')}}
+{{HTML::script('src/js/myscript.js')}}
 
 @yield('jscript')
 

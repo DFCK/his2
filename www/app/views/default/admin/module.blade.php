@@ -170,7 +170,7 @@
                                 <div class="dd3-content">
                                     <i class="@{{functitem.moduleicon}}"></i>
                                     <strong>@{{functitem.modulename}}</strong>
-                                    <a href="" ng-click="editmodule(functitem)"><i class="fa fa-pencil"></i></a>
+                                    <a href="" ng-click="editmodule(functitem)"><i class="fa fa-pencil-square"></i></a>
                                     <div class="pull-right">
                                         <a ng-if="!functitem.children" href="" data-ng-click="deletemodule(functitem)"><i class="fa  fa-trash-o"></i></a>
                                         <span class="label label-warning txt-color-white">@{{functitem.modulecode}}</span>

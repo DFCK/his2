@@ -13,6 +13,7 @@ return array(
     'roleposition' => 'Chức danh',
     'dmchucvu' => 'Danh mục chức vụ',
     'department' => 'Khoa Phòng',
+    'init-hospital' => 'Thiết lập bệnh viện',
 
     /**
      * Thao tác
@@ -23,6 +24,7 @@ return array(
     'update'    => 'Cập nhật',
     'save'    => 'Lưu',
     'back' => 'Quay lại',
+    'reset' => 'Reset',
 
     /**
      * 404 error

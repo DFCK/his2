@@ -38,6 +38,8 @@ will not initialize.
     @endforeach
 
     <nav:group data-icon="fa fa-lg fa-fw fa-cogs" title="{{trans('common.administration')}}">
+        <nav:item data-view="/admin/hospital" title="{{trans('common.init-hospital')}}"
+                  suftitle="{{trans('common.suftitle')}}"/>
         <nav:item data-view="/admin/module" title="{{trans('common.module')}}"
                   suftitle="{{trans('common.suftitle')}}"/>
         <nav:item data-view="/admin/account" title="{{trans('common.account')}}"
