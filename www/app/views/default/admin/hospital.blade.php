@@ -373,22 +373,22 @@
                                         <ol class="dd-list">
                                         <li class="dd-item" data-ng-repeat="idept in deptward">
                                             <div class="dd-handle">
-                                                <a ng-click="editdept(idept.id)"><i class="fa fa-pencil-square"></i></a>&nbsp; @{{idept.name}}
+                                                <a ng-click="editdept(idept)"><i class="fa fa-pencil-square"></i></a>&nbsp; @{{idept.name}}
 
                                                 <div class="pull-right">
-                                                    <a ng-show="iward.deleted_at" data-ng-click="closedept(idept.id)"><i class="fa fa-unlock-alt"></i></a>
-                                                    <a ng-show="!iward.deleted_at" data-ng-click="opendept(idept.id)"><i class="fa fa-unlock-alt"></i></a>
+                                                    <a ng-show="!idept.deleted_at" data-ng-click="closedept(idept.id)"><i class="fa fa-unlock-alt"></i></a>
+                                                    <a ng-show="idept.deleted_at" data-ng-click="opendept(idept.id)"><i class="fa fa-unlock"></i></a>
                                                     <a ng-show="idept.wards.length <= 0" data-ng-click="deldept(idetp.id)"><i class="fa fa-trash-o"></i></a>
                                                 </div>
                                                 </div>
                                             <ol class="dd-list" >
                                                 <li  class="dd-item " data-ng-repeat="iward in idept.wards">
                                                     <div class="dd-handle">
-                                                        <a ng-click="editward(idept.id)"><i class="fa fa-pencil-square"></i></a>&nbsp; @{{iward.name}}
-                                                        <a class="btn btn-primary">Phòng</a>
+                                                        <a ng-click="editward(iward)"><i class="fa fa-pencil-square"></i></a>&nbsp; @{{iward.name}}
+                                                        <a class="btn btn-primary btn-sm">Phòng</a>
                                                         <div class="pull-right">
-                                                            <a ng-show="iward.deleted_at" data-ng-click="closeward(iward.id)"><i class="fa fa-unlock-alt"></i></a>
-                                                            <a ng-show="!iward.deleted_at" data-ng-click="openward(iward.id)"><i class="fa fa-unlock-alt"></i></a>
+                                                            <a ng-show="!iward.deleted_at" data-ng-click="closeward(iward.id)" rel="tooltip" title="Close"><i class="fa fa-unlock-alt"></i></a>
+                                                            <a ng-show="iward.deleted_at" data-ng-click="openward(iward.id)"><i class="fa fa-unlock"></i></a>
                                                             <a data-ng-click="delward(iward.id)"><i class="fa fa-trash-o"></i></a>
                                                         </div>
                                                     </div>
@@ -448,6 +448,7 @@
             id:''
         };
 
+
         $scope.save = function () {
             $scope.toggle = false;
             if ($('#formmodule').valid()) {
@@ -500,12 +501,49 @@
                 myalert("Lỗi thao tác","Chưa chọn Khoa cần xóa");
             }
         }
+        $scope.closedept = function(dept_id){
+            $http.delete('admin/closedept/'+dept_id)
+                .success(function(data){
+                    if (data > 0) {
+                        $scope.loaddeptselect($scope.hospital.code);
+                        $scope.loadDeptWard($scope.hospital.code);
+                    }
+                });
+        };
+        $scope.opendept = function(dept_id){
+            $http.put('admin/opendept/'+dept_id)
+                .success(function(data){
+                    if (data > 0) {
+                        $scope.loaddeptselect($scope.hospital.code);
+                        $scope.loadDeptWard($scope.hospital.code);
+                    }
+                });
+        };
+        $scope.openward = function(ward_id){
+            $http.put('admin/openward/'+ward_id)
+                .success(function(data){
+                    if (data > 0) {
+                        $scope.loaddeptselect($scope.hospital.code);
+                        $scope.loadDeptWard($scope.hospital.code);
+                    }
+                });
+        };
+        $scope.closeward = function(ward_id){
+            $http.delete('admin/closeward/'+ward_id)
+                .success(function(data){
+                    if (data > 0) {
+                        $scope.loaddeptselect($scope.hospital.code);
+                        $scope.loadDeptWard($scope.hospital.code);
+                    }
+                });
+        };
         $scope.close = function(){
             if($scope.hospital.id > 0){
                 $http.delete("admin/closehospital/"+$scope.hospital.id)
                     .success(function(data){
                         if(data > 0){
                             $scope.reset();
+                            $scope.load();
                             myalert("Thông báo","Cập nhật dữ liệu thành công.");
                         }
                         else{
@@ -525,6 +563,7 @@
                     .success(function(data){
                         if(data > 0){
                             $scope.reset();
+                            $scope.load();
                             myalert("Thông báo","Cập nhật dữ liệu thành công.");
                         }
                         else{
@@ -551,6 +590,12 @@
                     $scope.loadDeptWard($scope.hospital.code);
                 }
             });
+        }
+        $scope.editdept = function(dept){
+            angular.copy(dept,$scope.dept);
+        }
+        $scope.editward = function(ward){
+            angular.copy(ward,$scope.ward);
         }
         $scope.savedept = function(){
                 $scope.dept.hospital_code = $scope.hospital.code;

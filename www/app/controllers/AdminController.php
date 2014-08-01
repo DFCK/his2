@@ -53,6 +53,18 @@ class AdminController extends BaseController
     public function deleteClosehospital($id){
         echo Hospital::find($id)->delete();
     }
+    public function deleteClosedept($id){
+        echo Department::find($id)->delete();
+    }
+    public function putOpendept($id){
+        echo Department::withTrashed()->where('id',$id)->restore();
+    }
+    public function putOpenward($id){
+        echo Ward::withTrashed()->where('id',$id)->restore();
+    }
+    public function deleteCloseward($id){
+        echo Ward::find($id)->delete();
+    }
     public function deleteDeldept($id){
         $effect = TypeDepartment::find($id)->delete();
         echo $effect;
@@ -95,7 +107,7 @@ class AdminController extends BaseController
         $depts = Department::withTrashed()->where('hospital_code',$hospital_code)->get();
         $buildDept = array();
         foreach($depts as $dept){
-            $sqlward = Ward::where('hospital_code',$dept->hospital_code)
+            $sqlward = Ward::withTrashed()->where('hospital_code',$dept->hospital_code)
                 ->where('dept_code',$dept->code)
                 ->get();
             $wards = array();
