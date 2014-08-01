@@ -44,7 +44,7 @@ will not initialize.
                   suftitle="{{trans('common.suftitle')}}"/>
         <nav:item data-view="/admin/account" title="{{trans('common.account')}}"
                   suftitle="{{trans('common.suftitle')}}"/>
-        <nav:item data-view="/admin/position" title="{{trans('common.roleposition')}}"
+        <nav:item data-view="/hrm/hrmtitle" title="{{trans('common.roleposition')}}"
                   suftitle="{{trans('common.suftitle')}}"/>
         <nav:item data-view="/admin/dmchucvu" title="{{trans('common.dmchucvu')}}"
                   suftitle="{{trans('common.suftitle')}}"/>
