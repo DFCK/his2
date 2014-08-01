@@ -22,6 +22,7 @@ class AdminController extends BaseController
         $data['tuyenyte'] = DB::table('dfck_tuyen_yte')->select("*")->get();
         $data['countries'] = DB::table('dfck_address_countries')->select("*")->get();
         $data['provinces'] = DB::table('dfck_address_province')->where('country_code','vn')->select("*")->get();
+        $data['deptref'] = TypeDepartment::all()->tojson();
         return View::make(Config::get('main.theme') . '.admin.hospital',$data);
     }
     public function postSavehospital(){
@@ -41,7 +42,16 @@ class AdminController extends BaseController
         else return -1;
     }
     public function getLoadhospital(){
-        return Hospital::all()->tojson();
+        return Hospital::withTrashed()->get()->tojson();
+    }
+    public function deleteDelhospital($id){
+        echo Hospital::find($id)->forceDelete();
+    }
+    public function getOpenhospital($id){
+        echo Hospital::withTrashed()->where('id', $id)->restore();
+    }
+    public function deleteClosehospital($id){
+        echo Hospital::find($id)->delete();
     }
     public function deleteDeldept($id){
         $effect = TypeDepartment::find($id)->delete();
@@ -78,7 +88,28 @@ class AdminController extends BaseController
         return Response::json($deptfunc);
     }
 
-
+    public function getHospitaldeptselect($hospital_code){
+        return Department::withTrashed()->where('hospital_code',$hospital_code)->get()->tojson();
+    }
+    public function getHospitaldeptward($hospital_code){
+        $depts = Department::withTrashed()->where('hospital_code',$hospital_code)->get();
+        $buildDept = array();
+        foreach($depts as $dept){
+            $sqlward = Ward::where('hospital_code',$dept->hospital_code)
+                ->where('dept_code',$dept->code)
+                ->get();
+            $wards = array();
+            foreach($sqlward as $ward){
+                $wards[] = $ward->toarray();
+            }
+            $deptarr = $dept->toarray();
+            $deptarr['wards'] = $wards;
+            $buildDept[]  = $deptarr;
+        }
+//        echo'<pre>';var_dump($depts);
+//        return $depts->tojson();
+        return Response::json($buildDept);
+    }
     public function postSavedept(){
         $input = Input::get('data');
         $find = TypeDepartment::where('code', $input['code'])
@@ -90,6 +121,40 @@ class AdminController extends BaseController
                 return $dept->id;
             } else {
                 $effect = TypeDepartment::find($input['id'])->update($input);
+                echo $effect;
+            }
+        }
+        else return -1;
+    }
+    public function postSavehospitalward(){
+        $input = Input::get('data');
+        $find = Ward::where('code', $input['code'])
+            ->where('hospital_code',$input['hospital_code'])
+            ->where('id', '!=', $input['id'])
+            ->count();
+        if ($find <= 0) {
+            if ($input['id'] == '' || $input['id'] <= 0) {
+                $ward = Ward::create($input);
+                return $ward->id;
+            } else {
+                $effect = Ward::find($input['id'])->update($input);
+                echo $effect;
+            }
+        }
+        else return -1;
+    }
+    public function postSavehospitaldept(){
+        $input = Input::get('data');
+        $find = Department::where('code', $input['code'])
+            ->where('hospital_code',$input['hospital_code'])
+            ->where('id', '!=', $input['id'])
+            ->count();
+        if ($find <= 0) {
+            if ($input['id'] == '' || $input['id'] <= 0) {
+                $dept = Department::create($input);
+                return $dept->id;
+            } else {
+                $effect = Department::find($input['id'])->update($input);
                 echo $effect;
             }
         }

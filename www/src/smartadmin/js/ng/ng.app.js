@@ -14,6 +14,14 @@ var smartApp = angular.module('smartApp', [
     'ui.utils'
 ]);
 
+smartApp.filter('hospitalclose', function () {
+    return function (input){
+        if(input.deleted_at)
+            return input.name+" (CLOSED)";
+        else return input.name;
+    }
+});
+
 smartApp.config(['$routeProvider', '$provide', function($routeProvider, $provide) {
 	$routeProvider
 		.when('/', {

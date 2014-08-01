@@ -69,7 +69,8 @@
                                             <label class="input">
                                                 <i class="icon-append fa fa-barcode"></i>
                                                 <input ng-model="hospital.dkbd" name="dkbd"
-                                                       type="text" placeholder="Các Mã ĐKBD">
+                                                       type="text" placeholder="Các Mã ĐKBD" >
+                                                <b class="tooltip tooltip-bottom-right">Các mã phân cách bằng dấu phẩy</b>
                                             </label>
                                         </section>
 
@@ -223,7 +224,7 @@
                                                     <option value="0">Chọn Bệnh viện</option>
                                                     <option data-ng-repeat="hos in hospitals"
                                                             value="@{{hos.id}}" >
-                                                        @{{hos.name}}
+                                                        @{{hos | hospitalclose}}
                                                     </option>
                                                 </select>
                                                 <i></i>
@@ -231,15 +232,172 @@
                                         </section>
 
                                         <div class="col col-xs-2">
-                                            <button class="btn btn-danger padding-5"
+
+                                            <button class="btn btn-warning padding-5"
+                                                    data-ng-click="close()">
+                                                {{trans('common.close')}}
+                                            </button>
+                                            <button class="btn btn-success padding-5"
+                                                    data-ng-click="open()">
+                                                {{trans('common.open')}}
+                                            </button>
+                                        </div>
+                                        <div>
+                                            <button class="btn btn-danger padding-5 pull-right"
                                                     data-ng-click="del()">
                                                 {{trans('common.delete')}}
                                             </button>
-                                        </div>
+                                            </div>
                                 </fieldset>
                             </form>
                             <hr>
+                            <div ng-show="showdept">
+                                <div class="col col-xs-6">
+                                    <form class=" smart-form">
+                           <h4 class="col col-sm-6 col-xs-12">Tạo Khoa/Phòng</h4>
+                                    <div class="col col-sm-6 col-xs-12">
+                                        <label class="label">&nbsp;</label>
+                                        <button class="btn btn-primary padding-5"
+                                                data-ng-click="savedept()">
+                                            {{trans('common.save')}}
+                                        </button>
+                                        <button class="btn btn-warning padding-5"
+                                                data-ng-click="resetdept()">
+                                            {{trans('common.reset')}}
+                                        </button>
 
+                                    </div>
+
+                                <fieldset>
+                                    <div class="row  ">
+                                        <section class="col col-sm-6 col-xs-12">
+                                            <label class="label">Loại Khoa/phòng</label>
+                                            <label class="select">
+                                                <select ng-model="dept.ref_code" ng-change="changedept(this)">
+                                                    <option value="0">Chọn khoa mẫu</option>
+                                                    <option ng-repeat="dept in deptref" value="@{{dept.code}}">@{{dept.name}}</option>
+                                                </select>
+                                                <i></i>
+                                            </label>
+                                        </section>
+                                        <section class="col col-sm-6 col-xs-12">
+                                        <label class="label">Tên Khoa Phòng</label>
+                                            <label class="input">
+                                                <input type="hidden" ng-model="dept.id">
+                                                <input type="text" name="name"
+                                                       placeholder="Tên Khoa Phòng"
+                                                       ng-model="dept.name">
+                                                <i class="icon-append fa fa-font"></i>
+                                            </label>
+                                        </section>
+
+                                        <section class="col col-sm-6 col-xs-12">
+                                            <label class="label">Mã Khoa Phòng</label>
+                                            <label class="input">
+                                                <i class="icon-append fa fa-barcode"></i>
+                                                <input ng-model="dept.code" name="code"
+                                                       type="text" placeholder="Mã Khoa Phòng">
+                                            </label>
+                                        </section>
+
+
+                                        </div>
+
+                                    </fieldset>
+                                </form>
+                            <hr>
+                                    <form class=" smart-form">
+                            <h4 class="col col-sm-6 col-xs-12">Tạo Khu</h4>
+                                    <div class="col col-sm-6 col-xs-12">
+                                        <label class="label">&nbsp;</label>
+                                        <button class="btn btn-primary padding-5"
+                                                data-ng-click="saveward()">
+                                            {{trans('common.save')}}
+                                        </button>
+                                        <button class="btn btn-warning padding-5"
+                                                data-ng-click="resetward()">
+                                            {{trans('common.reset')}}
+                                        </button>
+
+                                    </div>
+
+                                <fieldset>
+                                    <div class="row  ">
+                                        <section class="col col-sm-6 col-xs-12">
+                                            <label class="label">Khoa</label>
+                                            <label class="select">
+                                                <select ng-model="ward.dept_code">
+                                                    <option data-ng-repeat="dept in deptSelect" value="@{{dept.code}}">@{{dept.name}}</option>
+                                                </select>
+                                                <i></i>
+                                            </label>
+                                        </section>
+                                        <section class="col col-sm-6 col-xs-12">
+                                            <label class="label">Loại Khu</label>
+                                            <label class="select">
+                                                <select ng-model="ward.type">
+                                                    <option value="0">Hành chính</option>
+                                                    <option value="1">Nội trú</option>
+                                                    <option value="2">Ngoại trú</option>
+                                                </select>
+                                                <i></i>
+                                            </label>
+                                        </section>
+                                        <section class="col col-sm-6 col-xs-12">
+                                            <label class="label">Tên Khu</label>
+                                            <label class="input">
+                                                <input type="hidden" ng-model="ward.id">
+                                                <input type="text" name="name"
+                                                       placeholder="Tên Khu"
+                                                       ng-model="ward.name">
+                                                <i class="icon-append fa fa-font"></i>
+                                            </label>
+                                        </section>
+
+                                        <section class="col col-sm-6 col-xs-12">
+                                            <label class="label">Mã Khu</label>
+                                            <label class="input">
+                                                <i class="icon-append fa fa-barcode"></i>
+                                                <input ng-model="ward.code" name="code"
+                                                       type="text" placeholder="Mã Khu">
+                                            </label>
+                                        </section>
+
+                                    </div>
+                                </fieldset>
+                            </form>
+                                    </div>
+                                    <div class="col col-xs-6">
+                                    <h4>Các khoa phòng trong @{{hospital.name}}</h4>
+                                        <div class="dd" id="nestable">
+                                        <ol class="dd-list">
+                                        <li class="dd-item" data-ng-repeat="idept in deptward">
+                                            <div class="dd-handle">
+                                                <a ng-click="editdept(idept.id)"><i class="fa fa-pencil-square"></i></a>&nbsp; @{{idept.name}}
+
+                                                <div class="pull-right">
+                                                    <a ng-show="iward.deleted_at" data-ng-click="closedept(idept.id)"><i class="fa fa-unlock-alt"></i></a>
+                                                    <a ng-show="!iward.deleted_at" data-ng-click="opendept(idept.id)"><i class="fa fa-unlock-alt"></i></a>
+                                                    <a ng-show="idept.wards.length <= 0" data-ng-click="deldept(idetp.id)"><i class="fa fa-trash-o"></i></a>
+                                                </div>
+                                                </div>
+                                            <ol class="dd-list" >
+                                                <li  class="dd-item " data-ng-repeat="iward in idept.wards">
+                                                    <div class="dd-handle">
+                                                        <a ng-click="editward(idept.id)"><i class="fa fa-pencil-square"></i></a>&nbsp; @{{iward.name}}
+                                                        <a class="btn btn-primary">Phòng</a>
+                                                        <div class="pull-right">
+                                                            <a ng-show="iward.deleted_at" data-ng-click="closeward(iward.id)"><i class="fa fa-unlock-alt"></i></a>
+                                                            <a ng-show="!iward.deleted_at" data-ng-click="openward(iward.id)"><i class="fa fa-unlock-alt"></i></a>
+                                                            <a data-ng-click="delward(iward.id)"><i class="fa fa-trash-o"></i></a>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            </ol>
+                                        </li>
+                                    </ol>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <!-- end widget content -->
@@ -264,6 +422,7 @@
      * @param $scope
      * @param $http
      */
+
     function AdminHospitalController($scope, $http) {
         $scope.hospital = {
             name: '',
@@ -273,6 +432,20 @@
             id: 0,
             province:'',
             country:'VN'
+        };
+        $scope.dept = {
+            name:'',
+            code:'',
+            hospital_code:'',
+            ref_code:0,
+            id:''
+        };
+        $scope.ward = {
+            name:'',
+            code:'',
+            hospital_code:'',
+            dept_code:'',
+            id:''
         };
 
         $scope.save = function () {
@@ -302,8 +475,7 @@
                         if (data > 0) {
                             $scope.load();
                         }
-                        angular.copy($scope.initial, $scope.hospital);
-                        $scope.hospital.id = 0;
+                        $scope.reset();
                         scrolltotop();
                     });
             }
@@ -311,11 +483,10 @@
 
         $scope.del = function(){
             if($scope.hospital.id > 0){
-                $http.delete("admin/deldept/"+$scope.hospital.id)
+                $http.delete("admin/delhospital/"+$scope.hospital.id)
                     .success(function(data){
                         if(data > 0){
-                            angular.copy($scope.initial, $scope.hospital);
-                            $scope.dept.id = 0;
+                            $scope.reset();
                             myalert("Thông báo","Xóa dữ liệu thành công.");
                         }
                         else{
@@ -329,19 +500,144 @@
                 myalert("Lỗi thao tác","Chưa chọn Khoa cần xóa");
             }
         }
+        $scope.close = function(){
+            if($scope.hospital.id > 0){
+                $http.delete("admin/closehospital/"+$scope.hospital.id)
+                    .success(function(data){
+                        if(data > 0){
+                            $scope.reset();
+                            myalert("Thông báo","Cập nhật dữ liệu thành công.");
+                        }
+                        else{
+                            myalert("Thông báo","Có lỗi khi cập nhật dữ liệu.");
+                        }
 
+                    });
+                $scope.load();
+            }
+            else{
+                myalert("Lỗi thao tác","Chưa chọn Khoa cần xóa");
+            }
+        }
+        $scope.open = function(){
+            if($scope.hospital.id > 0){
+                $http.get("admin/openhospital/"+$scope.hospital.id)
+                    .success(function(data){
+                        if(data > 0){
+                            $scope.reset();
+                            myalert("Thông báo","Cập nhật dữ liệu thành công.");
+                        }
+                        else{
+                            myalert("Thông báo","Có lỗi khi cập nhật dữ liệu.");
+                        }
+
+                    });
+                $scope.load();
+            }
+            else{
+                myalert("Lỗi thao tác","Chưa chọn Khoa cần xóa");
+            }
+        }
+        $scope.showdept = false;
         $scope.change = function(hospital){
-            var id = hospital.listdept;
+//            console.log(hospital);
+            var id = hospital.listhospital;
+            if(id==0) $scope.showdept = false;
+            else $scope.showdept = true;
             angular.forEach(hospital.hospitals,function(value,key){
                 if(id == value.id) {
                     angular.copy(value, $scope.hospital);
-
+                    $scope.loaddeptselect($scope.hospital.code);
+                    $scope.loadDeptWard($scope.hospital.code);
                 }
             });
         }
+        $scope.savedept = function(){
+                $scope.dept.hospital_code = $scope.hospital.code;
+                $http.post('admin/savehospitaldept',
+                    {
+                        data: $scope.dept
+                    })
+                    .success(function (data) {
+                        if (data > 0) {
+                            myalert("Thông báo","Lưu thành công.");
+                        }
+                        else if (data == -1) {
+                            myalert("Thông báo","Code bị trùng.");
+                        }
+                        else {
+                            myalert("Thông báo","Lưu thất bại.");
+                        }
+                        if (data > 0) {
+                            $scope.loaddeptselect($scope.hospital.code);
+                            $scope.loadDeptWard($scope.hospital.code);
+                        }
+                        $scope.resetdept();
+                    });
+        }
+        $scope.saveward = function(){
+                $scope.ward.hospital_code = $scope.hospital.code;
+                $http.post('admin/savehospitalward',
+                    {
+                        data: $scope.ward
+                    })
+                    .success(function (data) {
+                        if (data > 0) {
+                            myalert("Thông báo","Lưu thành công.");
+                        }
+                        else if (data == -1) {
+                            myalert("Thông báo","Code bị trùng.");
+                        }
+                        else {
+                            myalert("Thông báo","Lưu thất bại.");
+                        }
+                        if (data > 0) {
+                            $scope.loadDeptWard($scope.hospital.code);
+                        }
+                        $scope.resetward();
+                    });
+        }
+        $scope.changedept = function(obj){
+            var code = obj.dept.ref_code;
+            angular.forEach(obj.deptref,function(value,key){
+                if(code == value.code) {
+                    $scope.dept.name= value.name;
+                    $scope.dept.code= value.code;
+                }
+            });
+        }
+        $scope.resetdept = function(){
+            $scope.dept.name= "";
+            $scope.dept.code= "";
+            $scope.dept.id= "";
+            $scope.dept.ref = 0;
+        }
+        $scope.resetward = function(){
+            $scope.ward.name= "";
+            $scope.ward.code= "";
+            $scope.ward.id= "";
+            $scope.ward.dept_code = 0;
+        }
+        $scope.deptSelect = [];
+        $scope.loaddeptselect = function($hospitalcode){
+            $http.get('admin/hospitaldeptselect/'+$hospitalcode)
+                .success(function(data){
+                    var temp = data;
+                    angular.copy(temp,$scope.deptSelect);
+                });
+        }
+        $scope.deptward = [];
+        $scope.loadDeptWard = function($hospitalcode){
+            $http.get('admin/hospitaldeptward/'+$hospitalcode)
+                .success(function(data){
+                    var temp = data;
+                    angular.copy(temp,$scope.deptward);
+                });
+        }
         $scope.reset = function(){
             angular.copy($scope.initial, $scope.hospital);
-            $scope.dept.id = 0;
+            $scope.hospital.id = 0;
+            $scope.hospital.country = 'VN';
         }
 
         var scrolltotop = function () {
@@ -383,6 +679,7 @@
                     $scope.addresswards = data;
                 });
         };
+        $scope.deptref = {{$deptref}};
         $scope.load();
     }
 

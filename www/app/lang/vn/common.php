@@ -25,6 +25,8 @@ return array(
     'save'    => 'Lưu',
     'back' => 'Quay lại',
     'reset' => 'Reset',
+    'close' => 'Đóng',
+    'open' => 'Mở',
 
     /**
      * 404 error
