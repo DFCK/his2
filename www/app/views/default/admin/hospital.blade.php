@@ -376,18 +376,18 @@
                                                 <a ng-click="editdept(idept)"><i class="fa fa-pencil-square"></i></a>&nbsp; @{{idept.name}}
 
                                                 <div class="pull-right">
-                                                    <a ng-show="!idept.deleted_at" data-ng-click="closedept(idept.id)"><i class="fa fa-unlock-alt"></i></a>
+                                                    <a ng-show="!idept.deleted_at" data-ng-click="closedept(idept.id)"><i class="fa fa-lock"></i></a>
                                                     <a ng-show="idept.deleted_at" data-ng-click="opendept(idept.id)"><i class="fa fa-unlock"></i></a>
-                                                    <a ng-show="idept.wards.length <= 0" data-ng-click="deldept(idetp.id)"><i class="fa fa-trash-o"></i></a>
+                                                    <a ng-show="idept.wards.length <= 0" data-ng-click="deldept(idept.id)"><i class="fa fa-trash-o"></i></a>
                                                 </div>
                                                 </div>
                                             <ol class="dd-list" >
                                                 <li  class="dd-item " data-ng-repeat="iward in idept.wards">
                                                     <div class="dd-handle">
-                                                        <a ng-click="editward(iward)"><i class="fa fa-pencil-square"></i></a>&nbsp; @{{iward.name}}
-                                                        <a class="btn btn-primary btn-sm">Phòng</a>
+                                                        <a ng-click="editward(iward,idept)"><i class="fa fa-pencil-square"></i></a>&nbsp; @{{iward.name}}
+                                                        <a ng-click="editward(iward,idept);loadRoom()" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#roomModal">Phòng</a>
                                                         <div class="pull-right">
-                                                            <a ng-show="!iward.deleted_at" data-ng-click="closeward(iward.id)" rel="tooltip" title="Close"><i class="fa fa-unlock-alt"></i></a>
+                                                            <a ng-show="!iward.deleted_at" data-ng-click="closeward(iward.id)" rel="tooltip" title="Close"><i class="fa fa-lock"></i></a>
                                                             <a ng-show="iward.deleted_at" data-ng-click="openward(iward.id)"><i class="fa fa-unlock"></i></a>
                                                             <a data-ng-click="delward(iward.id)"><i class="fa fa-trash-o"></i></a>
                                                         </div>
@@ -410,6 +410,96 @@
         <!-- end row -->
     </section>
     <!-- end section -->
+
+    <div class="modal fade" id="roomModal" tabindex="-1" role="dialog"
+         aria-labelledby="roomModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">Quản lý phòng trong Khu @{{ward.name}} @{{dept.name}}</h4>
+                </div>
+                <div class="modal-body">
+                    <form class=" smart-form" id="">
+                        <fieldset>
+                            <div class="row  ">
+                                <section class="col col-xs-4">
+                                    <label>Tên phòng</label>
+                                    <label class="input">
+                                        <input name="id" ng-model="room.id" type="hidden">
+                                        <input name="roomname" ng-model="room.name" placeholder="Tên phòng">
+                                    </label>
+                                </section>
+                                <section class="col col-xs-3">
+                                    <label>Mã phòng</label>
+                                    <label class="input">
+                                        <input name="roomcode" ng-model="room.code" placeholder="Mã phòng">
+                                    </label>
+                                </section>
+                                <section class="col col-xs-2">
+                                    <label>Giường</label>
+                                    <label class="input">
+                                        <input name="roombed" ng-model="room.bed" placeholder="Slg giường">
+                                    </label>
+                                </section>
+                                <div class="col col-xs-3 ">
+                                    <div>&nbsp;</div>
+                                    <a class="btn btn-success  padding-5" data-ng-click="saveRoom()">{{trans('common.save')}}</a>
+                                    <a data-ng-click="loadRoom()"><i class="fa fa-refresh"></i></a>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </form>
+                    <hr>
+                    <div class="row">
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Tên phòng</th>
+                                    <th>Mã phòng</th>
+                                    <th>Số giường</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr data-ng-repeat="r in roomlist">
+                                    <td>@{{r.name}}</td>
+                                    <td>@{{r.code}}</td>
+                                    <td>@{{r.bed}} <label class="label label-primary" title="Đang có 0 bệnh nhân">0</label></td>
+                                    <td>
+                                        <a data-ng-click="editroom(r)"><i class="fa fa-pencil-square fa-2x"></i></a>
+                                        <a ng-show="!r.deleted_at" data-ng-click="closeroom(r.id)"><i class="fa fa-lock  fa-2x"></i></a>
+                                        <a ng-show="r.deleted_at" data-ng-click="openroom(r.id)"><i class="fa fa-unlock  fa-2x"></i></a>
+                                        <a data-ng-click="delroom(r.id)"><i class="fa fa-trash-o  fa-2x"></i></a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="clear"></div>
+                    </div>
+                </div>
+<!--                <div class="modal-footer">-->
+<!---->
+<!--                    <button type="button" class="btn btn-success" id="snap"-->
+<!--                            data-ng-click="saveroom()">{{trans('common.save')}}-->
+<!--                    </button>-->
+<!--                    </button>-->
+<!--                    <button type="button" class="btn btn-default" data-dismiss="modal">-->
+<!--                        Thoát-->
+<!--                    </button>-->
+<!---->
+<!--                </div>-->
+            </div>
+            <!-- content will be filled here from "ajax/modal-content/model-content-1.html" -->
+        </div>
+    </div>
+
 </div>
 <!-- end controller -->
 <script type="text/javascript">
@@ -447,8 +537,45 @@
             dept_code:'',
             id:''
         };
+        $scope.room = {
+            name:'',
+            code:'',
+            bed:'',
+            hospital_code:'',
+            dept_code:'',
+            ward_code:'',
+            id:''
+        }
+        $scope.roomlist = [];
+        $scope.loadRoom = function(){
+            $http.get('admin/loadhospitalroom/'+$scope.hospital.code+"/"+$scope.dept.code+"/"+$scope.ward.code).success(function(data){
+                    $scope.roomlist = data;
+            });
+        }
+        $scope.resetRoom =function(){
+            angular.copy($scope.initial,$scope.room);
+        }
+        $scope.saveRoom = function(){
+            $scope.room.hospital_code = $scope.hospital.code;
+            $scope.room.dept_code = $scope.dept.code;
+            $scope.room.ward_code = $scope.ward.code;
+            $http.post('admin/savehospitalroom',{
+                data: $scope.room
+            }).success(function(data){
+                if(data>0){
+                    $scope.loadRoom();
 
 
+                }
+                else if(data==-1){
+                    myalert("Thông báo","Mã Phòng đã có");
+                }else{
+                    myalert("Thông báo","Có lỗi khi lưu");
+                }
+                $scope.resetRoom();
+            });
+
+        }
         $scope.save = function () {
             $scope.toggle = false;
             if ($('#formmodule').valid()) {
@@ -510,6 +637,30 @@
                     }
                 });
         };
+        $scope.closeroom = function(room_id){
+            $http.delete('admin/closeroom/'+room_id)
+                .success(function(data){
+                    if (data > 0) {
+                        $scope.loadRoom();
+                    }
+                });
+        };
+        $scope.openroom = function(room_id){
+            $http.put('admin/openroom/'+room_id)
+                .success(function(data){
+                    if (data > 0) {
+                        $scope.loadRoom();
+                    }
+                });
+        };
+        $scope.delroom = function(room_id){
+            $http.delete('admin/delroom/'+room_id)
+                .success(function(data){
+                    if (data > 0) {
+                        $scope.loadRoom();
+                    }
+                });
+        };
         $scope.opendept = function(dept_id){
             $http.put('admin/opendept/'+dept_id)
                 .success(function(data){
@@ -530,6 +681,23 @@
         };
         $scope.closeward = function(ward_id){
             $http.delete('admin/closeward/'+ward_id)
+                .success(function(data){
+                    if (data > 0) {
+                        $scope.loaddeptselect($scope.hospital.code);
+                        $scope.loadDeptWard($scope.hospital.code);
+                    }
+                });
+        };
+        $scope.delward = function(ward_id){
+            $http.delete('admin/delward/'+ward_id)
+                .success(function(data){
+                    if (data > 0) {
+                        $scope.loadDeptWard($scope.hospital.code);
+                    }
+                });
+        };
+        $scope.deldept = function(dept_id){
+            $http.delete('admin/delhospitaldept/'+dept_id)
                 .success(function(data){
                     if (data > 0) {
                         $scope.loaddeptselect($scope.hospital.code);
@@ -591,11 +759,15 @@
                 }
             });
         }
+        $scope.editroom = function(r){
+            angular.copy(r,$scope.room);
+        }
         $scope.editdept = function(dept){
             angular.copy(dept,$scope.dept);
         }
-        $scope.editward = function(ward){
+        $scope.editward = function(ward,dept){
             angular.copy(ward,$scope.ward);
+            angular.copy(dept,$scope.dept);
         }
         $scope.savedept = function(){
                 $scope.dept.hospital_code = $scope.hospital.code;

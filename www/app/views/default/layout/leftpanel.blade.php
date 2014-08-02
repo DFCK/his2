@@ -25,15 +25,15 @@ will not initialize.
               title="{{trans('common.dashboard')}}" suftitle="{{trans('common.suftitle')}}"/>
     @foreach($categories as $cat)
         @if(count($cat['children'])>0)
-            <nav:group data-icon="{{$cat['moduleicon']}}" title="{{trans($cat['modulelang'])}}">
+            <nav:group data-icon="{{$cat['icon']}}" title="{{trans($cat['lang'])}}">
                 @foreach($cat['children'] as $catchild)
-                <nav:item data-icon="{{$catchild['moduleicon']}}" data-view="{{$catchild['moduleurl']}}" title="{{trans($catchild['modulelang'])}}"
+                <nav:item data-icon="{{$catchild['icon']}}" data-view="{{$catchild['url']}}" title="{{trans($catchild['lang'])}}"
                           suftitle="{{trans('common.suftitle')}}"/>
                 @endforeach
             </nav:group>
         @else
-    <nav:item data-view="{{$cat['moduleurl']}}" data-icon="{{$cat['moduleicon']}}"
-              title="{{trans($cat['modulelang'])}}" suftitle="{{trans('common.suftitle')}}"/>
+    <nav:item data-view="{{$cat['url']}}" data-icon="{{$cat['icon']}}"
+              title="{{trans($cat['lang'])}}" suftitle="{{trans('common.suftitle')}}"/>
         @endif
     @endforeach
 

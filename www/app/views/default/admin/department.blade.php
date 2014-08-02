@@ -150,8 +150,8 @@
                             <hr>
                              <script type="text/ng-template" id="treecat.html">
                                 <div class="dd-handle">
-                                    <i class="@{{functitem.moduleicon}}"></i>
-                                    <strong>@{{functitem.modulename}}</strong>
+                                    <i class="@{{functitem.icon}}"></i>
+                                    <strong>@{{functitem.name}}</strong>
                                     <div class="pull-right">
                                         <span class="onoffswitch">
 												<input type="checkbox" name="start_interval" class="onoffswitch-checkbox" id="start_interval@{{functitem.id}}" ng-click="switch(functitem)" ng-checked="functitem.ischeck > 0">
@@ -210,7 +210,7 @@
         $scope.depts = [];
         $scope.switch = function(func){
             var type = (($("#start_interval"+func.id).prop("checked"))?'i':'d');
-            $http.post('admin/savedeptfunc/'+type+"/"+$scope.dept.code+"/"+func.modulecode)
+            $http.post('admin/savedeptfunc/'+type+"/"+$scope.dept.code+"/"+func.code)
                 .success(function(data){
                 })
                 .error(function(data){
@@ -261,7 +261,7 @@
                 //chi lay gia tri, ko lay obj
                 angular.copy( value, item);
                 var id = item['id'];
-                var moduleparent = item['moduleparent'];
+                var moduleparent = item['parent'];
                 if (children[moduleparent]) {
                     if (!children[moduleparent].children) {
                         children[moduleparent].children = [];

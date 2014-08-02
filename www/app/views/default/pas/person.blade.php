@@ -8,7 +8,7 @@
                 <i class="fa fa-female"></i>
                 @endif
                 <strong>{{$person->lastname.' '.$person->firstname}}</strong>&nbsp;({{$person->pid}})
-                <a href="/#/pas/editperson/{{$person->pid}}/{{time()}}"><i class="fa fa-pencil-square"></i></a>
+                <a href="#/pas/editperson/{{$person->pid}}/{{time()}}"><i class="fa fa-pencil-square"></i></a>
             </h1>
 
         </div>

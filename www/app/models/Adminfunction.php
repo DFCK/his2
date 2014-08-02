@@ -1,28 +1,28 @@
 <?php
 class Adminfunction extends Eloquent{
     protected $table = 'dfck_function';
-    protected $fillable = array('modulename', 'moduleurl','modulelang','moduleparent','modulecode','moduleorder','moduleicon');
+    protected $fillable = array('name', 'url','lang','parent','code','order','icon');
 
     public static function getFunctionTree($id = 0)
     {
         $funcs_array = array();
 
-        $functions = Adminfunction::where('moduleparent', $id)
-            ->orderBy('moduleorder')
-            ->orderBy('modulename')
+        $functions = Adminfunction::where('parent', $id)
+            ->orderBy('order')
+            ->orderBy('name')
             ->get();
 
 
         foreach ($functions as $func) {
             $funcs_array[$func->id] = array(
                  'id' => $func->id,
-                 'modulename' => $func->modulename,
-                 'moduleurl' => $func->moduleurl,
-                 'modulelang' => $func->modulelang,
-                 'moduleorder' => $func->moduleorder,
-                 'moduleparent' => $func->moduleparent,
-                 'modulecode' => $func->modulecode,
-                 'moduleicon' => $func->moduleicon,
+                 'name' => $func->name,
+                 'url' => $func->url,
+                 'lang' => $func->lang,
+                 'order' => $func->order,
+                 'parent' => $func->parent,
+                 'code' => $func->code,
+                 'icon' => $func->icon,
 
                 'children' => array()
             );

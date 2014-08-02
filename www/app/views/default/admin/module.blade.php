@@ -55,9 +55,9 @@
                                             <label class="label">Tên chức năng</label>
                                             <label class="input">
                                                 <input type="hidden" ng-model="afunc.id">
-                                                <input type="text" name="modulename"
+                                                <input type="text" name="name"
                                                        placeholder="Tên chức năng"
-                                                       ng-model="afunc.modulename" required>
+                                                       ng-model="afunc.name" required>
                                                 <i class="icon-append fa fa-font"></i>
                                             </label>
                                         </section>
@@ -65,7 +65,7 @@
                                             <label class="label">Đường dẫn</label>
                                             <label class="input">
                                                 <i class="icon-append fa fa-link"></i>
-                                                <input ng-model="afunc.moduleurl" name="moduleurl"
+                                                <input ng-model="afunc.url" name="url"
                                                        type="text" placeholder="Đường dẫn">
 
                                                 <b class="tooltip tooltip-bottom-right">controller/function</b>
@@ -75,7 +75,7 @@
                                             <label class="label">Biến ngôn ngữ</label>
                                             <label class="input">
                                                 <i class="icon-append fa fa-language"></i>
-                                                <input ng-model="afunc.modulelang" name="modulelang"
+                                                <input ng-model="afunc.lang" name="lang"
                                                        type="text" placeholder="Biến ngôn ngữ"
                                                        required>
                                                 <b class="tooltip tooltip-bottom-right">controller.function</b>
@@ -85,7 +85,7 @@
                                             <label class="label">Mã chức năng</label>
                                             <label class="input">
                                                 <i class="icon-append fa fa-barcode"></i>
-                                                <input ng-model="afunc.modulecode" name="modulecode"
+                                                <input ng-model="afunc.code" name="code"
                                                        type="text" placeholder="Mã chức năng"
                                                        required>
                                             </label>
@@ -93,7 +93,7 @@
                                         <section class="col col-lg-12 col-xs-12 col-sm-6 col-md-4">
                                             <label class="label">Icon</label>
                                             <label class="input">
-                                                <input ng-model="afunc.moduleicon" name="moduleicon"
+                                                <input ng-model="afunc.icon" name="icon"
                                                        type="text" placeholder="Icon">
                                                 <b class="tooltip tooltip-bottom-right">Icon cho nhóm chức năng, ví dụ: fa fa-lg fa-fw fa-cogs</b>
                                             </label>
@@ -101,10 +101,10 @@
                                         <section class="col col-lg-12 col-xs-12 col-sm-6 col-md-4">
                                             <label class="label">Thuộc Nhóm</label>
                                             <label class="select">
-                                                <select ng-model="afunc.moduleparent">
+                                                <select ng-model="afunc.parent">
                                                     <option value="0">/</option>
                                                     <option data-ng-repeat="item in select" value="@{{item.id}}">
-                                                        @{{item.modulename}}
+                                                        @{{item.name}}
                                                     </option>
                                                 </select>
                                                 <i></i>
@@ -168,14 +168,14 @@
                             <script type="text/ng-template" id="treecat.html">
                                 <div class="dd-handle dd3-handle">&nbsp;</div>
                                 <div class="dd3-content">
-                                    <i class="@{{functitem.moduleicon}}"></i>
-                                    <strong>@{{functitem.modulename}}</strong>
+                                    <i class="@{{functitem.icon}}"></i>
+                                    <strong>@{{functitem.name}}</strong>
                                     <a href="" ng-click="editmodule(functitem)"><i class="fa fa-pencil-square"></i></a>
                                     <div class="pull-right">
                                         <a ng-if="!functitem.children" href="" data-ng-click="deletemodule(functitem)"><i class="fa  fa-trash-o"></i></a>
-                                        <span class="label label-warning txt-color-white">@{{functitem.modulecode}}</span>
-                                        <span class="label label-info  txt-color-white">@{{functitem.moduleurl}}</span>
-                                        <span class="label label-success  txt-color-white">@{{functitem.modulelang}}</span>
+                                        <span class="label label-warning txt-color-white">@{{functitem.code}}</span>
+                                        <span class="label label-info  txt-color-white">@{{functitem.url}}</span>
+                                        <span class="label label-success  txt-color-white">@{{functitem.lang}}</span>
                                     </div>
 
                                 </div>
@@ -218,13 +218,13 @@
      */
     function ModuleController($scope, $http) {
         $scope.afunc = {
-            modulename: '',
-            moduleurl: '',
-            modulelang: '',
-            modulecode: '',
-            moduleicon: '',
-            moduleparent: "0",
-            moduleorder: "0",
+            name: '',
+            url: '',
+            lang: '',
+            code: '',
+            icon: '',
+            parent: "0",
+            order: "0",
             id: '',
             children: []
         };
@@ -258,7 +258,7 @@
                         if(data > 0)
                             getfunction();
                         angular.copy($scope.initial, $scope.afunc);
-                        $scope.afunc['moduleparent'] = 0;
+                        $scope.afunc['parent'] = 0;
                         scrolltotop();
 
                     });
@@ -274,7 +274,6 @@
                 });
         }
         $scope.editmodule = function(funcitem){
-//            $scope.afunc = funcitem;
             //sử dụng copy để chỉ lấy dữ liệu, nếu dùng phép gán (=) sẽ truyền theo object
             angular.copy(funcitem, $scope.afunc);
             scrolltotop();
@@ -316,7 +315,7 @@
                 //chi lay gia tri, ko lay obj
                 angular.copy( value, item);
                 var id = item['id'];
-                var moduleparent = item['moduleparent'];
+                var moduleparent = item['parent'];
                 if (children[moduleparent]) {
                     if (!children[moduleparent].children) {
                         children[moduleparent].children = [];
@@ -356,29 +355,29 @@
         var $checkoutForm = $('#formmodule').validate({
             // Rules for form validation
             rules: {
-                modulename: {
+                name: {
                     required: true,
                     minlength: 3
                 },
-                modulelang: {
+                lang: {
                     required: true,
                     minlength: 3
                 },
-                modulecode: {
+                code: {
                     required: true
                 }
             },
             // Messages for form validation
             messages: {
-                modulename: {
+                name: {
                     required: 'Vui lòng nhập Tên module',
                     minlength: 'Vui lòng nhập ít nhất 3 ký tự'
                 },
-                modulelang: {
+                lang: {
                     required: 'Vui lòng nhập biến ngôn ngữ',
                     minlength: 'Vui lòng nhập ít nhất 3 ký tự'
                 },
-                modulecode: {
+                code: {
                     required: "Vui lòng nhập mã chức năng"
                 }
             },
