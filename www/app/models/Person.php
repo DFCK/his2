@@ -22,4 +22,18 @@ class Person extends Eloquent
         }
         else return (date("Y") - date("Y",$d1))." ".trans("pas.age");
     }
+    public static function getPersonInfo($pid){
+        $person = DB::table('dfck_person AS p')
+            ->join('dfck_address_ward AS w', 'w.code', '=', 'p.addressward')
+            ->join('dfck_address_district AS d', 'd.code', '=', 'p.district')
+            ->join('dfck_address_province AS pr', 'pr.code', '=', 'p.province')
+            ->join('dfck_type_jobs AS j', 'j.code', '=', 'p.careercode')
+            ->join('dfck_type_ethnic AS e', 'e.code', '=', 'p.ethnic')
+            ->leftJoin('dfck_noicap_bhyt AS n', 'n.code', '=', 'p.insuranceplace')
+            ->where("p.pid", $pid)
+            ->select('p.*', 'pr.name AS province_name', 'd.name AS district_name', 'w.name AS ward_name', 'j.namevn AS career',
+                'e.name AS ethnicname', 'n.name AS insurancename')
+            ->get();
+        return $person;
+    }
 }
