@@ -336,9 +336,10 @@
                                             <label class="label">Loại Khu</label>
                                             <label class="select">
                                                 <select ng-model="ward.type">
-                                                    <option value="0">Hành chính</option>
-                                                    <option value="1">Nội trú</option>
-                                                    <option value="2">Ngoại trú</option>
+                                                    <option value="hc">Hành chính</option>
+                                                    <option value="nt">Nội trú</option>
+                                                    <option value="ngt">Ngoại trú</option>
+                                                    <option value="pt">Phẫu thuật</option>
                                                 </select>
                                                 <i></i>
                                             </label>

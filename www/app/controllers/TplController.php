@@ -19,4 +19,13 @@ class TplController extends BaseController
     }
     public function getDashboard(){
     }
+    public function getSinhhieu(){
+        return View::make(Config::get('main.theme').'.pas.modalsinhhieu');
+    }
+    public function getTtnhapvien(){
+        return View::make(Config::get('main.theme').'.pas.modalttnhapvien');
+    }
+    public function getOutpatientroom(){
+        return View::make(Config::get('main.theme').'.radt.outpatientroom');
+    }
 }

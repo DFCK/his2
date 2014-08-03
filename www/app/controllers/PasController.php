@@ -9,7 +9,7 @@ class PasController extends BaseController
             $person = Person::getPersonInfo($pid);
 
             if ($person) {
-                $data['person'] = $person[0];
+                $data['person'] = $person;
                 return View::make(Config::get('main.theme') . '.pas.person', $data);
             }
 
@@ -19,6 +19,7 @@ class PasController extends BaseController
             return View::make(Config::get('main.theme') . '.pas.registration');
 
     }
+
 
     public function getEditperson($pid)
     {
@@ -151,6 +152,52 @@ class PasController extends BaseController
             $effect = Person::where('pid','=',$pid)->update($input);
             return $effect;
         }
+    }
+
+    /**
+     * Quan ly sinh hieu
+     */
+    public function postSavevitalsign(){
+        $input = Input::get('data');
+        if($input['id']=='' || $input['id']==0){
+            $input['pid'] = (int)$input['pid'];
+            $sh = VitalSign::create($input);
+            echo $sh->id;
+        }
+        else{
+            echo VitalSign::find($input['id'])->update($input);
+        }
+    }
+    public function getLoadvitalsign($pid){
+        return VitalSign::where('pid',$pid)->where('eid',null)->get()->tojson();
+    }
+    public function deleteDelvitalsign($id){
+        echo VitalSign::find($id)->delete();
+    }
+
+
+    /**
+     * Quan ly hoi benh
+     */
+    public function postSaveadmissioninfo(){
+        $input = Input::get('data');
+        $d =  $input['date'];
+        $input['date'] = strtotime($d);
+//        else $input['date'] = strtotime(substr($d,4,4)."-".substr($d,2,2)."-".substr($d,0,2)." ".substr($d,8,2).":".substr($d,10,2));
+        if($input['id']=='' || $input['id']==0){
+            $input['pid'] = (int)$input['pid'];
+            $sh = PersonAdmissionInfo::create($input);
+            echo $sh->id;
+        }
+        else{
+            echo PersonAdmissionInfo::find($input['id'])->update($input);
+        }
+    }
+    public function getLoadadmissioninfo($pid){
+        return PersonAdmissionInfo::where('pid',$pid)->where('eid',null)->get()->tojson();
+    }
+    public function deleteDeladmissioninfo($id){
+        echo PersonAdmissionInfo::find($id)->delete();
     }
 
 }

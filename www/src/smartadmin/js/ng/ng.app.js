@@ -21,6 +21,17 @@ smartApp.filter('hospitalclose', function () {
         else return input.name;
     }
 });
+smartApp.filter('formatadmissionby',function(){
+    return function (input){
+        var text = "";
+        switch (input){
+            case 0: text="Tự đến";break;
+            case 1: text="Cấp cứu";break;
+            case 0: text="Chuyển viện";break;
+        }
+        return text;
+    }
+});
 
 smartApp.config(['$routeProvider', '$provide', function($routeProvider, $provide) {
 	$routeProvider

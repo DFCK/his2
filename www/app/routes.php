@@ -18,6 +18,7 @@ Route::controller('admin','AdminController');
 Route::any('login',array('before'=>'guest','uses'=>'UserController@login'));
 Route::any('logout','UserController@logout');
 Route::controller('hrm','HrmController');
+Route::controller('radt','RadtController');
 
 
 Route::get('/','HomeController@getIndex');
