@@ -115,15 +115,15 @@
                                         <div class="col">
                                         <label class="label">Bệnh phụ</label>
                                         <section class="col-xs-2">
-                                            <label class="textarea">
-                                                <textarea type="text" name="subdiagnosiscode"
-                                                       ng-model="admission.subdiagnosiscode"></textarea>
+                                            <label class="input">
+                                                <input type="text" name="subdiagnosiscode"
+                                                       ng-model="admission.subdiagnosiscode">
                                             </label>
                                         </section>
                                         <section class="col col-xs-10">
-                                            <label class="textarea">
-                                                <textarea type="text" name="subdiagnosis"
-                                                       ng-model="admission.subdiagnosis"></textarea>
+                                            <label class="input">
+                                                <input type="text" name="subdiagnosis"
+                                                       ng-model="admission.subdiagnosis">
                                             </label>
                                         </section>
                                             </div>
@@ -150,7 +150,9 @@
                     <p>
                         <b>Chuyển viện</b> từ <i>{{$admissioninfo->refplace}}
                             ({{$admissioninfo->refplacecode}})</i>.
-                        {{$admissioninfo->refdiagnosis}}
+                    </p>
+                    <p>
+                        Chẩn đoán: {{$admissioninfo->refdiagnosis}}
                     </p>
                     @endif
                     @if($admissioninfo->status)

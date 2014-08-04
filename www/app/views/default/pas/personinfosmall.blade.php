@@ -12,7 +12,7 @@
                                                       " class="img-responsive img-thumbnail"
          style="max-height: 180px">
 </div>
-<div class="col-xs-12">
+<div class="col-xs-12 padding-top-10">
     <p>
         @if($person->dob !='')
         <label>{{trans("pas.DOB")}}:&nbsp;</label><strong>{{date("d/m/Y",$person->dob)}}</strong>
