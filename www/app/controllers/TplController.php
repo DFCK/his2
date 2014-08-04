@@ -28,4 +28,7 @@ class TplController extends BaseController
     public function getOutpatientroom(){
         return View::make(Config::get('main.theme').'.radt.outpatientroom');
     }
+    public function getRoomqueue(){
+        return View::make(Config::get('main.theme').'.radt.roomqueue');
+    }
 }

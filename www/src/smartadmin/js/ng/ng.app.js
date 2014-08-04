@@ -32,6 +32,26 @@ smartApp.filter('formatadmissionby',function(){
         return text;
     }
 });
+smartApp.filter('calmonth',function(){
+    return function(input){   //format yyyy or timestamp
+        var d2 = new Date();
+        if((input+"").length==4){
+            return (d2.getFullYear() - parseInt(input)) + " tuổi" ;
+        }
+        else{
+            var d1 = new Date(input);
+            var months;
+            months = (d2.getFullYear() - d1.getFullYear()) * 12;
+            months -= d1.getMonth();
+            months += d2.getMonth() + 1;
+            var rs = (months <= 0 ? 0 : months);
+            if(rs < 12) return rs +" tháng";
+            else return (d2.getFullYear() - d1.getFullYear())+" tuổi";
+        }
+
+    }
+
+});
 
 smartApp.config(['$routeProvider', '$provide', function($routeProvider, $provide) {
 	$routeProvider

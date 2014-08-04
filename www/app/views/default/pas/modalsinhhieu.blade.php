@@ -24,7 +24,7 @@
                         </label>
                     </section>
                     <section class="col col-lg-2 col-xs-4 col-sm-3 col-md-3">
-                        <label class="label">Thân nhiệt (*C)</label>
+                        <label class="label">Thân nhiệt (°C)</label>
                         <label class="input">
                             <input type="text" name="temperature"
                                    ng-model="sinhhieu.temperature" tabindex="2"
@@ -80,7 +80,7 @@
                 <td>@{{sh.created_at}}</td>
                 <td>@{{sh.height}} (cm)</td>
                 <td>@{{sh.weight}} (kg)</td>
-                <td>@{{sh.temperature}} (C)</td>
+                <td>@{{sh.temperature}} (°C)</td>
                 <td>@{{sh.bloodpressure}} (mmHg)</td>
                 <td>@{{sh.heartbeat}} (lần/phút)</td>
                 <td>@{{sh.breathing}} (lần/phút)</td>

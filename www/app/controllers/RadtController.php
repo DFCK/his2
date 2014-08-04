@@ -17,10 +17,11 @@ class RadtController extends BaseController{
             'dept_code' => $room['dept_code'],
             'ward_code' => $room['ward_code'],
             'hospital_code' => $room['hospital_code'],
+            'date' => time(),
         );
-        $find = RadtQueue::where('pid',$input['pid'])
-            ->where('eid',null);
-        if($find){
+        $find = RadtQueue::where('pid','=',$input['pid'])
+            ->where('eid','0');
+        if($find->count()){
             echo $find->update($input);
         }
         else{
@@ -35,5 +36,26 @@ class RadtController extends BaseController{
         $data['room'] = 'kkbpk1';
         $data['hrid'] = 1;
         return View::make(Config::get('main.theme') . '.radt.phongkhambenh',$data);
+    }
+    public function getRoomqueue($date=""){
+        $hospital = 'BVBD';//change it when have session.
+        $room = 'kkbpk1';
+        $queue = RadtQueue::getCurrentRoom($hospital,$room,$date);
+        return Response::json($queue);
+    }
+    public function getAdmission($pid='',$queue_id=''){
+        if (strlen($pid) > 0) {
+            $data['pid'] = $pid;
+            $person = Person::getPersonInfo($pid);
+
+            if ($person->pid) {
+                $data['person'] = $person;
+                return View::make(Config::get('main.theme') . '.radt.admission', $data);
+            }
+
+            else return View::make(Config::get('main.theme') . '.pas.registration', array("message" => "Không tìm thấy mã " . $pid));
+        }
+        else
+            return View::make(Config::get('main.theme') . '.pas.registration');
     }
 }

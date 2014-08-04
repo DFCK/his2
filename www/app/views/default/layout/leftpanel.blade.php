@@ -5,7 +5,7 @@
 					<a href="javascript:void(0);" id="show-shortcut" data-action="toggleShortcut">
                         <img src="img/avatars/sunny.png" alt="me" class="online"/>
 						<span data-localize="john.doe">
-							john.doe
+							Admin
 						</span>
                         <i class="fa fa-angle-down"></i>
                     </a>

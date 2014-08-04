@@ -8,7 +8,7 @@ class PasController extends BaseController
             $data['pid'] = $pid;
             $person = Person::getPersonInfo($pid);
 
-            if ($person) {
+            if ($person->pid) {
                 $data['person'] = $person;
                 return View::make(Config::get('main.theme') . '.pas.person', $data);
             }
@@ -169,7 +169,7 @@ class PasController extends BaseController
         }
     }
     public function getLoadvitalsign($pid){
-        return VitalSign::where('pid',$pid)->where('eid',null)->get()->tojson();
+        return VitalSign::where('pid',$pid)->where('eid','0')->get()->tojson();
     }
     public function deleteDelvitalsign($id){
         echo VitalSign::find($id)->delete();
@@ -194,7 +194,7 @@ class PasController extends BaseController
         }
     }
     public function getLoadadmissioninfo($pid){
-        return PersonAdmissionInfo::where('pid',$pid)->where('eid',null)->get()->tojson();
+        return PersonAdmissionInfo::where('pid',$pid)->where('eid','0')->get()->tojson();
     }
     public function deleteDeladmissioninfo($id){
         echo PersonAdmissionInfo::find($id)->delete();
