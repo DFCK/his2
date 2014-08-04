@@ -21,7 +21,8 @@
                 <span ng-if="person.heartbeat && person.heartbeat != ''">Mạch: <strong>@{{person.heartbeat}}</strong><i>l/p</i>.</span>
             </p>
             <p>
-               <span ng-if="person.reason && person.reason != ''">Đến <i>@{{person.reason}}</i>.</span>
+                <span ng-if="person.by && person.by == 2"><b>Chuyển viện</b> từ <i>@{{person.refplace}}</i> (@{{person.refplacecode}}).</span>
+                <span ng-if="person.reason && person.reason != ''">Đến <i>@{{person.reason}}</i>.</span>
 
                <span ng-if="person.status && person.status != ''">Triệu chứng: <i>@{{person.status}}</i>.</span>
                <span ng-if="person.personhistory && person.personhistory != ''">Tiền sử bệnh: <i>@{{person.personhistory}}</i>.</span>

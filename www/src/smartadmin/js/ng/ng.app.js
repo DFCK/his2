@@ -27,7 +27,7 @@ smartApp.filter('formatadmissionby',function(){
         switch (input){
             case 0: text="Tự đến";break;
             case 1: text="Cấp cứu";break;
-            case 0: text="Chuyển viện";break;
+            case 2: text="Chuyển viện";break;
         }
         return text;
     }

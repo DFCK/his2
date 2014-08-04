@@ -27,10 +27,12 @@ class RadtQueue extends Eloquent{
             ->where('q.room_code',$room)
             ->where('q.hospital_code',$hospital)
             ->where('q.date','>=',$fromdate)
+            ->whereNull('v.deleted_at')
+            ->whereNull('a.deleted_at')
             ->where('q.date','<=',$todate)
             ->orderby('q.order','DESC')
             ->orderby('q.id')
-            ->select('q.id AS queueid','p.*','a.reason','a.date','a.status',
+            ->select('q.id AS queueid','p.*','a.by','a.refplace','a.refplacecode','a.reason','a.date','a.status',
                 'v.height','v.weight','v.bloodpressure','v.temperature','v.heartbeat')
             ->get();
         return $queue;

@@ -50,6 +50,14 @@ class RadtController extends BaseController{
 
             if ($person->pid) {
                 $data['person'] = $person;
+                $data['vitalsign'] = VitalSign::where('pid',$pid)
+                    ->where('eid','0')
+                    ->orderby('id','DESC')
+                    ->first();
+                $data['admissioninfo'] = PersonAdmissionInfo::where('pid',$pid)
+                    ->where('eid','0')
+                    ->orderby('id','DESC')
+                    ->first();
                 return View::make(Config::get('main.theme') . '.radt.admission', $data);
             }
 

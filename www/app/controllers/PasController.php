@@ -161,6 +161,9 @@ class PasController extends BaseController
         $input = Input::get('data');
         if($input['id']=='' || $input['id']==0){
             $input['pid'] = (int)$input['pid'];
+            VitalSign::where('pid',$input['pid'])
+                ->where('eid','0')
+                ->delete();
             $sh = VitalSign::create($input);
             echo $sh->id;
         }
@@ -186,6 +189,9 @@ class PasController extends BaseController
 //        else $input['date'] = strtotime(substr($d,4,4)."-".substr($d,2,2)."-".substr($d,0,2)." ".substr($d,8,2).":".substr($d,10,2));
         if($input['id']=='' || $input['id']==0){
             $input['pid'] = (int)$input['pid'];
+            PersonAdmissionInfo::where('pid',$input['pid'])
+                ->where('eid','0')
+                ->delete();
             $sh = PersonAdmissionInfo::create($input);
             echo $sh->id;
         }

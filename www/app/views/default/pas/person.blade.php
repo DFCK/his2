@@ -218,6 +218,7 @@
             });
         }
 
+
         $scope.sinhhieu = function (size) {
 
             var modalInstance = $modal.open({
@@ -322,7 +323,18 @@
            familyhistory:'',
            process:'',
            id:'',
-       }
+       };
+       $scope.$watch('hoibenh.refplacecode',function(){
+           if($scope.hoibenh.refplacecode && $scope.hoibenh.refplacecode.length>=4){
+               $http.get('pas/bvdkbd/' + $scope.hoibenh.refplacecode)
+                   .success(function(data){
+                       if(angular.isObject(data)){
+                           $scope.hoibenh.refplace = data.name;
+                       }
+                   });
+           }
+
+       });
        $scope.ok = function () {
            $http.post('pas/saveadmissioninfo',{
                data:$scope.hoibenh
