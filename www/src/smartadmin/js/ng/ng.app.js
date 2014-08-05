@@ -11,7 +11,8 @@ var smartApp = angular.module('smartApp', [
   	'app.activity',
   	'app.smartui',
     //load angular UI
-    'ui.utils'
+    'ui.utils' ,
+    'autocomplete'
 ]);
 
 smartApp.filter('hospitalclose', function () {

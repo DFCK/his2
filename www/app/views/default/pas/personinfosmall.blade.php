@@ -15,16 +15,22 @@
 <div class="col-xs-12 padding-top-10">
     <p>
         @if($person->dob !='')
-        <label>{{trans("pas.DOB")}}:&nbsp;</label><strong>{{date("d/m/Y",$person->dob)}}</strong>
+        <strong>{{date("d/m/Y",$person->dob)}}</strong>
         &nbsp;-&nbsp;
         {{Person::calMonthAge($person->dob)}}
         @else
-        <label>{{trans("pas.YOB")}}:&nbsp; </label><strong>{{$person->yob}}</strong>
+        <strong>{{$person->yob}}</strong>
         &nbsp;-&nbsp;
         {{date('Y') - $person->yob}}&nbsp;{{trans('pas.age')}}
         @endif
 
 
+    </p>
+    <p>
+        @if($person->blood != '0')
+        {{trans('pas.blood')}}&nbsp;<strong
+            style="text-transform: uppercase;">{{$person->blood}}</strong>
+        @endif
     </p>
     <p>{{trans('pas.address')}}:&nbsp;<strong>{{$person->address}},&nbsp;{{$person->ward_name}},&nbsp;{{$person->district_name}},&nbsp;{{$person->province_name}}</strong>
     </p>
@@ -36,16 +42,14 @@
     <p>{{trans('pas.email')}}:&nbsp;<strong>{{$person->email}}</strong>
     </p>
     @endif
+@if(!isset($shortinfo) || $shortinfo == false)
     <p>
         {{trans('pas.career')}}:&nbsp;<strong>{{$person->career}}</strong>
     </p>
     <p>
         {{trans('pas.ethnic')}}:&nbsp;<strong>{{$person->ethnicname}}</strong>
-        @if($person->blood != '0')
-        .&nbsp;{{trans('pas.blood')}}&nbsp;<strong
-            style="text-transform: uppercase;">{{$person->blood}}</strong>
-        @endif
-    </p>
+        </p>
+
     @if($person->cmnd !='')
     <p>
         {{trans('pas.CMND')}}:&nbsp;<strong>{{$person->cmnd}}</strong>,
@@ -64,5 +68,6 @@
         @endif
     </p>
     @endif
+@endif
 </div>
 <div class="clear"></div>

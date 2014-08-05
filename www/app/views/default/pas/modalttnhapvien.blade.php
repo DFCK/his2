@@ -81,9 +81,9 @@
                 </section>
                 <section class="col col-xs-12">
                     <label class="label">Quá trình bệnh lý</label>
-                    <label class="textarea textarea-expandable">
+                    <label class="textarea ">
                         <textarea type="text" name="process"
-                               ng-model="hoibenh.process"  rows="3" class="custom-scroll">
+                               ng-model="hoibenh.process"  rows="2">
                             </textarea>
                     </label>
                 </section>

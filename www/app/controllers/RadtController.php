@@ -44,6 +44,10 @@ class RadtController extends BaseController{
         return Response::json($queue);
     }
     public function getAdmission($pid='',$queue_id=''){
+        $hospital = 'BVBD';//change it when have session.
+        $dept = 'kkb';
+        $ward = 'khukb';
+        $room = 'kkbpk1';
         if (strlen($pid) > 0) {
             $data['pid'] = $pid;
             $person = Person::getPersonInfo($pid);
@@ -58,6 +62,18 @@ class RadtController extends BaseController{
                     ->where('eid','0')
                     ->orderby('id','DESC')
                     ->first();
+                $data['depts'] = DB::table('dfck_hospital_department AS d')
+                    ->join('dfck_type_department AS t','t.code','=','d.ref_code')
+                    ->where('d.hospital_code',$hospital)
+                    ->where('t.type',0)
+                    ->select('d.name','d.code')
+                    ->get();
+                $data['wards'] = Ward::where('hospital_code',$hospital)
+                    ->where('dept_code',$dept)
+                    ->select('name','code')
+                    ->get();
+                $data['deptcode'] = $dept;
+                $data['wardcode'] = $ward;
                 return View::make(Config::get('main.theme') . '.radt.admission', $data);
             }
 
@@ -65,5 +81,15 @@ class RadtController extends BaseController{
         }
         else
             return View::make(Config::get('main.theme') . '.pas.registration');
+    }
+    public function getIcd10($key){
+        $icd = Icd10::where('code',$key);
+        if($icd->count()) return $icd->select('code','name')->first()->tojson();
+        else return null;
+    }
+    public function getSearchicd10($key){
+        $icd = Icd10::where('name','like','%'.$key.'%');
+        if($icd->count()) return $icd->select('code','name')->take(50)->get()->tojson();
+        else return null;
     }
 }

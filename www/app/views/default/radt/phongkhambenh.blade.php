@@ -51,10 +51,11 @@
                 <article class="col-xs-12">
 
                     <!-- Widget ID (each widget will need unique ID)-->
-                    <div class="jarviswidget" id="wid-id-phongkham0"
+                    <div class="jarviswidget jarviswidget-color-greenDark" id="wid-id-phongkham0"
                          data-widget-editbutton="false"
                          data-widget-fullscreenbutton="false"
-                         data-widget-deletebutton="false">
+                         data-widget-deletebutton="false"
+                            data-widget-sortable="false">
                         <header>
                             <span class="widget-icon"> <i class="fa fa-tasks"></i> </span>
 
@@ -62,9 +63,6 @@
                                 Danh sách bệnh nhân đang chờ
                             </h2>
 
-                            <div class="widget-toolbar col-xs-4">
-
-                            </div>
                         </header>
                         <!-- widget div-->
                         <div class="">
