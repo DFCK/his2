@@ -29,7 +29,10 @@
             </p>
         </div>
             <div class="col-xs-2">
-                <p><a class="btn btn-primary btn-xs" href="#/radt/admission/@{{person.pid}}/@{{person.queueid}}">Nhận bệnh</a></p>
+                <p>
+                    <a  ng-if="person.eid==0" class="btn btn-primary btn-xs" href="#/radt/admission/@{{person.pid}}/@{{person.queueid}}">Nhận bệnh</a>
+                    <a  ng-if="person.eid >0" class="btn btn-success btn-xs" href="#/enc/info/@{{person.eid}}">Xem bệnh</a>
+                </p>
                 <p>
                     <i class="fa  fa-film txt-color-grayDark"  tooltip="Đã gửi yêu cầu CĐHA"></i>
                     <i class="fa  fa-film txt-color-red" tooltip="Đã có kết quả Siêu Âm"></i>

@@ -253,8 +253,9 @@
         };
 
     }
-   var ModalSinhhieuInstanceCtrl = function ($scope, $modalInstance,$http,havevitalsign) {
+   var ModalSinhhieuInstanceCtrl = function ($scope, $modalInstance,$http,havevitalsign,$filter) {
        $scope.havevitalsign = havevitalsign;
+       var today = $filter('date')(new Date(),'dd-MM-yyyy HH:mm');
        $scope.sinhhieu = {
            pid:'{{$pid}}',
            fullname:"{{$person->lastname.' '.$person->firstname}}",
@@ -265,6 +266,7 @@
            temperature:'',
            heartbeat:'',
            id:'',
+           date:today
        }
        $scope.ok = function () {
            $http.post('pas/savevitalsign',{

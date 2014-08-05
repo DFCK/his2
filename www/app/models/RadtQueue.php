@@ -16,13 +16,15 @@ class RadtQueue extends Eloquent{
 
         $queue = DB::table('dfck_radt_queue AS q')
             ->join('dfck_person AS p','p.pid','=','q.pid')
-            ->leftjoin('dfck_person_vitalsigns AS v', function($join){
+            ->leftjoin('dfck_person_vitalsigns AS v', function($join) use($fromdate,$todate){
                 $join->on('v.pid','=','q.pid')
-                    ->where('v.eid','=',0);
+                    ->where('v.date','>=',$fromdate)
+                    ->where('v.date','<=',$todate);
                 })
-            ->leftjoin('dfck_person_admissioninfo AS a', function($join){
+            ->leftjoin('dfck_person_admissioninfo AS a', function($join)  use($fromdate,$todate) {
                 $join->on('a.pid','=','q.pid')
-                    ->where('a.eid','=',0);
+                    ->where('a.date','>=',$fromdate)
+                    ->where('a.date','<=',$todate);
                 })
             ->where('q.room_code',$room)
             ->where('q.hospital_code',$hospital)
@@ -32,7 +34,7 @@ class RadtQueue extends Eloquent{
             ->where('q.date','<=',$todate)
             ->orderby('q.order','DESC')
             ->orderby('q.id')
-            ->select('q.id AS queueid','p.*','a.by','a.refplace','a.refplacecode','a.reason','a.date','a.status',
+            ->select('q.eid','q.id AS queueid','p.*','a.by','a.refplace','a.refplacecode','a.reason','a.date','a.status',
                 'v.height','v.weight','v.bloodpressure','v.temperature','v.heartbeat')
             ->get();
         return $queue;

@@ -4,6 +4,17 @@
 <div class="modal-body">
     <form class=" smart-form" id="formpersoninfo">
         <fieldset>
+            <div class="row">
+                <section class="col col-lg-6 col-xs-12">
+                    <label class="label">Ngày giờ lấy</label>
+                    <label class="input">
+                        <input type="text" name="date"
+                               ng-model="sinhhieu.date" tabindex="1"
+                               data-mask="99-99-9999 99:99" data-mask-placeholder="_"
+                            >
+                    </label>
+                </section>
+            </div>
             <div class="row  ">
                     <section class="col col-lg-2 col-xs-4 col-sm-3 col-md-3">
                         <label class="label">Chiều cao (cm)</label>

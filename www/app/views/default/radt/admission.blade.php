@@ -53,7 +53,7 @@
 
 <!-- row -->
 <div class="row">
-<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 no-padding">
+<div class="col-xs-12 col-sm-3 col-lg-3 no-padding">
     <article class="col-xs-12">
 
         <!-- Widget ID (each widget will need unique ID)-->
@@ -87,7 +87,7 @@
     <!-- end article -->
 
 </div>
-<div class="col-xs-12 col-sm-12 col-md-5 col-lg-5 no-padding">
+<div class="col-xs-12 col-sm-5 col-lg-5 no-padding">
 
     <!-- NEW WIDGET START -->
     <article class="col-xs-12">
@@ -110,17 +110,27 @@
             <div class="">
                 <!-- widget content -->
                 <div class="widget-body no-padding">
-                    <div class="alert alert-block alert-warning" ng-if=" eid=='' ">
+                    <div class="alert alert-block alert-warning" ng-if=" admission.eid=='' ">
                         Bệnh nhân chưa tiếp nhận
                     </div>
-                    <div class="alert alert-block alert-success " ng-if="eid!='' ">
-                        Mã bệnh nhân: <strong>@{{eid}}</strong>
+                    <div class="alert alert-block alert-success " ng-if="admission.eid!='' ">
+                        Mã tiếp đón: <strong class="txt-color-red font-md">@{{admission.eid}}</strong>
+                        <i class="fa fa-save pull-right txt-color-red" ng-show="savetogger"></i>
                     </div>
 
                     <form class="smart-form">
                         <fieldset>
                             <div class="col">
                                 <div class="row">
+                                    <section class="col-xs-3"  style="padding-top:5px">
+                                        <label class="label">Giờ nhận bệnh</label>
+                                        </section>
+                                    <section class="col col-xs-9">
+                                        <label class="input">
+                                            <input data-mask="99-99-9999 99:99" data-mask-placeholder="_" ng-model="admission.datein" >
+                                        </label>
+                                    </section>
+
                                     <section class="col-xs-12">
                                         <label class="label">Chẩn đoán ban đầu</label>
                                     </section>
@@ -157,7 +167,7 @@
                                     <section class="col-xs-2">
                                         <label class="input">
                                             <input  ondblclick="this.value=''" type="text" name="subdiagnosiscode"
-                                                   ng-model="admission.subdiagnosiscode"
+                                                   ng-model="subdiagnosiscode"
                                                    ui-keydown="{'enter tab': 'inputCallback($event)'}">
                                         </label>
                                     </section>
@@ -167,7 +177,7 @@
                                         </label>
 
                                     </section>
-                                    <section class="col-xs-12" ng-if="admission.subdiagnosislist.length > 0">
+                                    <section class="col col-xs-12" ng-if="admission.subdiagnosislist.length > 0" style="padding-left:0;">
                                     <div
                                         class="alert alert-block alert-info padding-right-5"
                                         >
@@ -223,7 +233,7 @@
                                             <i></i>
                                         </label>
                                     </section>
-                                    <section class="col-xs-12">
+                                    <section class="col col-xs-12" style="padding-left:0">
                                         <label class="label">Tóm tắt bệnh án</label>
                                         <label class="textarea">
                                                     <textarea class="textarea" type="text"
@@ -236,7 +246,7 @@
                                 </div>
                         </fieldset>
                         <footer>
-                            <button class="btn btn-primary" data-ng-click="save()">{{trans('common.save')}}</button>
+                            <a class="btn btn-primary" data-ng-click="save()">{{trans('common.save')}}</a>
                         </footer>
                     </form>
 
@@ -250,7 +260,7 @@
     <!-- end article -->
 </div>
 
-<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+<div class="col-xs-12 col-sm-4 col-lg-4">
     <div class="alert alert-block alert-info">
         <h4 class="alert-heading">Thông tin tiếp nhận</h4>
         @if($admissioninfo->by==2)
@@ -344,25 +354,63 @@
      * @param $http
      */
     function RadtAdmissionController($scope, $http, $interval, $filter) {
-        $scope.eid = '';
+
         $scope.admission = {
+            pid:'{{$person->pid}}',
+            eid : '',
+            datein: '',
             firstdiagnosis: '',
             firstdiagnosiscode: '',
             diagnosiscode: '',
             diagnosis: '',
-            subdiagnosiscode: '',
-            subdiagnosis: '',
             tienluong: 'Trung bình',
             typeexam: 0,
+            summary:'',
+            subdiagnosislist : [],
+            subdiagnosiscodelist : [],
+            insurancecode:'' ,
+            insurancefromdate:'0',
+            insurancetodate:'0',
+            insuranceplace:'0'
+    };
+        $scope.location = {
             ward_code:'{{$wardcode}}',
             dept_code:'{{$deptcode}}',
-            summary:'',
-           subdiagnosislist : [],
-           subdiagnosiscodelist : []
         };
+        @if(isset($enc))
+            $scope.admission = {{$enc}};
+            $scope.admission.datein = $filter('date')($scope.admission.datein * 1000 ,'dd-MM-yyyy HH:mm');
+            if($scope.admission.subdiagnosislist.trim().length > 0)
+                $scope.admission.subdiagnosislist = $scope.admission.subdiagnosislist.trim().split(",");
+            else $scope.admission.subdiagnosislist = [];
+            if($scope.admission.subdiagnosiscodelist.trim().length > 0)
+                $scope.admission.subdiagnosiscodelist = $scope.admission.subdiagnosiscodelist.trim().split(",");
+            else $scope.admission.subdiagnosiscodelist = [];
+        @endif
+        $scope.subdiagnosiscode = '';
+        $scope.subdiagnosis = '';
 
+        $scope.$watch('admission.datein',function(){
+            if(!$scope.admission.datein){
+                    $scope.admission.datein = $filter('date')(new Date(),'dd-MM-yyyy HH:mm');
+            }
+        });
+        $scope.savetogger = false;
         $scope.save = function(){
-            console.log($scope.admission);
+            $scope.savetogger = false;
+            $http.post('radt/saveadmission',{
+                data:$scope.admission
+            }).success(function(data){
+                if(data>0 && $scope.admission.eid==''){
+                    window.location = "#/enc/info/"+data;
+                }
+                else if(data > 0){
+                    $scope.savetogger = true;
+                }
+                else if(data == 0){
+                    myalert("Thông báo","Không có dữ liệu thay đổi!");
+                }
+            });
         }
         $scope.inputCallback = function ($event) {
             var $target = $($event.target);
@@ -387,7 +435,7 @@
                                 if ($scope.admission.subdiagnosiscodelist.indexOf(data.code) == -1) {
                                     $scope.admission.subdiagnosislist.push(data.code + " - " + data.name);
                                     $scope.admission.subdiagnosiscodelist.push(data.code);
-                                    $scope.admission.subdiagnosiscode = '';
+                                    $scope.subdiagnosiscode = '';
                                 }
 
                                 break;
@@ -397,21 +445,25 @@
         }
         $scope.delsubicd = function (icd) {
             $scope.admission.subdiagnosislist.pop(icd);
+            $scope.admission.subdiagnosiscodelist.pop(icd.substr(0,(icd.lastIndexOf("-") -1 )).trim());
         }
         $scope.searchflag='';
         $scope.searchresult = [];
         $scope.searchmin = 3;
         $scope.searchIcd10text = function(typed){
-                if(typed.length == $scope.searchmin || typed.length == ($scope.searchmin+2) || typed.length == ($scope.searchmin+4) ){
+                if(typed.length >= $scope.searchmin ){
+                    if($scope.searchflag==''){
                         $scope.searchflag = typed;
                         $scope.searchresult = [];
                         $http.get('radt/searchicd10/'+$scope.searchflag)
                             .success(function(data){
                                 angular.forEach(data,function(value,key){
                                     $scope.searchresult.push(value.code+" - "+value.name);
+                                    $scope.searchflag = '';
                                 });
 
                             });
+                    }
                 }
                 if(typed.length < $scope.searchmin){
                     //reset search key
@@ -421,8 +473,8 @@
         $scope.$watch('admission.firstdiagnosis',function(){
             if($scope.admission.firstdiagnosis){
                 if($scope.admission.firstdiagnosiscode == ''){
-                    if($scope.admission.firstdiagnosis.indexOf("-")>-1){
-                        $scope.admission.firstdiagnosiscode =  $scope.admission.firstdiagnosis.substr(0,($scope.admission.firstdiagnosis.indexOf("-") -1 )).trim();
+                    if($scope.admission.firstdiagnosis.lastIndexOf("-")>-1){
+                        $scope.admission.firstdiagnosiscode =  $scope.admission.firstdiagnosis.substr(0,($scope.admission.firstdiagnosis.lastIndexOf("-") -1 )).trim();
                     }
                 }
             }
@@ -430,19 +482,19 @@
         $scope.$watch('admission.diagnosis',function(){
             if($scope.admission.diagnosis){
                 if($scope.admission.diagnosiscode == ''){
-                    if($scope.admission.diagnosis.indexOf("-")>-1){
-                        $scope.admission.diagnosiscode =  $scope.admission.diagnosis.substr(0,($scope.admission.diagnosis.indexOf("-") -1 )).trim();
+                    if($scope.admission.diagnosis.lastIndexOf("-")>-1){
+                        $scope.admission.diagnosiscode =  $scope.admission.diagnosis.substr(0,($scope.admission.diagnosis.lastIndexOf("-") -1 )).trim();
                     }
                 }
             }
         });
-        $scope.$watch('admission.subdiagnosis',function(){
-            if($scope.admission.subdiagnosis){
-                if($scope.admission.subdiagnosiscode == ''){
-                    if($scope.admission.subdiagnosis.indexOf("-")>-1){
-                        $scope.admission.subdiagnosiscodelist.push($scope.admission.subdiagnosis.substr(0,($scope.admission.subdiagnosis.indexOf("-") -1 )).trim());
-                        $scope.admission.subdiagnosislist.push($scope.admission.subdiagnosis);
-                        $scope.admission.subdiagnosis = '';
+        $scope.$watch('subdiagnosis',function(){
+            if($scope.subdiagnosis){
+                if($scope.subdiagnosiscode == ''){
+                    if($scope.subdiagnosis.lastIndexOf("-")>-1){
+                        $scope.admission.subdiagnosiscodelist.push($scope.subdiagnosis.substr(0,($scope.subdiagnosis.lastIndexOf("-") -1 )).trim());
+                        $scope.admission.subdiagnosislist.push($scope.subdiagnosis);
+                        $scope.subdiagnosis = '';
                     }
                 }
             }

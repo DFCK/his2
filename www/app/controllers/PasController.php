@@ -164,6 +164,7 @@ class PasController extends BaseController
             VitalSign::where('pid',$input['pid'])
                 ->where('eid','0')
                 ->delete();
+            $input['date'] = strtotime($input['date']);
             $sh = VitalSign::create($input);
             echo $sh->id;
         }

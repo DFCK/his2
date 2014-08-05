@@ -15,12 +15,13 @@
   position: absolute;
   left: 0;
   width: 99.1%;
+    background-color: #fff;
   border-left: 1px solid #888;
   border-right: 1px solid #888;
   border-bottom: 1px solid #888;
   z-index: 1;
     max-height: 250px;
-    overflow-y: auto;
+    overflow-y: scroll;
 }
 
 .autocomplete li{
