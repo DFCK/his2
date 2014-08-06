@@ -10,6 +10,9 @@
                 #sparks li h5{
                     text-transform: none;
                 }
+                .sparks-info span{
+                    line-height: 28px;
+                }
             </style>
             <ul id="sparks" class="">
                 <li class="sparks-info">
@@ -88,7 +91,7 @@
                                   </span>
                                     </p>
                                     </div>
-                                    <div class="col-xs-1">
+                                    <div class="col-xs-1 no-padding">
                                         <a class="" data-ng-click="loadroom()"><i class="fa  fa-2x fa-refresh padding-5"></i></a>
                                     </div>
                                 </div>

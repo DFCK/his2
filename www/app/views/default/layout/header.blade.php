@@ -70,29 +70,7 @@
 
     <!-- input: search field -->
     <form action="#/misc/search" class="header-search pull-right">
-        <input id="search-fld"  type="text" name="param" data-localize="Find reports and more" placeholder="Find reports and more" data-autocomplete='[
-					"ActionScript",
-					"AppleScript",
-					"Asp",
-					"BASIC",
-					"C",
-					"C++",
-					"Clojure",
-					"COBOL",
-					"ColdFusion",
-					"Erlang",
-					"Fortran",
-					"Groovy",
-					"Haskell",
-					"Java",
-					"JavaScript",
-					"Lisp",
-					"Perl",
-					"PHP",
-					"Python",
-					"Ruby",
-					"Scala",
-					"Scheme"]'>
+        <input id="search-fld"  type="text" name="param" data-localize="Find reports and more" placeholder="Tìm kiếm" data-autocomplete='[]'>
         <button type="submit">
             <i class="fa fa-search"></i>
         </button>

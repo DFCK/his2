@@ -68,7 +68,7 @@
             <header>
                 <span class="widget-icon"> <i class="fa fa-user"></i> </span>
 
-                <h2>{{$person->lastname}} {{$person->firstname}}</h2>
+                <h2><a href="#/pas/person/{{$person->pid}}" class="txt-color-white">{{$person->lastname}} {{$person->firstname}}</a></h2>
             </header>
             <!-- widget div-->
             <div>
@@ -147,11 +147,11 @@
                                         </label>
                                     </section>
                                     <section class="col-xs-12">
-                                        <label class="label">Chẩn đoán chính</label>
+                                        <label class="label"><b>Chẩn đoán chính</b></label>
                                     </section>
                                     <section class="col-xs-2">
                                         <label class="input">
-                                            <input  ondblclick="this.value=''" type="text" name="diagnosiscode"
+                                            <input ondblclick="this.value=''" type="text" name="diagnosiscode"
                                                    ng-model="admission.diagnosiscode"
                                                    ui-keydown="{'enter tab': 'inputCallback($event)'}">
                                         </label>
@@ -271,6 +271,10 @@
         <p>
             Chẩn đoán: {{$admissioninfo->refdiagnosis}}
         </p>
+        @elseif($admissioninfo->by==0)
+        <p>Đến khám. {{$admissioninfo->reason}}</p>
+        @elseif($admissioninfo->by==1)
+        <p>Cấp cứu. {{$admissioninfo->reason}}</p>
         @endif
         @if($admissioninfo->status)
         <p>
@@ -371,12 +375,11 @@
             insurancecode:'' ,
             insurancefromdate:'0',
             insurancetodate:'0',
-            insuranceplace:'0'
-    };
-        $scope.location = {
+            insuranceplace:'0',
             ward_code:'{{$wardcode}}',
-            dept_code:'{{$deptcode}}',
-        };
+            dept_code:'{{$deptcode}}'
+    };
+
         @if(isset($enc))
             $scope.admission = {{$enc}};
             $scope.admission.datein = $filter('date')($scope.admission.datein * 1000 ,'dd-MM-yyyy HH:mm');
@@ -410,7 +413,11 @@
                 else if(data == 0){
                     myalert("Thông báo","Không có dữ liệu thay đổi!");
                 }
+                    scrolltotop();
             });
+        };
+        var scrolltotop = function(){
+            window.scrollTo(0,$('#header').height());
         }
         $scope.inputCallback = function ($event) {
             var $target = $($event.target);

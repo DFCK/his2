@@ -7,11 +7,11 @@
             <img src="{{asset('images/noavatarf.jpg')}}" class="img-responsive" ng-if="person.sex==2 && person.avatar == ''">
 
         </div>
-        <div class="col-xs-8 no-padding">
+        <div class="col-xs-7 no-padding">
             <p><strong><a href="#/pas/person/@{{person.pid}}">@{{person.lastname+" "+person.firstname}}</a></strong>
                 <span ng-if="person.dob != ''">@{{person.dob*1000 | date:"dd/MM/yyyy"}} (@{{person.dob*1000 | calmonth}}).</span>
                 <span ng-if="person.dob == ''">@{{person.yob}} (@{{person.yob | calmonth}}).</span>
-                <span ng-if="person.date && person.date != ''">Đến lúc <strong>@{{person.date | date:"HH:mm"}}</strong>.</span>
+                <span ng-if="person.admitdate && person.admitdate != ''">Đến lúc <strong>@{{person.admitdate * 1000 | date:"HH:mm"}}</strong>.</span>
             </p>
             <p>
                 <span ng-if="person.height && person.height != ''">Cao: <strong>@{{person.height}}</strong> <i>cm</i>.</span>
@@ -28,10 +28,21 @@
                <span ng-if="person.personhistory && person.personhistory != ''">Tiền sử bệnh: <i>@{{person.personhistory}}</i>.</span>
             </p>
         </div>
-            <div class="col-xs-2">
+            <div class="col-xs-3">
                 <p>
                     <a  ng-if="person.eid==0" class="btn btn-primary btn-xs" href="#/radt/admission/@{{person.pid}}/@{{person.queueid}}">Nhận bệnh</a>
-                    <a  ng-if="person.eid >0" class="btn btn-success btn-xs" href="#/enc/info/@{{person.eid}}">Xem bệnh</a>
+                    <div class="btn-group" dropdown ng-if="person.eid >0">
+                        <a href="#/enc/info/@{{person.eid}}" class="btn btn-success btn-xs">Xem bệnh</a>
+                        <button type="button" class="btn btn-success dropdown-toggle btn-xs">
+                            <span class="caret"></span>
+                            <span class="sr-only">Split button!</span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="#">Xuất viện</a></li>
+                            <li><a href="#">Chuyển viện</a></li>
+                            <li><a href="#">Trốn viện</a></li>
+                        </ul>
+                    </div>
                 </p>
                 <p>
                     <i class="fa  fa-film txt-color-grayDark"  tooltip="Đã gửi yêu cầu CĐHA"></i>
@@ -39,6 +50,7 @@
                     <i class="fa  fa-flask txt-color-red"  tooltip="Đã có Kết quả XN máu"></i>
                     <i class="fa  fa-flask txt-color-red"  tooltip="Đã có Kết quả XN Hóa Sinh"></i>
                 </p>
+                <p><a tooltip="Gọi bệnh nhân"><i class="fa fa-bell"></i></a></p>
             </div>
         </div>
     </div>

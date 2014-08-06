@@ -17,7 +17,7 @@ class Room extends Eloquent{
         if($ward!='') $room = $room->where('w.ward_code',$ward);
         if($pid!='')
             $findperson = DB::raw( "(SELECT COUNT(rq.id) FROM dfck_radt_queue rq
-            WHERE rq.pid=$pid AND rq.eid = 0 AND rq.room_code = r.code
+            WHERE rq.pid=$pid AND rq.deleted_at IS NULL AND rq.room_code = r.code
             AND rq.hospital_code = r.hospital_code AND rq.dept_code = r.dept_code
             AND rq.date >= $fromdate AND rq.date <= $todate) AS inroom ");
         $countwait = DB::raw(" (SELECT COUNT(rq2.id)  FROM dfck_radt_queue rq2

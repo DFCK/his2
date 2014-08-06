@@ -34,7 +34,7 @@ class RadtQueue extends Eloquent{
             ->where('q.date','<=',$todate)
             ->orderby('q.order','DESC')
             ->orderby('q.id')
-            ->select('q.eid','q.id AS queueid','p.*','a.by','a.refplace','a.refplacecode','a.reason','a.date','a.status',
+            ->select('q.eid','q.id AS queueid','p.*','a.by','a.refplace','a.refplacecode','a.reason','a.date AS admitdate','a.status',
                 'v.height','v.weight','v.bloodpressure','v.temperature','v.heartbeat')
             ->get();
         return $queue;

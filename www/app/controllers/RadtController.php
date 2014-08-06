@@ -5,7 +5,7 @@ class RadtController extends BaseController
 
     public function getOutpatientroom($pid = '')
     {
-        $hospital = 'BVBD'; //change it when have session.
+        $hospital = '74001'; //change it when have session.
         $dept = 'kkb';
         $room = Room::getOutpatientRoom($hospital, $dept, '', $pid);
         if ($room)
@@ -37,7 +37,7 @@ class RadtController extends BaseController
 
     public function getKhambenh()
     {
-        $hospital = 'BVBD'; //change it when have session.
+        $hospital = '74001'; //change it when have session.
         $data['dept'] = 'kkb';
         $data['room'] = 'kkbpk1';
         $data['hrid'] = 1;
@@ -46,7 +46,7 @@ class RadtController extends BaseController
 
     public function getRoomqueue($date = "")
     {
-        $hospital = 'BVBD'; //change it when have session.
+        $hospital = '74001'; //change it when have session.
         $room = 'kkbpk1';
         $queue = RadtQueue::getCurrentRoom($hospital, $room, $date);
         return Response::json($queue);
@@ -54,7 +54,7 @@ class RadtController extends BaseController
 
     public function getAdmission($id = '', $queue_id = '')
     {
-        $hospital = 'BVBD'; //change it when have session.
+        $hospital = '74001'; //change it when have session.
         $dept = 'kkb';
         $ward = 'khukb';
         $room = 'kkbpk1';
@@ -112,10 +112,12 @@ class RadtController extends BaseController
 
     public function postSaveadmission()
     {
+        $hospital_code = 74001;
         $hospital_bhyt = '74001';
         $input = Input::get('data');
         $input['subdiagnosiscodelist'] = implode(',', $input['subdiagnosiscodelist']);
         $input['subdiagnosislist'] = implode(',', $input['subdiagnosislist']);
+        $input['hospital_code'] = $hospital_code;
         if ($input['eid'] == '') {
             //create
             $eid = Autoid::buildEID($hospital_bhyt);

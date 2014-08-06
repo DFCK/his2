@@ -126,9 +126,9 @@
                                 <li>
                                     <a><i class="fa fa-usd"></i> Tạm ứng</a>
                                 </li>
-                                <li>
-                                    <a><i class="fa fa-ambulance"></i> Cấp cứu</a>
-                                </li>
+<!--                                <li>-->
+<!--                                    <a><i class="fa fa-ambulance"></i> Cấp cứu</a>-->
+<!--                                </li>-->
                                 <li>
                                     <a><i class="fa fa-codepen"></i> Chỉ định Cận Lâm Sàn</a>
                                 </li>
