@@ -1,7 +1,7 @@
 <?php
 class EncounterController extends BaseController{
     public function getInfo($eid){
-        $hospital = 'BVBD'; //change it when have session.
+        $hospital = '74001'; //change it when have session.
         $dept = 'kkb';
         $ward = 'khukb';
         $room = 'kkbpk1';

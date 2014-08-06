@@ -28,7 +28,8 @@ class RadtController extends BaseController
             ->where('eid', '0');
         if ($find->count()) {
             echo $find->update($input);
-        } else {
+        }
+        else {
             $queue = RadtQueue::create($input);
             echo $queue->id;
         }
@@ -64,10 +65,10 @@ class RadtController extends BaseController
             $person = Person::getPersonInfo($pid);
 
             if (isset($person->pid)) {
-                $enc = Encounter::where('pid',$pid)
-                    ->where('discharged',0)->first();
-                if(isset($enc->eid))
-                    return Redirect::to("#/enc/info/".$enc->eid);
+                $enc = Encounter::where('pid', $pid)
+                    ->where('discharged', 0)->first();
+                if (isset($enc->eid))
+                    return Redirect::to("#/enc/info/" . $enc->eid);
                 $data['person'] = $person;
                 $data['vitalsign'] = VitalSign::where('pid', $pid)
                     ->where('eid', '0')
@@ -90,7 +91,8 @@ class RadtController extends BaseController
                 $data['deptcode'] = $dept;
                 $data['wardcode'] = $ward;
                 return View::make(Config::get('main.theme') . '.radt.admission', $data);
-            } else return View::make(Config::get('main.theme') . '.pas.registration', array("message" => "Không tìm thấy mã " . $pid));
+            }
+            else return View::make(Config::get('main.theme') . '.pas.registration', array("message" => "Không tìm thấy mã " . $pid));
         }
         else
             return View::make(Config::get('main.theme') . '.pas.registration');
@@ -126,23 +128,48 @@ class RadtController extends BaseController
 
                 $input['datein'] = strtotime($input['datein']);
                 $enc = Encounter::create($input);
+                if ($enc->eid) {
+                    //cap nhap location
+                    $transfer = array();
+                    $admitinfo = PersonAdmissionInfo::where('pid', $input['pid'])
+                        ->where('eid', '0');
+                    $admitinfors = $admitinfo->first();
+                    if ($admitinfors) {
 
-                //cap nhat eid cho sinh hieu, thong tin tiep nhan, hang doi kham
-                VitalSign::where('pid',$input['pid'])
-                    ->where('eid','0')
-                    ->update(array('eid'=> $enc->eid));
-                PersonAdmissionInfo::where('pid',$input['pid'])
-                    ->where('eid','0')
-                    ->update(array('eid'=> $enc->eid));
-                RadtQueue::where('pid',$input['pid'])
-                    ->where('eid','0')
-                    ->update(array('eid'=> $enc->eid));
-                //cap nhap location
+                        $transfer['type'] = $admitinfors->by;
+                        if ($admitinfors->by == 2) {
+                            $transfer['fromhospital'] = $admitinfors->refplacecode;
+                        }
 
-                //tra ve ket qua
-                echo $enc->eid;
+                    }
+                    else{
+                        $transfer['type'] = 0;//mac dinh la tu den.
+                    }
+                    $transfer['eid'] = $enc->eid;
+                    $transfer['pid'] = $enc->pid;
+                    $transfer['tohospital'] = $hospital_code;
+                    $transfer['todept'] = $input['dept_code'];
+                    $transfer['toward'] = $input['ward_code'];
+                    $transfer['date'] =  $input['datein'];
+                    EncounterTransfer::create($transfer);
+
+                    //cap nhat eid cho sinh hieu, thong tin tiep nhan, hang doi kham
+                    VitalSign::where('pid', $input['pid'])
+                        ->where('eid', '0')
+                        ->update(array('eid' => $enc->eid));
+
+                    $admitinfo->update(array('eid' => $enc->eid));
+
+                    RadtQueue::where('pid', $input['pid'])
+                        ->where('eid', '0')
+                        ->update(array('eid' => $enc->eid));
+                    //tra ve ket qua
+                    echo $enc->eid;
+                }
+
             }
-        } else {
+        }
+        else {
             unset($input['datein']);
             $enc = Encounter::where('eid', $input['eid'])
                 ->update($input);

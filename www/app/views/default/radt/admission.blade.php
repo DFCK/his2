@@ -12,35 +12,37 @@
             }
         </style>
         <ul id="sparks" class="">
-            @if($vitalsign->height)
-            <li class="sparks-info">
-                Chiều cao
-                <span class="txt-color-blue">{{$vitalsign->height}} cm</span>.
-            </li>
-            @endif
-            @if($vitalsign->weight)
-            <li class="sparks-info">
-                Cân nặng
-                <span class="txt-color-blue">{{$vitalsign->weight}} kg</span>.
-            </li>
-            @endif
-            @if($vitalsign->temperature)
-            <li class="sparks-info">
-                Thân nhiệt
-                <span class="txt-color-blue">{{$vitalsign->temperature}} °C</span>.
-            </li>
-            @endif
-            @if($vitalsign->bloodpressure)
-            <li class="sparks-info">
-                Huyết áp
-                <span class="txt-color-blue">{{$vitalsign->bloodpressure}}</span>.
-            </li>
-            @endif
-            @if($vitalsign->heartbeat)
-            <li class="sparks-info">
-                Mạch:
-                <span class="txt-color-blue">{{$vitalsign->heartbeat}} l/p</span>.
-            </li>
+            @if($vitalsign)
+                @if($vitalsign->height)
+                <li class="sparks-info">
+                    Chiều cao
+                    <span class="txt-color-blue">{{$vitalsign->height}} cm</span>.
+                </li>
+                @endif
+                @if($vitalsign->weight)
+                <li class="sparks-info">
+                    Cân nặng
+                    <span class="txt-color-blue">{{$vitalsign->weight}} kg</span>.
+                </li>
+                @endif
+                @if($vitalsign->temperature)
+                <li class="sparks-info">
+                    Thân nhiệt
+                    <span class="txt-color-blue">{{$vitalsign->temperature}} °C</span>.
+                </li>
+                @endif
+                @if($vitalsign->bloodpressure)
+                <li class="sparks-info">
+                    Huyết áp
+                    <span class="txt-color-blue">{{$vitalsign->bloodpressure}}</span>.
+                </li>
+                @endif
+                @if($vitalsign->heartbeat)
+                <li class="sparks-info">
+                    Mạch:
+                    <span class="txt-color-blue">{{$vitalsign->heartbeat}} l/p</span>.
+                </li>
+                @endif
             @endif
 
 
@@ -212,7 +214,7 @@
                                     <section class=" col-xs-6">
                                         <label class="label">Khoa</label>
                                         <label class="select">
-                                            <select type="text" name="dept_code"
+                                            <select type="text" name="dept_code" disabled
                                                     ng-model="admission.dept_code">
                                                 @foreach($depts as $dept)
                                                      <option value="{{$dept->code}}">{{$dept->name}}</option>
@@ -224,7 +226,7 @@
                                     <section class="col col-xs-6">
                                         <label class="label">Khu</label>
                                         <label class="select">
-                                            <select type="text" name="ward_code"
+                                            <select type="text" name="ward_code"  disabled
                                                     ng-model="admission.ward_code">
                                                 @foreach($wards as $ward)
                                                 <option value="{{$ward->code}}">{{$ward->name}}</option>
