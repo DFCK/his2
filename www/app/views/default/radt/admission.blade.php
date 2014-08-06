@@ -265,6 +265,7 @@
 <div class="col-xs-12 col-sm-4 col-lg-4">
     <div class="alert alert-block alert-info">
         <h4 class="alert-heading">Thông tin tiếp nhận</h4>
+        @if($admissioninfo)
         @if($admissioninfo->by==2)
         <p>
             <b>Chuyển viện</b> từ <i>{{$admissioninfo->refplace}}
@@ -295,6 +296,7 @@
         @if($admissioninfo->familyhistory)
         <p> Tiền sử bệnh gia đình: <b>{{$admissioninfo->familyhistory}}</b></p>
         @endif
+        @endif
     </div>
 
     <!-- NEW WIDGET START -->
@@ -321,9 +323,9 @@
 
                 <!-- widget content -->
                 <div class="widget-body no-padding">
-                    <ul class="nav nav-pills nav-stacked">
+                    <ul class="nav nav-pills nav-stacked" ng-show="admission.eid != ''">
                         <li>
-                            <a><i class="fa fa-film"></i> Chỉ định CĐHA</a>
+                            <a data-ng-click="chidinhCDHA('lg')"><i class="fa fa-film"></i> Chỉ định CĐHA</a>
                         </li>
                         <li>
                             <a><i class="fa fa-flask"></i> Chỉ định Xét nghiệm </a>
@@ -359,7 +361,7 @@
      * @param $scope
      * @param $http
      */
-    function RadtAdmissionController($scope, $http, $interval, $filter) {
+    function RadtAdmissionController($scope, $http, $interval, $filter,$modal) {
 
         $scope.admission = {
             pid:'{{$person->pid}}',
@@ -508,5 +510,75 @@
                 }
             }
         });
+    $scope.havechidinhcdha = false;
+    $scope.chidinhCDHA = function (size) {
+
+        var modalInstance = $modal.open({
+            templateUrl: "{{URL::to('tpl/chidinhcdha')}}",
+            controller: ModalChidinhCDHAInstanceCtrl,
+            size: size,
+            resolve: {
+                havechidinhcdha:function(){
+                    return $scope.havechidinhcdha;
+                }
+            }
+        });
+        modalInstance.result.then(function(havechidinhcdha){
+            $scope.havechidinhcdha = havechidinhcdha;
+        });
+    };
     }
+    var ModalChidinhCDHAInstanceCtrl = function ($scope, $modalInstance,$http,havechidinhcdha,$filter) {
+        $scope.$watch('chidinhcdha.date',function(){
+            if(!$scope.admission.datein){
+                $scope.admission.datein = $filter('date')(new Date(),'dd-MM-yyyy HH:mm');
+            }
+        });
+        $scope.havechidinhcdha = havechidinhcdha;
+        var today = $filter('date')(new Date(),'dd-MM-yyyy HH:mm');
+        $scope.enc = {};
+        @if(isset($enc))
+            $scope.enc = {{$enc}};
+            console.log($scope.enc);
+        @endif
+        $scope.chidinhcdha = {
+            pid: $scope.enc.pid,
+            eid: $scope.enc.eid,
+            fullname:"{{$person->lastname.' '.$person->firstname}}",
+
+            id:'',
+            date:today
+        }
+        $scope.ok = function () {
+            $http.post('pas/savevitalsign',{
+                data:$scope.chidinhcdha
+            }).success(function(data){
+                $scope.load();
+                $scope.reset();
+            });
+        };
+        $scope.load = function(){
+            $http.get('pas/loadvitalsign/'+$scope.chidinhcdha.eid)
+                .success(function(data){
+
+                });
+        }
+        $scope.reset = function(){
+
+        }
+        $scope.edit = function(sh){
+            angular.copy(sh,$scope.chidinhcdha);
+        }
+        $scope.del = function(sh){
+            $http.delete('pas/delvitalsign/'+sh.id)
+                .success(function(data){
+                });
+        }
+
+        $scope.cancel = function () {
+           $modalInstance.dismiss('cancel');
+//            $modalInstance.close($scope.havevitalsign);
+        };
+        $scope.load();
+    };
 </script>
