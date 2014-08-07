@@ -69,22 +69,10 @@
                         <div class="row"> <hr></div>
                     <div class="row padding-top-10">
 
-                        <section class="col-xs-3 text-align-right ">
-                            <label class=" padding-5">Bệnh nhân đi được ?</label>
-                        </section>
-                        <section class="col-xs-1">
-                            <label class="radio">
-                                <input type="radio" name="diduoc" ng-model="chidinhcdha.diduoc" value="1">
-                                <i></i>
-                                Có
-                            </label>
-                        </section>
-                        <section class="col-xs-1">
-                            <label class="radio">
-                                <input type="radio" name="diduoc" ng-model="chidinhcdha.diduoc" value="0">
-                                <i></i>
-                                Không
-                            </label>
+                        <section class="col-xs-5 text-align-right ">
+                            <label class="toggle">
+                                <input type="radio" name="diduoc" >
+                                <i data-swchon-text="YES" data-swchoff-text="NO"></i>Bệnh nhân đi được ?</label>
                         </section>
                         <section class="col-xs-4 text-align-right  padding-right-10">
                             <label  class=" padding-5">Dị ứng ?</label>
@@ -170,3 +158,6 @@
     <button class="btn btn-primary" ng-click="ok()">{{trans('common.save')}}</button>
     <button class="btn btn-warning" ng-click="cancel()">Xong</button>
 </div>
+<script>
+    pageSetUp();
+</script>

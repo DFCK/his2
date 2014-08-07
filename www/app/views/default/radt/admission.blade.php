@@ -530,8 +530,8 @@
     }
     var ModalChidinhCDHAInstanceCtrl = function ($scope, $modalInstance,$http,havechidinhcdha,$filter) {
         $scope.$watch('chidinhcdha.date',function(){
-            if(!$scope.admission.datein){
-                $scope.admission.datein = $filter('date')(new Date(),'dd-MM-yyyy HH:mm');
+            if(!$scope.chidinhcdha.date){
+                $scope.chidinhcdha.date = $filter('date')(new Date(),'dd-MM-yyyy HH:mm');
             }
         });
         $scope.havechidinhcdha = havechidinhcdha;
