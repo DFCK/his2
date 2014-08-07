@@ -173,7 +173,7 @@ class PasController extends BaseController
         }
     }
     public function getLoadvitalsign($pid){
-        return VitalSign::where('pid',$pid)->where('eid','0')->get()->tojson();
+        return VitalSign::withTrashed()->where('pid',$pid)->get()->tojson();
     }
     public function deleteDelvitalsign($id){
         echo VitalSign::find($id)->delete();
@@ -201,7 +201,7 @@ class PasController extends BaseController
         }
     }
     public function getLoadadmissioninfo($pid){
-        return PersonAdmissionInfo::where('pid',$pid)->where('eid','0')->get()->tojson();
+        return PersonAdmissionInfo::withTrashed()->where('pid',$pid)->get()->tojson();
     }
     public function deleteDeladmissioninfo($id){
         echo PersonAdmissionInfo::find($id)->delete();

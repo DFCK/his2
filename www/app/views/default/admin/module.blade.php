@@ -259,6 +259,7 @@
                             getfunction();
                         angular.copy($scope.initial, $scope.afunc);
                         $scope.afunc['parent'] = 0;
+                        $scope.afunc.order = 0;
                         scrolltotop();
 
                     });

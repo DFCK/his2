@@ -91,14 +91,14 @@
         </fieldset>
     </form>
     <hr>
-    <h6>Lần hỏi bệnh chưa sử dụng</h6>
+    <h6>Các lần hỏi bệnh</h6>
 
     <div class="table-responsive">
         <table class="table table-bordered">
             <thead>
             <tr>
                 <th>Ngày lấy</th>
-
+                <th>Mã tiếp đón</th>
                 <th>Đến bệnh viện</th>
                 <th>Lý do</th>
                 <th></th>
@@ -107,7 +107,8 @@
             <tbody>
             <tr data-ng-repeat="sh in hoibenhlist">
                 <td>@{{sh.date* 1000 | date:'dd-MM-yyyy HH:mm'}}</td>
-                <td>
+               <td>@{{sh.eid}}</td>
+                 <td>
                     @{{sh.by | formatadmissionby}}
                 </td>
                 <td>
@@ -115,7 +116,7 @@
                 </td>
                 <td>
                     <a data-ng-click="edit(sh)" ng-if="!sh.deleted_at" tooltip="Sửa"><i class="fa fa-pencil-square fa-2x"></i></a>
-                    <a data-ng-click="del(sh)" ng-if="!sh.deleted_at" tooltip="Xóa"><i class="fa fa-trash-o fa-2x"></i></a>
+<!--                    <a data-ng-click="del(sh)" ng-if="!sh.deleted_at" tooltip="Xóa"><i class="fa fa-trash-o fa-2x"></i></a>-->
                     <a  ng-if="sh.deleted_at" tooltip="Đã xóa"><i class="fa fa-minus-circle fa-2x txt-color-red"></i></a>
                 </td>
             </tr>

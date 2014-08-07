@@ -12,7 +12,12 @@
             }
         </style>
         <ul id="sparks" class="">
-            @if($vitalsign)
+            @if(!isset($vitalsign))
+                @if(isset($enc))
+                    {{--*/ $vitalsign = $enc;/*--}}
+                @endif
+            @endif
+            @if(isset($vitalsign))
                 @if($vitalsign->height)
                 <li class="sparks-info">
                     Chiều cao
@@ -124,10 +129,10 @@
                         <fieldset>
                             <div class="col">
                                 <div class="row">
-                                    <section class="col-xs-3"  style="padding-top:5px">
+                                    <section class="col-xs-4"  style="padding-top:5px">
                                         <label class="label">Giờ nhận bệnh</label>
                                         </section>
-                                    <section class="col col-xs-9">
+                                    <section class="col col-xs-8">
                                         <label class="input">
                                             <input data-mask="99-99-9999 99:99" data-mask-placeholder="_" ng-model="admission.datein" >
                                         </label>
@@ -265,7 +270,12 @@
 <div class="col-xs-12 col-sm-4 col-lg-4">
     <div class="alert alert-block alert-info">
         <h4 class="alert-heading">Thông tin tiếp nhận</h4>
-        @if($admissioninfo)
+        @if(!isset($admissioninfo))
+            @if(isset($enc))
+            {{--*/ $admissioninfo = $enc;/*--}}
+            @endif
+        @endif
+        @if(isset($admissioninfo))
         @if($admissioninfo->by==2)
         <p>
             <b>Chuyển viện</b> từ <i>{{$admissioninfo->refplace}}
@@ -328,7 +338,9 @@
                             <a data-ng-click="chidinhCDHA('lg')" ><i class="fa fa-film"></i> Chỉ định CĐHA</a>
                         </li>
                         <li>
-                            <a data-ng-click="ketquaCDHA('lg')"><i class="fa fa-film"></i>  Kết quả CĐHA <label  tooltip="Đã có 0 kết quả"  class="label label-success">0</label>/<label tooltip="Đã tạo 0 yêu cầu" class="label label-info">0</label></a>
+                            <a data-ng-click="ketquaCDHA('lg')"><i class="fa fa-film"></i>  Kết quả CĐHA
+                                <label  tooltip="Đã có 0 kết quả"  class="label label-success">0</label>/
+                                <label tooltip="Đã tạo @{{numrisrequest}} yêu cầu" class="label label-info">@{{numrisrequest}}</label></a>
                         </li>
                         <li>
                             <a><i class="fa fa-flask"></i> Chỉ định Xét nghiệm </a>
@@ -387,15 +399,31 @@
             dept_code:'{{$deptcode}}'
     };
 
-        @if(isset($enc))
-            $scope.admission = {{$enc}};
-            $scope.admission.datein = $filter('date')($scope.admission.datein * 1000 ,'dd-MM-yyyy HH:mm');
+        @if(isset($encjson))
+            var tmp = {{$encjson}};
+            $scope.admission = {
+                eid: tmp.eid,
+                datein: $filter('date')(tmp.datein * 1000, 'dd-MM-yyyy HH:mm'),
+                firstdiagnosis: tmp.firstdiagnosis,
+                firstdiagnosiscode: tmp.firstdiagnosiscode,
+                diagnosiscode: tmp.diagnosiscode,
+                diagnosis: tmp.diagnosis,
+                tienluong: tmp.tienluong,
+                typeexam: tmp.typeexam,
+                summary: tmp.summary,
+                subdiagnosislist : tmp.subdiagnosislist,
+                subdiagnosiscodelist : tmp.subdiagnosiscodelist,
+                ward_code:tmp.ward_code,
+                dept_code:tmp.dept_code,
+            };
+//            $scope.admission.datein = $filter('date')($scope.admission.datein * 1000 ,'dd-MM-yyyy HH:mm');
             if($scope.admission.subdiagnosislist.trim().length > 0)
                 $scope.admission.subdiagnosislist = $scope.admission.subdiagnosislist.trim().split(",");
             else $scope.admission.subdiagnosislist = [];
             if($scope.admission.subdiagnosiscodelist.trim().length > 0)
                 $scope.admission.subdiagnosiscodelist = $scope.admission.subdiagnosiscodelist.trim().split(",");
             else $scope.admission.subdiagnosiscodelist = [];
+            $scope.numrisrequest = tmp.numrisrequest;
         @endif
         $scope.subdiagnosiscode = '';
         $scope.subdiagnosis = '';
@@ -513,7 +541,7 @@
                 }
             }
         });
-    $scope.havechidinhcdha = false;
+    ;
     $scope.chidinhCDHA = function (size) {
 
         var modalInstance = $modal.open({
@@ -521,50 +549,39 @@
             controller: ModalChidinhCDHAInstanceCtrl,
             size: size,
             resolve: {
-                havechidinhcdha:function(){
-                    return $scope.havechidinhcdha;
+                numrequest:function(){
+                    return $scope.numrisrequest;
                 }
             }
         });
-        modalInstance.result.then(function(havechidinhcdha){
-            $scope.havechidinhcdha = havechidinhcdha;
+        modalInstance.result.then(function(numrequest){
+            $scope.numrisrequest = numrequest;
         });
     };
+
+    $scope.ketquaCDHA = function (size) {
+
+        var modalInstance = $modal.open({
+            templateUrl: "{{URL::to('tpl/ketquacdha')}}",
+            controller: ModalKetquaCDHAInstanceCtrl,
+            size: size,
+//            resolve: {
+//                havechidinhcdha:function(){
+//                    return $scope.havechidinhcdha;
+//                }
+//            }
+        });
+//        modalInstance.result.then(function(havechidinhcdha){
+//            $scope.havechidinhcdha = havechidinhcdha;
+//        });
+    };
     }
-    var ModalChidinhCDHAInstanceCtrl = function ($scope, $modalInstance,$http,havechidinhcdha,$filter) {
-
-        $scope.havechidinhcdha = havechidinhcdha;
-        var today = $filter('date')(new Date(),'dd-MM-yyyy HH:mm');
+    var ModalKetquaCDHAInstanceCtrl =function($scope,$http,$modalInstance){
         $scope.enc = {};
-        @if(isset($enc))
-            $scope.enc = {{$enc}};
+        @if(isset($encjson))
+            $scope.enc = {{$encjson}};
         @endif
-        $scope.chidinhcdha = {
-            position :[],
-            diduoc:true,
-            pid: $scope.enc.pid,
-            eid: $scope.enc.eid,
-
-            date:today
-        }
-        $scope.fullname ="{{$person->lastname.' '.$person->firstname}}",
-
-        $scope.chidinhcdhapositionlist = [];
-        $scope.ok = function () {
-//            console.log($scope.chidinhcdha);
-            if($scope.chidinhcdha.position.length <= 0){
-                myalert("Thông báo","Phải chọn ít nhất một vị trí.");
-            }
-            else{
-                $http.post('ris/savechidinhcdha',{
-                    data: $scope.chidinhcdha
-                }).success(function(data){
-
-                    });
-
-            }
-        };
-
+        $scope.fullname ="{{$person->lastname.' '.$person->firstname}}";
         $scope.reset = function(){
 
         }
@@ -572,10 +589,59 @@
             angular.copy(sh,$scope.chidinhcdha);
         }
         $scope.del = function(sh){
-            $http.delete('pas/delvitalsign/'+sh.id)
+            $http.delete('ris/delchidinhcdha/'+sh.id)
                 .success(function(data){
                 });
         }
+
+        $scope.cancel = function () {
+            $modalInstance.dismiss('cancel');
+        };
+        $scope.requestlist = [];
+        $scope.load = function(){
+            $http.get('ris/loadrequestris/'+$scope.enc.eid)
+                .success(function(data){
+                    $scope.requestlist = data;
+                });
+        };
+        $scope.load();
+    };
+    var ModalChidinhCDHAInstanceCtrl = function ($scope, $modalInstance,$http,numrequest,$filter) {
+        $scope.numrequest = numrequest;
+        var today = $filter('date')(new Date(),'dd-MM-yyyy HH:mm');
+        $scope.enc = {};
+        @if(isset($encjson))
+            $scope.enc = {{$encjson}};
+        @endif
+        $scope.chidinhcdha = {
+            position :[],
+            diduoc:true,
+            pid: $scope.enc.pid,
+            eid: $scope.enc.eid,
+            date:today
+        }
+        $scope.fullname ="{{$person->lastname.' '.$person->firstname}}";
+
+        $scope.chidinhcdhapositionlist = [];
+        $scope.ok = function () {
+            if($scope.chidinhcdha.position.length <= 0){
+                myalert("Thông báo","Phải chọn ít nhất một vị trí.");
+            }
+            else{
+                $http.post('ris/savechidinhcdha',{
+                    data: $scope.chidinhcdha
+                }).success(function(data){
+                         if(data > 0){
+                             $scope.numrequest = data;
+                             myalert("Thông báo","Đã gửi thành công yêu cầu.")
+                             $modalInstance.close($scope.numrequest);
+                         }
+                        else{
+                             myalert("Thông báo","Có lỗi khi gửi yêu cầu, Vui lòng thử lại.")
+                         }
+                    });
+            }
+        };
 
         $scope.cancel = function () {
            $modalInstance.dismiss('cancel');

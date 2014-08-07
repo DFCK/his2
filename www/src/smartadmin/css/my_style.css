@@ -36,5 +36,12 @@
 }
 #danhmuccdha{
    height: 350px;
-    overflow-y: auto;
+    overflow-y: scroll;
 }
+.modal-lg{
+    width: 90%;
+}
+/*#listyeucaucdha{*/
+    /*height: 100px;*/
+    /*overflow-y: scroll;*/
+/*}*/

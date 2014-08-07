@@ -88,6 +88,14 @@
                     </div>
                 </div>
             </article>
+            @if($person->eid > 0)
+            <div class="col col-xs-12 col-md-4">
+                <div class=" alert alert-warning">
+                    Bệnh nhân đang được điều trị
+                    <h3><a href="/#/enc/info/{{$person->eid}}">{{$person->eid}}</a></h3>
+                </div>
+            </div>
+            @endif
             <article class="col-xs-12 col-md-4">
                 <!-- Widget ID (each widget will need unique ID)-->
                 <div class="jarviswidget jarviswidget-color-white" id="wid-id-passhow3"
@@ -276,13 +284,16 @@
                $scope.reset();
            });
        };
+       $scope.sumsinhhieuavail = 0;
        $scope.load = function(){
            $http.get('pas/loadvitalsign/'+$scope.sinhhieu.pid)
                .success(function(data){
                    $scope.sinhhieulist = data;
-                   if(data.length > 0) $scope.havevitalsign = true;
-                   else $scope.havevitalsign = false;
-
+                   $scope.havevitalsign = false;
+                   angular.forEach($scope.sinhhieulist,function(value,key){
+                        if((value.eid == 0 || value.eid == '{{$person->eid}}') && !value.deleted_at )
+                            $scope.havevitalsign = true;
+                   });
                });
        }
        $scope.reset = function(){
@@ -354,8 +365,13 @@
            $http.get('pas/loadadmissioninfo/'+$scope.hoibenh.pid)
                .success(function(data){
                    $scope.hoibenhlist = data;
-                   if(data.length > 0) $scope.havehoibenh = true;
-                   else $scope.havehoibenh = false;
+                   $scope.havehoibenh = false;
+                   angular.forEach($scope.hoibenhlist,function(value,key){
+                       if(value.eid == 0 || value.eid == '{{$person->eid}}' )
+                           $scope.havehoibenh = true;
+                   });
+//                   if(data.length > 0) $scope.havehoibenh = true;
+//                   else $scope.havehoibenh = false;
 
                });
        }

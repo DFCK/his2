@@ -70,13 +70,14 @@
             </fieldset>
         </form>
         <hr>
-    <h6>Sinh hiệu chưa được sử dụng</h6>
+    <h6>Sinh hiệu đã lấy</h6>
 
     <div class="table-responsive">
         <table class="table table-bordered">
             <thead>
                 <tr>
                     <th>Ngày lấy</th>
+                    <th>Mã tiếp đón</th>
                     <th>Chiều cao</th>
                     <th>Cân nặng</th>
                     <th>Thân nhiệt</th>
@@ -89,6 +90,7 @@
             <tbody>
             <tr data-ng-repeat="sh in sinhhieulist">
                 <td>@{{sh.created_at}}</td>
+                <td>@{{sh.eid}}</td>
                 <td>@{{sh.height}} (cm)</td>
                 <td>@{{sh.weight}} (kg)</td>
                 <td>@{{sh.temperature}} (°C)</td>
@@ -97,7 +99,7 @@
                 <td>@{{sh.breathing}} (lần/phút)</td>
                 <td>
                     <a data-ng-click="edit(sh)" ng-if="!sh.deleted_at" tooltip="Sửa"><i class="fa fa-pencil-square fa-2x"></i></a>
-                    <a data-ng-click="del(sh)" ng-if="!sh.deleted_at" tooltip="Xóa"><i class="fa fa-trash-o fa-2x"></i></a>
+<!--                    <a data-ng-click="del(sh)" ng-if="!sh.deleted_at" tooltip="Xóa"><i class="fa fa-trash-o fa-2x"></i></a>-->
                     <a  ng-if="sh.deleted_at" tooltip="Đã xóa"><i class="fa fa-minus-circle fa-2x txt-color-red"></i></a>
                 </td>
             </tr>

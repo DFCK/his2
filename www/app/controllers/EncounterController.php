@@ -7,21 +7,14 @@ class EncounterController extends BaseController{
         $room = 'kkbpk1';
         if (strlen($eid) == 15) {
             $data['eid'] = $eid;
-            $enc = Encounter::where('eid',$eid)->first();
+            $enc = vEncounter::where('eid',$eid)->first();
             if($enc->pid){
                 $pid = $enc->pid;
                 $person = Person::getPersonInfo($pid);
-                $data['enc'] = $enc->tojson();
+                $data['encjson'] = $enc->tojson();
+                $data['enc'] = $enc;
                 if ($person->pid) {
                     $data['person'] = $person;
-                    $data['vitalsign'] = VitalSign::where('pid', $pid)
-                        ->where('eid', $eid)
-                        ->orderby('id', 'DESC')
-                        ->first();
-                    $data['admissioninfo'] = PersonAdmissionInfo::where('pid', $pid)
-                        ->where('eid', $eid)
-                        ->orderby('id', 'DESC')
-                        ->first();
                     $data['depts'] = DB::table('dfck_hospital_department AS d')
                         ->join('dfck_type_department AS t', 't.code', '=', 'd.ref_code')
                         ->where('d.hospital_code', $hospital)
@@ -34,6 +27,7 @@ class EncounterController extends BaseController{
                         ->get();
                     $data['deptcode'] = $dept;
                     $data['wardcode'] = $ward;
+
                     return View::make(Config::get('main.theme') . '.radt.admission', $data);
                 }
             }

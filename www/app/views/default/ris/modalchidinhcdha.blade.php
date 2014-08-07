@@ -74,7 +74,7 @@
                         <div class="row"> <hr></div>
                     <div class="row padding-top-10">
 
-                        <section class="col-xs-6 text-align-right ">
+                        <section class="col-xs-5 text-align-right ">
                             Bệnh nhân đi được
                             <span class="onoffswitch">
                                 <input type="checkbox" name="diduoc" class="onoffswitch-checkbox" ng-checked="chidinhcdha.diduoc" id="diduoc" ng-model="chidinhcdha.diduoc">
@@ -86,7 +86,7 @@
 
                             </span>
                         </section>
-                        <section class="col-xs-6 text-align-right  padding-right-10">
+                        <section class="col-xs-5 text-align-right  padding-right-10">
                             Dị ứng ?
                             <span class="onoffswitch">
                                 <input type="checkbox" name="diung" class="onoffswitch-checkbox" ng-checked="chidinhcdha.diung" id="diung" ng-model="chidinhcdha.diung">
@@ -97,7 +97,7 @@
                             </span>
                         </section>
 
-                        <section class="col-xs-6 text-align-right">
+                        <section class="col-xs-5 text-align-right">
                             Cường giáp ?
                          <span class="onoffswitch">
                                 <input type="checkbox" name="cuonggiap" class="onoffswitch-checkbox" ng-checked="chidinhcdha.cuonggiap" id="cuonggiap" ng-model="chidinhcdha.cuonggiap">
@@ -107,7 +107,7 @@
                                 </label>
                             </span>
                         </section>
-                        <section class="col-xs-6 text-align-right">
+                        <section class="col-xs-5 text-align-right">
                            Đang mang thai ?
                         <span class="onoffswitch">
                                 <input type="checkbox" name="mangthai" class="onoffswitch-checkbox" ng-checked="chidinhcdha.mangthai" id="mangthai" ng-model="chidinhcdha.mangthai">
@@ -166,8 +166,4 @@
 
 <script>
     pageSetUp();
-    function pagefunction(){
-
-    }
-    loadScript("src/smartadmin/js/plugin/jquery-form/jquery-form.min.js", pagefunction);
 </script>

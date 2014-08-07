@@ -34,4 +34,7 @@ class TplController extends BaseController
     public function getChidinhcdha(){
         return View::make(Config::get('main.theme').'.ris.modalchidinhcdha');
     }
+    public function getKetquacdha(){
+        return View::make(Config::get('main.theme').'.ris.modalketquacdha');
+    }
 }
