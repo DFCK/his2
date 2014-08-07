@@ -31,4 +31,7 @@ class TplController extends BaseController
     public function getRoomqueue(){
         return View::make(Config::get('main.theme').'.radt.roomqueue');
     }
+    public function getChidinhcdha(){
+        return View::make(Config::get('main.theme').'.ris.modalchidinhcdha');
+    }
 }
