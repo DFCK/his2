@@ -34,9 +34,9 @@ class RisController extends BaseController{
         return View::make(Config::get('main.theme') . '.ris.sieuam', $data);
 
     }
-    public function getLoadsieuamrequest($datefrom,$dateto,$status=0){
-        $datefrom = strtotime($datefrom);
-        $dateto = strtotime($dateto." 23:59:59");
+    public function getLoadsieuamrequest($date,$status=0){
+        $datefrom = strtotime($date);
+        $dateto = strtotime($date." 23:59:59");
         $request =  DB::table('dfck_ris_request AS r')
             ->join('dfck_person AS p','p.pid','=','r.pid')
             ->where('r.type','sieuam')
