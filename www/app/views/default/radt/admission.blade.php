@@ -325,7 +325,10 @@
                 <div class="widget-body no-padding">
                     <ul class="nav nav-pills nav-stacked" ng-show="admission.eid != ''">
                         <li>
-                            <a data-ng-click="chidinhCDHA('lg')"><i class="fa fa-film"></i> Chỉ định CĐHA</a>
+                            <a data-ng-click="chidinhCDHA('lg')" ><i class="fa fa-film"></i> Chỉ định CĐHA</a>
+                        </li>
+                        <li>
+                            <a data-ng-click="ketquaCDHA('lg')"><i class="fa fa-film"></i>  Kết quả CĐHA <label  tooltip="Đã có 0 kết quả"  class="label label-success">0</label>/<label tooltip="Đã tạo 0 yêu cầu" class="label label-info">0</label></a>
                         </li>
                         <li>
                             <a><i class="fa fa-flask"></i> Chỉ định Xét nghiệm </a>
@@ -529,40 +532,39 @@
     };
     }
     var ModalChidinhCDHAInstanceCtrl = function ($scope, $modalInstance,$http,havechidinhcdha,$filter) {
-        $scope.$watch('chidinhcdha.date',function(){
-            if(!$scope.chidinhcdha.date){
-                $scope.chidinhcdha.date = $filter('date')(new Date(),'dd-MM-yyyy HH:mm');
-            }
-        });
+
         $scope.havechidinhcdha = havechidinhcdha;
         var today = $filter('date')(new Date(),'dd-MM-yyyy HH:mm');
         $scope.enc = {};
         @if(isset($enc))
             $scope.enc = {{$enc}};
-            console.log($scope.enc);
         @endif
         $scope.chidinhcdha = {
+            position :[],
+            diduoc:true,
             pid: $scope.enc.pid,
             eid: $scope.enc.eid,
-            fullname:"{{$person->lastname.' '.$person->firstname}}",
 
-            id:'',
             date:today
         }
-        $scope.ok = function () {
-            $http.post('pas/savevitalsign',{
-                data:$scope.chidinhcdha
-            }).success(function(data){
-                $scope.load();
-                $scope.reset();
-            });
-        };
-        $scope.load = function(){
-            $http.get('pas/loadvitalsign/'+$scope.chidinhcdha.eid)
-                .success(function(data){
+        $scope.fullname ="{{$person->lastname.' '.$person->firstname}}",
 
-                });
-        }
+        $scope.chidinhcdhapositionlist = [];
+        $scope.ok = function () {
+//            console.log($scope.chidinhcdha);
+            if($scope.chidinhcdha.position.length <= 0){
+                myalert("Thông báo","Phải chọn ít nhất một vị trí.");
+            }
+            else{
+                $http.post('ris/savechidinhcdha',{
+                    data: $scope.chidinhcdha
+                }).success(function(data){
+
+                    });
+
+            }
+        };
+
         $scope.reset = function(){
 
         }
@@ -579,6 +581,34 @@
            $modalInstance.dismiss('cancel');
 //            $modalInstance.close($scope.havevitalsign);
         };
-        $scope.load();
+        $scope.cdhaposition = [];
+        $scope.$watch('chidinhcdha.date',function(){
+            if(!$scope.chidinhcdha.date){
+                $scope.chidinhcdha.date = $filter('date')(new Date(),'dd-MM-yyyy HH:mm');
+            }
+        });
+        $scope.$watch('chidinhcdha.type',function(){
+            if($scope.chidinhcdha.type){
+                $http.get('ris/loadcdhaposition/'+$scope.chidinhcdha.type)
+                    .success(function(data){
+                        $scope.cdhaposition = data;
+                    });
+            }
+        });
+        $scope.removeposition = function(pos){
+            $scope.chidinhcdhapositionlist.pop(pos);
+            $scope.chidinhcdha.position.pop(pos.code);
+        }
+        $scope.checkposition = function(pos){
+            if($scope.chidinhcdha.position.indexOf(pos.code)<0){
+                $scope.chidinhcdhapositionlist.push(pos);
+                $scope.chidinhcdha.position.push(pos.code);
+            }
+            else{
+                $scope.chidinhcdhapositionlist.pop(pos);
+                $scope.chidinhcdha.position.pop(pos.code);
+            }
+
+        }
     };
 </script>

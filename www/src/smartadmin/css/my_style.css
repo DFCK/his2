@@ -34,3 +34,7 @@
 #modalchidinhcdha{
     min-height: 400px;
 }
+#danhmuccdha{
+   height: 350px;
+    overflow-y: auto;
+}

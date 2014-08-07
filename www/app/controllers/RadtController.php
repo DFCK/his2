@@ -68,7 +68,7 @@ class RadtController extends BaseController
                 $enc = Encounter::where('pid', $pid)
                     ->where('discharged', 0)->first();
                 if (isset($enc->eid))
-                    return Redirect::to("#/enc/info/" . $enc->eid);
+                    return Redirect::to("/enc/info/" . $enc->eid);
                 $data['person'] = $person;
                 $data['vitalsign'] = VitalSign::where('pid', $pid)
                     ->where('eid', '0')

@@ -20,6 +20,7 @@ Route::any('logout','UserController@logout');
 Route::controller('hrm','HrmController');
 Route::controller('radt','RadtController');
 Route::controller('enc','EncounterController');
+Route::controller('ris','RisController');
 
 
 Route::get('/','HomeController@getIndex');
