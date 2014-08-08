@@ -4,7 +4,7 @@ class Person extends Eloquent
 {
     protected $table = 'dfck_person';
     protected $fillable = array(
-        'pid', 'lastname', 'firstname', 'sex', 'dob', 'yob',
+        'hospital_code','pid', 'lastname', 'firstname', 'sex', 'dob', 'yob',
         'address', 'province', 'district', 'addressward',
         'doituong', 'insurancecode', 'insurancefromdate', 'insurancetodate', 'insurancecompany', 'insuranceplace',
         'avatar', 'country', 'route', 'cmnd', 'dateissue', 'placeissue',

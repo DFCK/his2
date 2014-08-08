@@ -548,14 +548,12 @@
                 <img id="modelcapture" src="" ng-show="!iscamera">
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="star" data-ng-click="camera()">Mở
-                                                                                                 camera
+                <button type="button" class="btn btn-primary" id="star" data-ng-click="camera()">
+                    Mở camera
                 </button>
                 <button type="button" class="btn btn-success" id="snap"
                         data-ng-click="camcapture()">Lấy hình
                 </button>
-                <!--                    <button type="button" class="btn btn-success" data-ng-click="cropimg()">Crop</button>-->
-                <!--                    <button type="button" class="btn btn-default" id="stop" data-ng-click="stopcamera()">Dừng camera-->
                 </button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">
                     Xong
@@ -681,31 +679,25 @@ function personregistercontroller($scope, $http,ngProgress) {
         }
 
     };
-    var canvas = document.getElementById("canvas"),
-        context = canvas.getContext("2d"),
-        video = document.getElementById("video"),
-        videoObj = { "video": true },
-        errBack = function (error) {
-            console.log("Video capture error: ", error.code);
-        };
+
     $scope.iscamera = true;
+    $scope.stopcamera = function () {
+        stopcamera();
+    };
     $scope.camera = function () {
         $scope.iscamera = true;
         opencamera();
     };
-    $scope.cropimg = function () {
-        jquerycropimg();
-    };
     $scope.camcapture = function () {
         $scope.iscamera = false;
         context.drawImage(video, 80, 0, 480, 480, 0, 0, 480, 480);
-        // "image/webp" works in Chrome.
-        // Other browsers will fall back to image/png.
         document.getElementById("modelcapture").src = canvas.toDataURL("image/jpeg");
         document.getElementById("pasavatar").src = canvas.toDataURL("image/jpeg");
         $scope.person.avatar = canvas.toDataURL("image/jpeg");
         $scope.stopcamera();
     };
+
+
     $scope.$watch('person.avatar', function () {
         document.getElementById("inputavatar").value = $scope.person.avatar;
     });
@@ -868,40 +860,8 @@ function personregistercontroller($scope, $http,ngProgress) {
             return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
         });
     };
-    $scope.stopcamera = function () {
-        video.pause();
-        if (navigator.getUserMedia) {
-            video.src = null;
-        }
-        else if (navigator.mozGetUserMedia) {
-            video.mozSrcObject = null;
-        }
-        else if (navigator.webkitGetUserMedia) {
-            video.src = "";
-        }
-    };
-    var opencamera = function () {
-        // Put video listeners into place
-        if (navigator.getUserMedia) { // Standard
-            navigator.getUserMedia(videoObj, function (stream) {
-                video.src = stream;
-                video.play();
-            }, errBack);
-        }
-        else if (navigator.webkitGetUserMedia) { // WebKit-prefixed
-            navigator.webkitGetUserMedia(videoObj, function (stream) {
-                video.src = window.webkitURL.createObjectURL(stream);
-                video.play();
-            }, errBack);
-        }
-        else if (navigator.mozGetUserMedia) { // Firefox-prefixed
-            navigator.mozGetUserMedia(videoObj, function (stream) {
-                video.src = window.URL.createObjectURL(stream);
-                video.play();
-            }, errBack);
-        }
 
-    };
+
     $scope.nextinputCallback = function ($event) {
         var $target = $($event.target);
         var currentindex = parseInt($target.attr("tabindex"));

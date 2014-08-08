@@ -2,7 +2,7 @@
 class RISRequest extends Eloquent{
     protected $table='dfck_ris_request';
     protected $fillable = array('hospital_code','pid','eid','date','position','type',
-    'diduoc','diung','cuonggiap','mangthai','lamsang','note','staff');
+    'diduoc','diung','cuonggiap','mangthai','lamsang','note','staff','status');
     protected $softDelete = true;
 
     /**

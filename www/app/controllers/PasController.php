@@ -105,6 +105,7 @@ class PasController extends BaseController
      */
     public function postSaveperson()
     {
+        $hospital_code = 74001;
         $input = Input::get('data');
 //        return Response::json($input);
         if ($input['pid'] <= 0 || $input['pid']=='') {
@@ -124,6 +125,7 @@ class PasController extends BaseController
                 if ($input['dateissue'] != '') {
                     $input['dateissue'] = strtotime(substr($input['dateissue'], 4, 4) . '-' . substr($input['dateissue'], 2, 2) . '-' . substr($input['dateissue'], 0, 2));
                 }
+                $input['hospital_code'] = $hospital_code;
                 $person = Person::create($input);
                 return $person->pid;
             }
@@ -158,6 +160,7 @@ class PasController extends BaseController
      * Quan ly sinh hieu
      */
     public function postSavevitalsign(){
+        $hospital_code = 74001;
         $input = Input::get('data');
         if($input['id']=='' || $input['id']==0){
             $input['pid'] = (int)$input['pid'];
@@ -165,6 +168,7 @@ class PasController extends BaseController
                 ->where('eid','0')
                 ->delete();
             $input['date'] = strtotime($input['date']);
+            $input['hospital_code'] = $hospital_code;
             $sh = VitalSign::create($input);
             echo $sh->id;
         }
@@ -184,6 +188,7 @@ class PasController extends BaseController
      * Quan ly hoi benh
      */
     public function postSaveadmissioninfo(){
+        $hospital_code = 74001;
         $input = Input::get('data');
         $d =  $input['date'];
         $input['date'] = strtotime($d);
@@ -193,6 +198,7 @@ class PasController extends BaseController
             PersonAdmissionInfo::where('pid',$input['pid'])
                 ->where('eid','0')
                 ->delete();
+            $input['hospital_code'] = $hospital_code;
             $sh = PersonAdmissionInfo::create($input);
             echo $sh->id;
         }
