@@ -130,88 +130,104 @@
                     <p ng-if="Request.note">Ghi chú: @{{Request.note}}</p>
                     <p>Bác sĩ yêu cầu: <strong>@{{Request.staff}}</strong></p>
                 </div>
-                <div class="col col-xs-12 padding-bottom-10">
-                    <div class="row">
-                        <button type="button" class="btn btn-warning" id="star"
-                                data-ng-click="camera()">
-                            Mở/Đóng
-                        </button>
-                        <button type="button" class="btn btn-info" id="snap"
-                                data-ng-click="camcapture(1)">
-                            Lấy hình 1
-                        </button>
-                        <button type="button" class="btn btn-info" id="snap2"
-                                data-ng-click="camcapture(2)">
-                            Lấy hình 2
-                        </button>
-                        <button type="button" class="btn btn-success" id="snap2"
-                                data-ng-click="save()">
-                            Lưu
-                        </button>
-                        <button type="button" class="btn btn-primary" id="snap2"
-                                data-ng-click="close()">
-                            Xong
-                        </button>
-                    </div>
 
-                </div>
-                <div class="col col-xs-12">
-                    <div class="row">
-                        <div class="col-xs-8 no-padding">
-                            <textarea class="summernote" ng-model="resulttext"></textarea>
-                        </div>
-                        <div class="col-xs-4">
-                            <div class="col-xs-12">
-                                <div class="row">
-                                    <div ng-if="sieuamimage[1]" style="position: relative">
-                                        <img src="@{{sieuamimage[1]}}"
-                                             class="img-responsive img-thumbnail"
-                                             style="max-height: 210px">
-                                        <i class="fa fa-minus-circle fa-2x"
-                                           data-ng-click="delimage(1)"
-                                           style="position: absolute;bottom:10px;left:15px"></i>
+                    <article class="col-xs-12 no-padding">
+
+                        <!-- Widget ID (each widget will need unique ID)-->
+                        <div class="jarviswidget jarviswidget-color-blue" id="wid-id-sieuam3"
+                             data-widget-editbutton="false"
+                             data-widget-deletebutton="false"
+                             data-widget-sortable="false"
+                             data-widget-togglebutton="false"
+                             data-widget-colorbutton="false"
+                            >
+                            <header>
+                                <span class="widget-icon"> <i class="fa fa-tasks"></i> </span>
+
+                                <h2>Kết quả siêu âm</h2>
+                            </header>
+                            <!-- widget div-->
+                            <div>
+                                <!-- widget content -->
+                                <div class="widget-body">
+                        <div class="row">
+                            <div class="col col-xs-12 padding-bottom-10">
+                                    <button type="button" class="btn btn-warning" id="star"
+                                            data-ng-click="camera()">
+                                        Mở/Đóng
+                                    </button>
+                                    <button type="button" class="btn btn-info" id="snap"
+                                            data-ng-click="camcapture(1)">
+                                        Lấy hình 1
+                                    </button>
+                                    <button type="button" class="btn btn-info" id="snap2"
+                                            data-ng-click="camcapture(2)">
+                                        Lấy hình 2
+                                    </button>
+                                    <button type="button" class="btn btn-success" id="snap2"
+                                            data-ng-click="save()">
+                                        Lưu
+                                    </button>
+                                    <button type="button" class="btn btn-primary" id="snap2"
+                                            data-ng-click="close()">
+                                        Xong
+                                    </button>
+                            </div>
+                            <div class="col-xs-8">
+                                <textarea class="summernote" ng-model="resulttext"></textarea>
+                            </div>
+                            <div class="col-xs-4">
+                                <div class="col-xs-12">
+                                    <div class="row">
+                                        <div ng-show="sieuamimage[1]" style="position: relative">
+                                            <img src="@{{sieuamimage[1]}}"
+                                                 class="img-responsive img-thumbnail"
+                                                 style="max-height: 210px">
+                                            <i class="fa fa-minus-circle fa-2x"
+                                               data-ng-click="delimage(1)"
+                                               style="position: absolute;bottom:10px;left:15px"></i>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div ng-if="sieuamimage[2]">
-                                        <img src="@{{sieuamimage[2]}}"
-                                             class="img-responsive img-thumbnail"
-                                             style="max-height: 210px">
-                                        <i class="fa fa-minus-circle fa-2x"
-                                           data-ng-click="delimage(2)"
-                                           style="position: absolute;bottom:10px;left:15px"></i>
+                                    <div class="row">
+                                        <div ng-show="sieuamimage[2]">
+                                            <img src="@{{sieuamimage[2]}}"
+                                                 class="img-responsive img-thumbnail"
+                                                 style="max-height: 210px">
+                                            <i class="fa fa-minus-circle fa-2x"
+                                               data-ng-click="delimage(2)"
+                                               style="position: absolute;bottom:10px;left:15px"></i>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="row">
-                        <div class="col col-xs-12 padding-bottom-10 padding-top-10">
-                            <button type="button" class="btn btn-warning" id="star"
-                                    data-ng-click="camera()">
-                                Mở/Đóng
-                            </button>
-                            <button type="button" class="btn btn-info" id="snap"
-                                    data-ng-click="camcapture(1)">
-                                Lấy hình 1
-                            </button>
-                            <button type="button" class="btn btn-info" id="snap2"
-                                    data-ng-click="camcapture(2)">
-                                Lấy hình 2
-                            </button>
-                            <button type="button" class="btn btn-success" id="snap2"
-                                    data-ng-click="save()">
-                                Lưu
-                            </button>
-                            <button type="button" class="btn btn-primary" id="snap2"
-                                    data-ng-click="close()">
-                                Xong
-                            </button>
+                        <div class="row">
+                            <div class="col col-xs-12 padding-bottom-10 padding-top-10">
+                                <button type="button" class="btn btn-warning" id="star"
+                                        data-ng-click="camera()">
+                                    Mở/Đóng
+                                </button>
+                                <button type="button" class="btn btn-info" id="snap"
+                                        data-ng-click="camcapture(1)">
+                                    Lấy hình 1
+                                </button>
+                                <button type="button" class="btn btn-info" id="snap2"
+                                        data-ng-click="camcapture(2)">
+                                    Lấy hình 2
+                                </button>
+                                <button type="button" class="btn btn-success" id="snap2"
+                                        data-ng-click="save()">
+                                    Lưu
+                                </button>
+                                <button type="button" class="btn btn-primary" id="snap2"
+                                        data-ng-click="close()">
+                                    Xong
+                                </button>
+                            </div>
+
                         </div>
-
-                    </div>
-                    <div class="row">
+                        <div class="row">
                         <div>
                             <video id="video" width="640" height="480" autoplay
                                    ng-show="iscamera"></video>
@@ -219,7 +235,11 @@
                                     style="display: none"></canvas>
                             <img id="modelcapture" src="" ng-show="!iscamera">
                         </div>
-                    </div>
+                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
                 </div>
             </div>
         </div>
@@ -247,12 +267,23 @@
         $scope.onajax = false;
         $scope.show = function (request) {
             angular.copy(request, $scope.Request);
-            $http.get('ris/loadsieuamtemplate/sieuam/'+request.position)
-                .success(function(data){
-                    $scope.resulttext = data;
-                    $('.summernote').code(data);
-                    $scope.sieuamimage = [];
-                });
+            if(!$scope.status){
+                $http.get('ris/loadsieuamtemplate/sieuam/'+request.position)
+                    .success(function(data){
+                        $scope.resulttext = data;
+                        $('.summernote').code(data);
+                        $scope.sieuamimage = ["","",""];
+                    });
+            }
+            else{
+                $http.get('ris/loadsieuamresult/'+request.id)
+                    .success(function(data){
+                        $scope.Result = data;
+                        $('.summernote').code($scope.Result.textresult);
+                        $scope.sieuamimage[1] = $scope.Result.image1;
+                        $scope.sieuamimage[2] = $scope.Result.image2;
+                    });
+            }
 
         }
         $scope.loadlist = function () {
@@ -314,7 +345,7 @@
             $scope.loadlist();
             $scope.Result = {};
         }
-        $scope.sieuamimage = [];
+        $scope.sieuamimage = ["","",""];
 
 
         $scope.stopcamera = function(){

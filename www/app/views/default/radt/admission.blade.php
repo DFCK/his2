@@ -180,7 +180,7 @@
                                     </section>
                                     <section class="col col-xs-10">
                                         <label class="input">
-                                            <autocomplete placeholder="" ng-model="admission.subdiagnosis" data="searchresult" on-type="searchIcd10text"></autocomplete>
+                                            <autocomplete placeholder="" ng-model="subdiagnosis" data="searchresult" on-type="searchIcd10text"></autocomplete>
                                         </label>
 
                                     </section>
@@ -339,8 +339,8 @@
                         </li>
                         <li>
                             <a data-ng-click="ketquaCDHA('lg')"><i class="fa fa-film"></i>  Kết quả CĐHA
-                                <label  tooltip="Đã có 0 kết quả"  class="label label-success">0</label>/
-                                <label tooltip="Đã tạo @{{numrisrequest}} yêu cầu" class="label label-info">@{{numrisrequest}}</label></a>
+                                <label  tooltip="Đã có @{{numrisresult}} kết quả"  class="label label-success">@{{numrisresult}}</label>/
+                                <label tooltip="Đã gửi @{{numrisrequest}} yêu cầu" class="label label-info">@{{numrisrequest}}</label></a>
                         </li>
                         <li>
                             <a><i class="fa fa-flask"></i> Chỉ định Xét nghiệm </a>
@@ -430,6 +430,7 @@
                 $scope.admission.subdiagnosiscodelist = $scope.admission.subdiagnosiscodelist.trim().split(",");
             else $scope.admission.subdiagnosiscodelist = [];
             $scope.numrisrequest = tmp.numrisrequest;
+            $scope.numrisresult = tmp.numrisresult;
         @endif
         $scope.subdiagnosiscode = '';
         $scope.subdiagnosis = '';
@@ -522,31 +523,36 @@
         };
         $scope.$watch('admission.firstdiagnosis',function(){
             if($scope.admission.firstdiagnosis){
-                if($scope.admission.firstdiagnosiscode == ''){
+//                if($scope.admission.firstdiagnosiscode == ''){
                     if($scope.admission.firstdiagnosis.lastIndexOf("-")>-1){
                         $scope.admission.firstdiagnosiscode =  $scope.admission.firstdiagnosis.substr(0,($scope.admission.firstdiagnosis.lastIndexOf("-") -1 )).trim();
                     }
-                }
+//                }
             }
         });
         $scope.$watch('admission.diagnosis',function(){
             if($scope.admission.diagnosis){
-                if($scope.admission.diagnosiscode == ''){
+//                if($scope.admission.diagnosiscode == ''){
                     if($scope.admission.diagnosis.lastIndexOf("-")>-1){
                         $scope.admission.diagnosiscode =  $scope.admission.diagnosis.substr(0,($scope.admission.diagnosis.lastIndexOf("-") -1 )).trim();
                     }
-                }
+//                }
             }
         });
         $scope.$watch('subdiagnosis',function(){
             if($scope.subdiagnosis){
-                if($scope.subdiagnosiscode == ''){
+//                if($scope.subdiagnosiscode == ''){
                     if($scope.subdiagnosis.lastIndexOf("-")>-1){
-                        $scope.admission.subdiagnosiscodelist.push($scope.subdiagnosis.substr(0,($scope.subdiagnosis.lastIndexOf("-") -1 )).trim());
-                        $scope.admission.subdiagnosislist.push($scope.subdiagnosis);
-                        $scope.subdiagnosis = '';
+                        var code = $scope.subdiagnosis.substr(0,($scope.subdiagnosis.lastIndexOf("-") -1 )).trim();
+                        var name = $scope.subdiagnosis;
+//                        $scope.subdiagnosis = '';
+                        if ($scope.admission.subdiagnosiscodelist.indexOf(code) == -1) {
+                            $scope.admission.subdiagnosislist.push(code + " - " + name);
+                            $scope.admission.subdiagnosiscodelist.push(code);
+                            $scope.subdiagnosiscode = '';
+                        }
                     }
-                }
+//                }
             }
         });
     ;
@@ -584,21 +590,32 @@
 //        });
     };
     }
-    var ModalKetquaCDHAInstanceCtrl =function($scope,$http,$modalInstance,ngProgress){
+    var ModalKetquaCDHAInstanceCtrl =function($scope,$http,$modalInstance,ngProgress,$sce){
         $scope.enc = {};
         @if(isset($encjson))
             $scope.enc = {{$encjson}};
         @endif
         $scope.fullname ="{{$person->lastname.' '.$person->firstname}}";
+
+        $scope.Result = {};
+        $scope.showresult = function(sh){
+            $http.get('ris/result/'+sh.type+'/'+sh.id)
+                .success(function(data){
+                     var temp = data;
+                    temp.textresult = $sce.trustAsHtml(temp.textresult);
+                    $scope.Result = temp;
+                });
+        }
         $scope.reset = function(){
 
         }
         $scope.edit = function(sh){
             angular.copy(sh,$scope.chidinhcdha);
         }
-        $scope.del = function(sh){
+        $scope.delrequest = function(sh){
             $http.delete('ris/delchidinhcdha/'+sh.id)
                 .success(function(data){
+                    $scope.load();
                 });
         }
 
@@ -607,10 +624,10 @@
         };
         $scope.requestlist = [];
         $scope.load = function(){
-            ngProgress.start();
+//            ngProgress.start();
             $http.get('ris/loadrequestris/'+$scope.enc.eid)
                 .success(function(data){
-                    ngProgress.complete();
+//                    ngProgress.complete();
                     $scope.requestlist = data;
                 });
         };

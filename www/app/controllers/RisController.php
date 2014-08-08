@@ -30,6 +30,14 @@ class RisController extends BaseController{
         return Response::json($rs);
 
     }
+    public function getResult($type,$id){
+        if($type=='sieuam'){
+            return SieuamResult::where('request_id',$id)->first()->tojson();
+        }
+    }
+    public function deleteDelchidinhcdha($id){
+        echo RISRequest::find($id)->delete();
+    }
     public function getSieuam(){
         $data['hospital'] = 74001;
         $data['type'] = 'sieuam';
@@ -49,6 +57,9 @@ class RisController extends BaseController{
             $template = TypeCDHA::where('code','=',$type.'0')->first();
             echo $template->template;
         }
+    }
+    public function getLoadsieuamresult($id){
+        return SieuamResult::where('request_id',$id)->first()->tojson();
     }
     public function postSavesieuam(){
         $hospital_code = 74001;
