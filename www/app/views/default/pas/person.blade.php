@@ -175,7 +175,15 @@
    /* DO NOT REMOVE : GLOBAL FUNCTIONS!
     */
    pageSetUp();
-    var personController = function($scope,$http,$modal,$interval){
+    var personController = function($scope,$http,$modal,$interval,ngProgress){
+        ngProgress.start();
+        $(document).ready(function(){
+            ngProgress.complete();
+        });
+        $scope.$on('$destroy', function () {
+            ngProgress.complete();
+        });
+        $scope.eid = {{$person->eid}};
         $scope.pid='{{$pid}}';
         $scope.havevitalsign = @if($person->numvitalsign > 0) true @else false @endif ;
         $scope.havehoibenh = @if($person->numadmisinfo > 0) true @else false @endif ;
@@ -211,10 +219,13 @@
 
 
         $scope.exchange = function(room){
+            ngProgress.start();
             $http.post('radt/savequeue',{
                 room:room,
-                pid:$scope.pid
+                pid:$scope.pid,
+                eid:$scope.eid
             }).success(function(data){
+                    ngProgress.complete();
                 if(data > 0 ){
                     $scope.loadroom();
                 }
@@ -261,7 +272,7 @@
         };
 
     }
-   var ModalSinhhieuInstanceCtrl = function ($scope, $modalInstance,$http,havevitalsign,$filter) {
+   var ModalSinhhieuInstanceCtrl = function ($scope, $modalInstance,$http,havevitalsign,$filter,ngProgress) {
        $scope.havevitalsign = havevitalsign;
        var today = $filter('date')(new Date(),'dd-MM-yyyy HH:mm');
        $scope.sinhhieu = {
@@ -277,17 +288,21 @@
            date:today
        }
        $scope.ok = function () {
+           ngProgress.start();
            $http.post('pas/savevitalsign',{
                data:$scope.sinhhieu
            }).success(function(data){
+                   ngProgress.stop();
                $scope.load();
                $scope.reset();
            });
        };
        $scope.sumsinhhieuavail = 0;
        $scope.load = function(){
+           ngProgress.start();
            $http.get('pas/loadvitalsign/'+$scope.sinhhieu.pid)
                .success(function(data){
+                   ngProgress.complete();
                    $scope.sinhhieulist = data;
                    $scope.havevitalsign = false;
                    angular.forEach($scope.sinhhieulist,function(value,key){
@@ -321,7 +336,7 @@
        };
        $scope.load();
    };
-   var ModalTTnhapvienInstanceCtrl = function ($scope, $modalInstance,$filter,havehoibenh,$http) {
+   var ModalTTnhapvienInstanceCtrl = function ($scope, $modalInstance,$filter,havehoibenh,$http,ngProgress) {
        $scope.havehoibenh = havehoibenh;
        var today = $filter('date')(new Date(),'dd-MM-yyyy HH:mm');
        $scope.hoibenh = {
@@ -349,9 +364,11 @@
 
        });
        $scope.ok = function () {
+           ngProgress.start();
            $http.post('pas/saveadmissioninfo',{
                data:$scope.hoibenh
            }).success(function(data){
+               ngProgress.stop();
                $scope.load();
                $scope.reset();
            });
@@ -362,8 +379,10 @@
            $scope.hoibenh.date = $filter('date')($scope.hoibenh.date*1000,'dd-MM-yyyy HH:mm');
        }
        $scope.load = function(){
+           ngProgress.start();
            $http.get('pas/loadadmissioninfo/'+$scope.hoibenh.pid)
                .success(function(data){
+                   ngProgress.complete();
                    $scope.hoibenhlist = data;
                    $scope.havehoibenh = false;
                    angular.forEach($scope.hoibenhlist,function(value,key){

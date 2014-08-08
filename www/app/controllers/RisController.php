@@ -28,10 +28,15 @@ class RisController extends BaseController{
 
     }
     public function getSieuam(){
-        $hospital = 74001;
-        $type = 'sieuam';
-        $data = array();
+        $data['hospital'] = 74001;
+        $data['type'] = 'sieuam';
         return View::make(Config::get('main.theme') . '.ris.sieuam', $data);
+
+    }
+    public function getXquang(){
+        $data['hospital'] = 74001;
+        $data['type'] = 'xquang';
+        return View::make(Config::get('main.theme') . '.ris.xquang', $data);
 
     }
     public function getLoadsieuamrequest($date,$status=0){
@@ -44,6 +49,22 @@ class RisController extends BaseController{
             ->where('r.date','>=',$datefrom)
             ->where('r.date','<=',$dateto)
             ->select('r.*','p.lastname','p.firstname','p.yob')
+            ->orderby('r.date')
+            ->get();
+//        var_dump($request);
+        return Response::json($request);
+    }
+    public function getLoadxquangrequest($date,$status=0){
+        $datefrom = strtotime($date);
+        $dateto = strtotime($date." 23:59:59");
+        $request =  DB::table('dfck_ris_request AS r')
+            ->join('dfck_person AS p','p.pid','=','r.pid')
+            ->where('r.type','xquang')
+            ->where('r.status',$status)
+            ->where('r.date','>=',$datefrom)
+            ->where('r.date','<=',$dateto)
+            ->select('r.*','p.lastname','p.firstname','p.yob')
+            ->orderby('r.date')
             ->get();
 //        var_dump($request);
         return Response::json($request);

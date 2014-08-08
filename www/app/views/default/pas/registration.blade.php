@@ -586,7 +586,14 @@
  */
 pageSetUp();
 //    console.log(smartApp);
-function personregistercontroller($scope, $http) {
+function personregistercontroller($scope, $http,ngProgress) {
+    ngProgress.start();
+    $(document).ready(function(){
+        ngProgress.complete();
+    });
+    $scope.$on('$destroy', function () {
+        ngProgress.complete();
+    });
     //init person object
     $scope.person = {
         id: '0',
@@ -638,10 +645,12 @@ function personregistercontroller($scope, $http) {
 //        return;
         if ($("#formpersoninfo").valid()) {
 //            console.log($scope.person);
+            ngProgress.start();
             $http.post('pas/saveperson', {
                 data: $scope.person
             })
                 .success(function (data) {
+                    ngProgress.complete();
                     if (data.length > 10) {
                         window.location = "/#/pas/person/" + data;
                     }

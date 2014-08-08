@@ -376,8 +376,14 @@
      * @param $scope
      * @param $http
      */
-    function RadtAdmissionController($scope, $http, $interval, $filter,$modal) {
-
+    function RadtAdmissionController($scope, $http, $interval, $filter,$modal,ngProgress) {
+        ngProgress.start();
+        $(document).ready(function(){
+            ngProgress.complete();
+        });
+        $scope.$on('$destroy', function () {
+            ngProgress.complete();
+        });
         $scope.admission = {
             pid:'{{$person->pid}}',
             eid : '',
@@ -435,10 +441,12 @@
         });
         $scope.savetogger = false;
         $scope.save = function(){
+            ngProgress.start();
             $scope.savetogger = false;
             $http.post('radt/saveadmission',{
                 data:$scope.admission
             }).success(function(data){
+                    ngProgress.complete();
                 if(data>0 && $scope.admission.eid==''){
                     window.location = "#/enc/info/"+data;
                 }
@@ -576,7 +584,7 @@
 //        });
     };
     }
-    var ModalKetquaCDHAInstanceCtrl =function($scope,$http,$modalInstance){
+    var ModalKetquaCDHAInstanceCtrl =function($scope,$http,$modalInstance,ngProgress){
         $scope.enc = {};
         @if(isset($encjson))
             $scope.enc = {{$encjson}};
@@ -599,14 +607,16 @@
         };
         $scope.requestlist = [];
         $scope.load = function(){
+            ngProgress.start();
             $http.get('ris/loadrequestris/'+$scope.enc.eid)
                 .success(function(data){
+                    ngProgress.complete();
                     $scope.requestlist = data;
                 });
         };
         $scope.load();
     };
-    var ModalChidinhCDHAInstanceCtrl = function ($scope, $modalInstance,$http,numrequest,$filter) {
+    var ModalChidinhCDHAInstanceCtrl = function ($scope, $modalInstance,$http,numrequest,$filter,ngProgress) {
         $scope.numrequest = numrequest;
         var today = $filter('date')(new Date(),'dd-MM-yyyy HH:mm');
         $scope.enc = {};
@@ -624,6 +634,7 @@
 
         $scope.chidinhcdhapositionlist = [];
         $scope.ok = function () {
+            ngProgress.start();
             if($scope.chidinhcdha.position.length <= 0){
                 myalert("Thông báo","Phải chọn ít nhất một vị trí.");
             }
@@ -631,9 +642,10 @@
                 $http.post('ris/savechidinhcdha',{
                     data: $scope.chidinhcdha
                 }).success(function(data){
+                        ngProgress.complete();
                          if(data > 0){
                              $scope.numrequest = data;
-                             myalert("Thông báo","Đã gửi thành công yêu cầu.")
+//                             myalert("Thông báo","Đã gửi thành công yêu cầu.")
                              $modalInstance.close($scope.numrequest);
                          }
                         else{

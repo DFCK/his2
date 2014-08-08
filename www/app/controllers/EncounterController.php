@@ -8,12 +8,12 @@ class EncounterController extends BaseController{
         if (strlen($eid) == 15) {
             $data['eid'] = $eid;
             $enc = vEncounter::where('eid',$eid)->first();
-            if($enc->pid){
+            if(isset($enc->pid)){
                 $pid = $enc->pid;
                 $person = Person::getPersonInfo($pid);
                 $data['encjson'] = $enc->tojson();
                 $data['enc'] = $enc;
-                if ($person->pid) {
+                if (isset($person->pid)) {
                     $data['person'] = $person;
                     $data['depts'] = DB::table('dfck_hospital_department AS d')
                         ->join('dfck_type_department AS t', 't.code', '=', 'd.ref_code')
@@ -30,7 +30,11 @@ class EncounterController extends BaseController{
 
                     return View::make(Config::get('main.theme') . '.radt.admission', $data);
                 }
+                else
+                    return View::make(Config::get('main.theme') . '.pas.registration');
             }
+            else
+                return View::make(Config::get('main.theme') . '.pas.registration');
 
         }
         else

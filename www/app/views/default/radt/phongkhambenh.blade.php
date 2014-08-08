@@ -179,7 +179,11 @@
      * @param $scope
      * @param $http
      */
-    function RadtPhongkhamController($scope, $http, $interval,$filter) {
+    function RadtPhongkhamController($scope, $http, $interval,$filter,ngProgress) {
+        ngProgress.start();
+        $(document).ready(function(){
+            ngProgress.complete();
+        });
         $scope.initDate = new Date();
         $scope.formats = ['dd-MM-yyyy'];
         $scope.format = $scope.formats[0];
@@ -222,9 +226,9 @@
 
         $scope.$on('$destroy', function () {
             $scope.stopRoom();
+            ngProgress.complete();
         });
         $scope.loadroom = function () {
-
 //            console.log($filter('date')($scope.dt,'dd-MM-yyyy'));
             $http.get('radt/outpatientroom')
                 .success(function (data) {

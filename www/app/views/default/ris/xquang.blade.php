@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-xs-12 col-md-4">
             <h1 class="page-title txt-color-blueDark">
-                <i class="fa fa-cog fa-fw"></i>Phòng Siêu âm
+                <i class="fa fa-cog fa-fw"></i>Phòng X-Quang
             </h1>
         </div>
         <div class="col-xs-12 col-md-8">
@@ -26,7 +26,7 @@
                 <article class="col-xs-12">
 
                     <!-- Widget ID (each widget will need unique ID)-->
-                    <div class="jarviswidget jarviswidget-color-blue" id="wid-id-sieuam0"
+                    <div class="jarviswidget jarviswidget-color-blue" id="wid-id-xquang0"
                          data-widget-editbutton="false"
                          data-widget-fullscreenbutton="false"
                          data-widget-deletebutton="false"
@@ -37,7 +37,7 @@
                         <header>
                             <span class="widget-icon"> <i class="fa fa-tasks"></i> </span>
 
-                            <h2>Danh sách yêu câu siêu âm</h2>
+                            <h2>Danh sách yêu cầu X-Quang</h2>
                         </header>
                         <!-- widget div-->
                         <div>
@@ -137,7 +137,7 @@
                 if ($scope.status)
                     $scope.status = 1;
                 else $scope.status = 0;
-                $http.get('ris/loadsieuamrequest/' + $filter('date')($scope.date,'dd-MM-yyyy') + "/" + $scope.status)
+                $http.get('ris/loadxquangrequest/' + $filter('date')($scope.date,'dd-MM-yyyy') + "/" + $scope.status)
                     .success(function (data) {
                         ngProgress.complete();
                         $scope.requestlist = data;

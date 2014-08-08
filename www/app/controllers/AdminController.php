@@ -13,42 +13,24 @@ class AdminController extends BaseController
 
     public function postAddmodule()
     {
-        $params = Input::all();
-        $arr = array(
-            'name' => $params['data']['name'],
-            'url' => $params['data']['url'],
-            'lang' => $params['data']['lang'],
-            'parent' => $params['data']['parent'],
-            'code' => $params['data']['code'],
-            'order' => $params['data']['order'],
-            'icon' => $params['data']['icon'],
-        );
-
+        $arr = Input::get('data');
         //dau tien la tim xem code co bi trung khong?
+        if(!isset($arr['id'])) $arr['id'] = '';
         $find = Adminfunction::where('code', $arr['code'])
-            ->where('id', '!=', $params['data']['id'])
-            ->count();
-        if ($find <= 0) {
+            ->where('id', '!=', $arr['id']);
+        if ($find->count() <= 0) {
             $find = null;
             //neu co truyen ve id => update
-            if ($params['data']['id'] && $params['data']['id'] > 0) {
-                $find = Adminfunction::find($params['data']['id']);
+            if ($arr['id'] && $arr['id'] > 0) {
+                $find = Adminfunction::find($arr['id']);
             }
             //xu li update
             if ($find) {
-                $find->name = $arr['name'];
-                $find->url = $arr['url'];
-                $find->lang = $arr['lang'];
-                $find->parent = $arr['parent'];
-                $find->code = $arr['code'];
-//                $find->moduleorder = $arr['moduleorder'];
-                $find->icon = $arr['icon'];
-                echo $find->save();
+                echo $find->update($arr);
             } else {
                 //xu li insert moi
                 $function = Adminfunction::create($arr);
                 echo $function->id;
-
             }
         } else echo -1;
         //duplicate module code;
@@ -57,8 +39,8 @@ class AdminController extends BaseController
 
     public function postDeletemodule()
     {
-        $data = Input::all();
-        echo Adminfunction::find($data['data']['id'])->delete();
+        $data = Input::get('data');
+        echo Adminfunction::find($data['id'])->delete();
     }
 
     public function getSelectlist()

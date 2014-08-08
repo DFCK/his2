@@ -11,4 +11,4 @@ LEFT JOIN `dfck_person_admissioninfo` a
 ON a.eid = e.eid AND a.deleted_at IS NULL
 LEFT JOIN dfck_ris_request r
 ON r.eid = e.eid
-
+GROUP BY e.eid

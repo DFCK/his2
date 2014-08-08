@@ -23,9 +23,11 @@ class RadtController extends BaseController
             'ward_code' => $room['ward_code'],
             'hospital_code' => $room['hospital_code'],
             'date' => time(),
+            'eid' => Input::get('eid'),
         );
         $find = RadtQueue::where('pid', '=', $input['pid'])
-            ->where('eid', '0');
+            ->where('eid', '0')
+            ->orwhere('eid',$input['eid']);
         if ($find->count()) {
             echo $find->update($input);
         }

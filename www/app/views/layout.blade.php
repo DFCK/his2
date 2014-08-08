@@ -23,6 +23,7 @@
     <link rel="stylesheet" type="text/css" media="screen" href="css/your_style.css"> -->
     {{HTML::style('src/smartadmin/css/my_style.css')}}
     {{HTML::style('src/js/autocomplete.css')}}
+    {{HTML::style('src/js/ngProgress.css')}}
 
     <!-- Demo purpose only: goes with demo.js, you can delete this css when designing your own WebApp -->
 
@@ -134,9 +135,11 @@ ANGULAR: Handled via "ribbon" directive
 <!-- PLUNKER -->
 {{HTML::script('src/smartadmin/js/ng/plunker.js')}}
 
+<!-- MORE SCRIPT -->
 {{HTML::script('src/ui-utils.min.js')}}
 {{HTML::script('src/js/myscript.js')}}
 {{HTML::script('src/js/autocomplete.js')}}
+{{HTML::script('src/js/ngProgress.min.js')}}
 
 @yield('jscript')
 
