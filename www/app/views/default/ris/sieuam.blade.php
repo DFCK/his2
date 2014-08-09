@@ -268,7 +268,7 @@
         $scope.show = function (request) {
             angular.copy(request, $scope.Request);
             if(!$scope.status){
-                $http.get('ris/loadsieuamtemplate/sieuam/'+request.position)
+                $http.get('ris/loadristemplate/sieuam/'+request.position)
                     .success(function(data){
                         $scope.resulttext = data;
                         $('.summernote').code(data);
@@ -296,7 +296,7 @@
                 else {
                     $scope.status = 0;
                 }
-                $http.get('ris/loadsieuamrequest/' + $filter('date')($scope.date, 'dd-MM-yyyy') + "/" + $scope.status)
+                $http.get('ris/loadrisrequest/sieuam/' + $filter('date')($scope.date, 'dd-MM-yyyy') + "/" + $scope.status)
                     .success(function (data) {
                         ngProgress.complete();
                         $scope.requestlist = data;
