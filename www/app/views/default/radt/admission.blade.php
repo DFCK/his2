@@ -123,6 +123,7 @@
                     <div class="alert alert-block alert-success " ng-if="admission.eid!='' ">
                         Mã tiếp đón: <strong class="txt-color-red font-md">@{{admission.eid}}</strong>
                         <i class="fa fa-save pull-right txt-color-red" ng-show="savetogger"></i>
+                        <div ng-if="typedischarged==7"><strong>Bệnh nhân đã xuất viện lúc @{{admission.dateout * 1000 | date:"dd/MM/yyyy HH:mm"}}</strong></div>
                     </div>
 
                     <form class="smart-form">
@@ -252,7 +253,7 @@
                                     </section>
                                 </div>
                         </fieldset>
-                        <footer>
+                        <footer ng-if="typedischarged==0">
                             <a class="btn btn-primary" data-ng-click="save()">{{trans('common.save')}}</a>
                         </footer>
                     </form>
@@ -333,8 +334,8 @@
 
                 <!-- widget content -->
                 <div class="widget-body no-padding">
-                    <ul class="nav nav-pills nav-stacked" ng-show="admission.eid != ''">
-                        <li>
+                    <ul class="nav nav-pills nav-stacked" ng-show="admission.eid != ''" >
+                        <li ng-if="typedischarged == 0">
                             <a data-ng-click="chidinhCDHA('lg')" ><i class="fa fa-film"></i> Chỉ định CĐHA</a>
                         </li>
                         <li>
@@ -342,9 +343,10 @@
                                 <label  tooltip="Đã có @{{numrisresult}} kết quả"  class="label label-success">@{{numrisresult}}</label>/
                                 <label tooltip="Đã gửi @{{numrisrequest}} yêu cầu" class="label label-info">@{{numrisrequest}}</label></a>
                         </li>
-                        <li>
+                        <li  ng-if="typedischarged == 0">
                             <a><i class="fa fa-flask"></i> Chỉ định Xét nghiệm </a>
                         </li>
+                        <li  ng-if="typedischarged == 0"><a data-ng-click="discharged(person.eid,7)">Xuất viện</a></li>
 
                     </ul>
                 </div>
@@ -377,6 +379,7 @@
      * @param $http
      */
     function RadtAdmissionController($scope, $http, $interval, $filter,$modal,ngProgress) {
+        if(ngProgress.status()<=0)
         ngProgress.start();
         $(document).ready(function(){
             ngProgress.complete();
@@ -404,7 +407,7 @@
             ward_code:'{{$wardcode}}',
             dept_code:'{{$deptcode}}'
     };
-
+        $scope.typedischarged = 0;
         @if(isset($encjson))
             var tmp = {{$encjson}};
             $scope.admission = {
@@ -421,8 +424,12 @@
                 subdiagnosiscodelist : tmp.subdiagnosiscodelist,
                 ward_code:tmp.ward_code,
                 dept_code:tmp.dept_code,
+
             };
-//            $scope.admission.datein = $filter('date')($scope.admission.datein * 1000 ,'dd-MM-yyyy HH:mm');
+            $scope.typedischarged = tmp.discharged;
+            if(tmp.discharged > 0)
+                $scope.admission.dateout = tmp.dateout;
+    //            $scope.admission.datein = $filter('date')($scope.admission.datein * 1000 ,'dd-MM-yyyy HH:mm');
             if($scope.admission.subdiagnosislist.trim().length > 0)
                 $scope.admission.subdiagnosislist = $scope.admission.subdiagnosislist.trim().split(",");
             else $scope.admission.subdiagnosislist = [];
@@ -442,6 +449,7 @@
         });
         $scope.savetogger = false;
         $scope.save = function(){
+            if(ngProgress.status()<=0)
             ngProgress.start();
             $scope.savetogger = false;
             $http.post('radt/saveadmission',{
@@ -555,7 +563,17 @@
 //                }
             }
         });
-    ;
+
+    $scope.discharged = function(eid,type){
+        $http.put('radt/discharged/'+eid+'/'+type)
+            .success(function(data){
+                if(data > 0){
+                }
+                else{
+                    myalert("Thông báo","Thao tác thất bại. Vui lòng thử lại.");
+                }
+            })
+    };
     $scope.chidinhCDHA = function (size) {
 
         var modalInstance = $modal.open({
@@ -589,14 +607,31 @@
 //            $scope.havechidinhcdha = havechidinhcdha;
 //        });
     };
+
     }
-    var ModalKetquaCDHAInstanceCtrl =function($scope,$http,$modalInstance,ngProgress,$sce){
+    var ModalKetquaCDHAInstanceCtrl =function($scope,$http,$modalInstance,ngProgress,$sce,$modal){
         $scope.enc = {};
         @if(isset($encjson))
             $scope.enc = {{$encjson}};
         @endif
         $scope.fullname ="{{$person->lastname.' '.$person->firstname}}";
 
+        $scope.viewImage = function (size,mainpic) {
+
+            var modalInstance = $modal.open({
+                templateUrl: "{{URL::to('tpl/viewimage')}}",
+                controller: ModalViewImages,
+                size: size,
+                resolve: {
+                    Result:function(){
+                        return $scope.Result;
+                    },
+                    mainpic:function(){
+                        return mainpic;
+                    }
+                }
+            });
+        };
         $scope.Result = {};
         $scope.showresult = function(sh){
             $http.get('ris/result/'+sh.type+'/'+sh.id)
@@ -604,6 +639,7 @@
                      var temp = data;
                     temp.textresult = $sce.trustAsHtml(temp.textresult);
                     $scope.Result = temp;
+                    $scope.Result.images = $scope.Result.images.split("$$$");
                 });
         }
         $scope.reset = function(){
@@ -624,6 +660,7 @@
         };
         $scope.requestlist = [];
         $scope.load = function(){
+            if(ngProgress.status()<=0)
 //            ngProgress.start();
             $http.get('ris/loadrequestris/'+$scope.enc.eid)
                 .success(function(data){
@@ -651,6 +688,7 @@
 
         $scope.chidinhcdhapositionlist = [];
         $scope.ok = function () {
+            if(ngProgress.status()<=0)
             ngProgress.start();
             if($scope.chidinhcdha.position.length <= 0){
                 myalert("Thông báo","Phải chọn ít nhất một vị trí.");

@@ -180,6 +180,7 @@
      * @param $http
      */
     function RadtPhongkhamController($scope, $http, $interval,$filter,ngProgress) {
+        if(ngProgress.status()<=0)
         ngProgress.start();
         $(document).ready(function(){
             ngProgress.complete();
@@ -230,6 +231,8 @@
         });
         $scope.loadroom = function () {
 //            console.log($filter('date')($scope.dt,'dd-MM-yyyy'));
+            if(ngProgress.status()<=0)
+            ngProgress.start();
             $http.get('radt/outpatientroom')
                 .success(function (data) {
                     $scope.roomlist = data;
@@ -237,12 +240,24 @@
                         if(value.code == $scope.myroom){
                             $scope.myroominfo = value;
                         }
+                        ngProgress.complete();
                     });
                 });
             $http.get('radt/roomqueue/'+$filter('date')($scope.dt,'dd-MM-yyyy'))
                 .success(function (data) {
                     $scope.queue = data;
                 });
+        }
+        $scope.discharged = function(eid,type){
+            $http.put('radt/discharged/'+eid+'/'+type)
+                .success(function(data){
+                    if(data > 0){
+                        $scope.loadroom();
+                    }
+                    else{
+                        myalert("Thông báo","Thao tác thất bại. Vui lòng thử lại.");
+                    }
+                })
         }
         $scope.loadroom();//first load
         $scope.autoloadroom();// call auto load room

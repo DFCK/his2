@@ -9,4 +9,5 @@ return array(
      */
     'theme' => 'default',
     'language' => array('vn','en'),
+    'timeout' => 10,
 );

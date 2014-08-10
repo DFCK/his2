@@ -8,6 +8,6 @@ class Encounter extends Eloquent{
 
     /**
      * Định nghĩa các trường
-     * discharged: 0: đang điều trị, 1: xuất viện, 2: chuyển viện, 3: trốn viện
+     * discharged: 0: đang điều trị, 7: xuất viện, 8: chuyển viện, 9: trốn viện
      */
 }

@@ -27,6 +27,11 @@
                <span ng-if="person.status && person.status != ''">Triệu chứng: <i>@{{person.status}}</i>.</span>
                <span ng-if="person.personhistory && person.personhistory != ''">Tiền sử bệnh: <i>@{{person.personhistory}}</i>.</span>
             </p>
+            <p ng-if="person.datein > 0">
+                Nhận bệnh lúc <i class="fa fa-clock-o"></i> <strong><em>@{{person.datein * 1000 | date:"dd/MM HH:mm"}}</em></strong>.
+                <span ng-if="person.dateout > 0" class="txt-color-red"> Ra viện lúc: @{{person.dateout * 1000 | date:"dd/MM HH:mm"}}</span>
+                <span ng-if="person.diagnosis"> Chẩn đoán: <strong>@{{person.diagnosis}}</strong></span>
+            </p>
         </div>
             <div class="col-xs-3">
                 <p>
@@ -37,18 +42,16 @@
                             <span class="caret"></span>
                             <span class="sr-only">Split button!</span>
                         </button>
-                        <ul class="dropdown-menu" role="menu">
-                            <li><a href="#">Xuất viện</a></li>
+                        <ul class="dropdown-menu" role="menu" ng-if="person.discharged==0">
+                            <li><a data-ng-click="discharged(person.eid,7)">Xuất viện</a></li>
                             <li><a href="#">Chuyển viện</a></li>
                             <li><a href="#">Trốn viện</a></li>
                         </ul>
                     </div>
                 </p>
                 <p>
-                    <i class="fa  fa-film txt-color-grayDark"  tooltip="Đã gửi yêu cầu CĐHA"></i>
-                    <i class="fa  fa-film txt-color-red" tooltip="Đã có kết quả Siêu Âm"></i>
-                    <i class="fa  fa-flask txt-color-red"  tooltip="Đã có Kết quả XN máu"></i>
-                    <i class="fa  fa-flask txt-color-red"  tooltip="Đã có Kết quả XN Hóa Sinh"></i>
+                    <label class="label label-success" tooltip="Đã có @{{person.numrisresult}} kết quả CLS">@{{person.numrisresult}}</label>
+                    <label class="label label-info" tooltip="Đã gửi @{{person.numrisrequest}} yêu cầu CLS">@{{person.numrisrequest}}</label>
                 </p>
                 <p><a tooltip="Gọi bệnh nhân"><i class="fa fa-bell"></i></a></p>
             </div>

@@ -116,6 +116,7 @@ class PasController extends BaseController
                 if ($input['dob'] != '') {
                     $input['dob'] = strtotime(substr($input['dob'], 4, 4) . '-' . substr($input['dob'], 2, 2) . '-' . substr($input['dob'], 0, 2));
                 }
+                else  unset($input['dob']);
                 if ($input['insurancefromdate'] != '') {
                     $input['insurancefromdate'] = strtotime(substr($input['insurancefromdate'], 4, 4) . '-' . substr($input['insurancefromdate'], 2, 2) . '-' . substr($input['insurancefromdate'], 0, 2));
                 }
@@ -136,6 +137,10 @@ class PasController extends BaseController
         else {
             if ($input['dob'] != '') {
                 $input['dob'] = strtotime(substr($input['dob'], 4, 4) . '-' . substr($input['dob'], 2, 2) . '-' . substr($input['dob'], 0, 2));
+            }
+            else{
+                 unset($input['dob']);
+
             }
             if ($input['insurancefromdate'] != '') {
                 $input['insurancefromdate'] = strtotime(substr($input['insurancefromdate'], 4, 4) . '-' . substr($input['insurancefromdate'], 2, 2) . '-' . substr($input['insurancefromdate'], 0, 2));

@@ -66,8 +66,6 @@
 
                         <div class="col-xs-5 no-padding">
                             <form class="smart-form">
-                                <fieldset>
-
                                     <label class="checkbox">
                                         <input type="checkbox" name="checkbox"
                                                ng-checked="!status"
@@ -75,8 +73,6 @@
                                         <i></i>Chờ
 
                                     </label>
-
-                                </fieldset>
                             </form>
                         </div>
                         <div class="col-xs-10 no-padding">
@@ -149,8 +145,8 @@
             <div>
                 <!-- widget content -->
                 <div class="widget-body">
-                    <div class="row">
-                        <div class="col-xs-4 ">
+                    <div class="row" ng-if="Request.discharged==0">
+                        <div class="col-xs-3 ">
                         <form class="smart-form">
                                 <section class="col-xs-12">
                                     <label class="input">
@@ -160,10 +156,11 @@
                         </form>
 
                         </div>
-                        <div class="col-xs-2">
-                            <button class="btn btn-info" data-ng-click="loadbypid()">Ảnh của BN</button>
+                        <div class="col-xs-1">
+<!--                            <button class="btn btn-info" data-ng-click="loadbypid()">Ảnh của BN</button>-->
+                            <button class="btn btn-info" data-ng-click="getpacsinstance()"><i class="fa fa-search"></i></button>
                         </div>
-                        <div class="col-xs-4">
+                        <div class="col-xs-3">
                         <p class="input-group">
                             <input type="text" class="form-control"
                                    datepicker-popup="@{{format}}"
@@ -181,12 +178,16 @@
                                               </span>
                         </p>
                         </div>
-                        <div class="col-xs-2">
-                        <button class="btn btn-info" data-ng-click="loadbydate()">Tìm kiếm</button>
+                        <div class="col-xs-1">
+                        <button class="btn btn-info" data-ng-click="loadbydate()"><i class="fa fa-search"></i></button>
+                        </div>
+                        <div class="col-xs-3">
+                        <button class="btn btn-success" data-ng-click="save()">{{trans('common.save')}}</button>
+                        <button class="btn btn-primary" data-ng-click="close()">{{trans('common.close')}}</button>
                         </div>
                     </div>
                     <div>
-                        <p ng-if="Pacsresultlist.data.length == 0 && issearchapi">Chưa tìm thấy dữ liệu.</p>
+                        <p ng-if="Pacsresultlist.length == 0 && issearchapi">Chưa tìm thấy dữ liệu.</p>
                         <ul class="col-xs-4">
                             <li data-ng-repeat="patient in Pacsresultlist">
                                 <label><strong><a data-ng-click="getpacsstudy(patient.PK)">@{{patient.PAT_NAME}}</a></strong> (@{{patient.PAT_BIRTHDATE}})</label>
@@ -202,11 +203,17 @@
                                 <label><strong><a data-ng-click="getpacsinstance(serie.PK)">#@{{serie.PK}} Serie No.@{{serie.SERIES_NO}}</a></strong></label>
                             </li>
                         </ul>
-                        <ul class="list-inline">
-                            <li data-ng-repeat="ins in PacsInstanceList">
-                                <img src="@{{ins}}" style="max-width: 50px">
+                        <div class="row">
+                        <ul class="col col-sm-12 col-lg-7 list-inline" id="instancechecklist">
+                            <li data-ng-repeat="ins in PacsInstanceList" class="text-align-center">
+                                <a  data-ng-click="viewImage('lg',ins)"><img src="@{{ins}}" style="max-height: 150px"></a><br>
+                                <input type="checkbox" data-ng-click="checkimg(ins)" ng-checked="!statustmp">
                             </li>
                         </ul>
+                            <div class="col col-sm-12 col-lg-5">
+                                <textarea class="summernote"></textarea>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -219,7 +226,7 @@
 </div>
 <script>
     pageSetUp();
-    var RisXquangController = function ($scope, $filter, $http, ngProgress) {
+    var RisXquangController = function ($scope, $filter, $http, ngProgress,$modal) {
 
         $scope.initDate = new Date();
         $scope.formats = ['dd-MM-yyyy'];
@@ -228,7 +235,15 @@
             $scope.date = new Date();
             $scope.datesearch = new Date();
         };
-
+        $scope.xquangimages = [];
+        $scope.checkimg = function(url){
+            if($scope.xquangimages.indexOf(url)>-1){
+                $scope.xquangimages.pop(url);
+            }
+            else{
+                $scope.xquangimages.push(url);
+            }
+        }
         $scope.open = function ($event) {
             $event.preventDefault();
             $event.stopPropagation();
@@ -242,15 +257,19 @@
         $scope.issearchapi = false;
         $scope.Pacsresultlist = [];
         $scope.loadbypid = function(){
+            if(ngProgress.status()<=0)
             ngProgress.start();
             $http.get('ris/pacspatientbypid/'+$scope.searcheid)
                 .success(function(data){
                     $scope.issearchapi = true;
+                    if(data.length > 0)
                     $scope.Pacsresultlist = data.data;
+                    else $scope.Pacsresultlist = [];
                     ngProgress.complete();
                 });
         }
         $scope.loadbydate = function(){
+            if(ngProgress.status()<=0)
             ngProgress.start();
             $scope.issearchapi = false;
             $http.get('ris/pacspatienbydate/'+$filter('date')($scope.datesearch, 'dd-MM-yyyy'))
@@ -261,6 +280,7 @@
                 })
         }
         $scope.getpacsstudy = function(pk){
+            if(ngProgress.status()<=0)
             ngProgress.start();
             $scope.issearchapi = false;
             $http.get('ris/pacspatientstudy/'+$filter('date')($scope.datesearch, 'dd-MM-yyyy')+'/'+pk)
@@ -271,6 +291,7 @@
                 })
         }
         $scope.getpacsseries = function(studyid){
+            if(ngProgress.status()<=0)
             ngProgress.start();
             $scope.issearchapi = false;
             $http.get('ris/pacspatientseries/'+studyid)
@@ -281,13 +302,18 @@
                 })
         }
         $scope.getpacsinstance = function(series_id){
+            if(ngProgress.status()<=0)
             ngProgress.start();
+            $scope.xquangimages = [];
             $scope.issearchapi = false;
+            $("#instancechecklist").find("input[type=checkbox]").attr('checked',false);
+            $scope.statustmp = 1;
             $http.get('ris/pacspatientinstance/'+series_id)
                 .success(function(data){
                     $scope.issearchapi = true;
                     $scope.PacsInstanceList = data.data;
                     ngProgress.complete();
+                    console.log($scope.xquangimages);
                 })
         }
         $scope.Request = {};
@@ -295,21 +321,31 @@
         $scope.status = 0;
         $scope.onajax = false;
         $scope.searcheid = 0;
+        $scope.PacsInstanceList = [];
+        $scope.statustmp = 0;
         $scope.show = function (request) {
             angular.copy(request, $scope.Request);
             $scope.searcheid = $scope.Request.eid;
+            $scope.xquangimages = [];
+            $('.summernote').code("");
+            angular.copy($scope.status,$scope.statustmp);
             if(!$scope.status){
                 $http.get('ris/loadristemplate/xquang/'+request.position)
                     .success(function(data){
                         $scope.resulttext = data;
                         $('.summernote').code(data);
                     });
+                $scope.xquangimages =[];
+                $scope.PacsInstanceList = [];
+
             }
             else{
-                $http.get('ris/loadxquangresult/'+request.id)
+                $http.get('ris/loadrisresult/'+request.id)
                     .success(function(data){
                         $scope.Result = data;
                         $('.summernote').code($scope.Result.textresult);
+                        $scope.xquangimages = $scope.Result.images.split("$$$");
+                        angular.copy($scope.xquangimages,$scope.PacsInstanceList);
                     });
             }
 
@@ -317,13 +353,16 @@
         $scope.loadlist = function () {
             if (!$scope.onajax) {
                 $scope.onajax = true;
-                ngProgress.start();
+                if(ngProgress.status()<=0)
+                    ngProgress.start();
                 if ($scope.status) {
                     $scope.status = 1;
                 }
                 else {
                     $scope.status = 0;
                 }
+                $scope.xquangimages =[];
+                $scope.PacsInstanceList = [];
                 $http.get('ris/loadrisrequest/xquang/' + $filter('date')($scope.date, 'dd-MM-yyyy') + "/" + $scope.status)
                     .success(function (data) {
                         ngProgress.complete();
@@ -338,6 +377,7 @@
         }
         $scope.Result = {};
         $scope.save = function(){
+            if(ngProgress.status()<=0)
             ngProgress.start();
             $scope.Result = {
                 request_id: $scope.Request.id,
@@ -347,11 +387,12 @@
                 position: $scope.Request.position,
                 positionname: $scope.Request.positionname,
                 textresult: $('.summernote').code(),
+                images:$scope.xquangimages.join("$$$"),
                 daterequest:$scope.Request.date,
                 date:'',
                 id: (($scope.Result.id)?$scope.Result.id:0),
             };
-            $http.post('ris/savesieuam',{
+            $http.post('ris/saveris',{
                 data:$scope.Result
             }).success(function(data){
                 if(data==0){
@@ -371,30 +412,23 @@
             $scope.loadlist();
             $scope.Result = {};
         }
-        $scope.sieuamimage = ["","",""];
-
-
-        $scope.stopcamera = function(){
-            stopcamera();
-        }
-        $scope.iscamera = false;
-        $scope.delimage = function (index) {
-            $scope.sieuamimage[index] = "";
-        }
-        $scope.camera = function () {
-            if( !$scope.iscamera ) {
-                opencamera();
-                $scope.iscamera = true;
-            }
-            else{
-                $scope.stopcamera();
-                $scope.iscamera = false
-            }
-        };
-
-        $scope.camcapture = function (index) {
-            context.drawImage(video, 0, 0, 640, 480, 0, 0, 640, 480);
-            $scope.sieuamimage[index] = canvas.toDataURL("image/jpeg");
+        $scope.viewImage = function (size,mainpic) {
+            var Result ={};
+            angular.copy($scope.Result,Result);
+            Result.images = Result.images.split("$$$");
+            var modalInstance = $modal.open({
+                templateUrl: "{{URL::to('tpl/viewimage')}}",
+                controller: ModalViewImages,
+                size: size,
+                resolve: {
+                    Result:function(){
+                        return Result;
+                    },
+                    mainpic:function(){
+                        return mainpic;
+                    }
+                }
+            });
         };
         $scope.today();
         $scope.loadlist();

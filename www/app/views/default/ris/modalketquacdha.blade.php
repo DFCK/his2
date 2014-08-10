@@ -37,19 +37,30 @@
             </div>
             <div class="col-xs-4">
                 <div class="row">
-                    <div ng-show="Result.image1" style="position: relative">
-                        <img src="@{{Result.image1}}"
-                             class="img-responsive img-thumbnail"
-                             style="max-height: 180px">
+                    <div ng-show="Result.images" style="position: relative" class="col-xs-12" data-ng-repeat="img in Result.images">
+                        <a data-ng-click="viewImage('lg',img)"><img src="@{{img}}"
+                                                                    class="img-responsive img-thumbnail"
+                                                                    style="max-height: 180px" >
+                        </a>
                     </div>
                 </div>
+            </div>
+        </div>
+        <div ng-if="Result.type=='xquang'">
+            <h6 class="col-xs-12">Kết quả @{{Result.positionname}} - <span class="text-sm"><i class="fa fa-clock-o"></i> @{{Result.date * 1000 | date:"dd-MM-yyyy HH:mm"}}</span></h6>
+            <div class="col-xs-4 table-responsive" data-ng-bind-html="Result.textresult">
+
+            </div>
+            <div class="col-xs-8">
                 <div class="row">
-                    <div ng-show="Result.image2">
-                        <img src="@{{Result.image2}}"
+                    <div ng-show="Result.images" style="position: relative" class="col-xs-4" data-ng-repeat="img in Result.images">
+                        <a data-ng-click="viewImage('lg',img)"><img src="@{{img}}"
                              class="img-responsive img-thumbnail"
-                             style="max-height: 180px">
+                             style="max-height: 180px" >
+                        </a>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>

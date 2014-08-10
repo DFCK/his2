@@ -15,7 +15,8 @@ class RadtController extends BaseController
     public function postSavequeue()
     {
         $room = Input::get('room');
-
+        $fromdate = strtotime(date("d-m-Y 00:00:00"));
+        $todate = strtotime(date("d-m-Y 23:59:59"));
         $input = array(
             'pid' => Input::get('pid'),
             'room_code' => $room['code'],
@@ -25,13 +26,16 @@ class RadtController extends BaseController
             'date' => time(),
             'eid' => Input::get('eid'),
         );
-        $find = RadtQueue::where('pid', '=', $input['pid'])
-            ->where('eid', '0')
-            ->orwhere('eid',$input['eid']);
+        $find = RadtQueue::where('date', '>=', $fromdate)
+            ->where('date', '<=', $todate)
+            ->where('pid', '=', $input['pid'])
+            ->where(function ($where) use ($input) {
+                $where->where('eid', 0)
+                    ->orwhere('eid', $input['eid']);
+            });
         if ($find->count()) {
             echo $find->update($input);
-        }
-        else {
+        } else {
             $queue = RadtQueue::create($input);
             echo $queue->id;
         }
@@ -93,10 +97,8 @@ class RadtController extends BaseController
                 $data['deptcode'] = $dept;
                 $data['wardcode'] = $ward;
                 return View::make(Config::get('main.theme') . '.radt.admission', $data);
-            }
-            else return View::make(Config::get('main.theme') . '.pas.registration', array("message" => "Không tìm thấy mã " . $pid));
-        }
-        else
+            } else return View::make(Config::get('main.theme') . '.pas.registration', array("message" => "Không tìm thấy mã " . $pid));
+        } else
             return View::make(Config::get('main.theme') . '.pas.registration');
     }
 
@@ -143,16 +145,15 @@ class RadtController extends BaseController
                             $transfer['fromhospital'] = $admitinfors->refplacecode;
                         }
 
-                    }
-                    else{
-                        $transfer['type'] = 0;//mac dinh la tu den.
+                    } else {
+                        $transfer['type'] = 0; //mac dinh la tu den.
                     }
                     $transfer['eid'] = $enc->eid;
                     $transfer['pid'] = $enc->pid;
                     $transfer['tohospital'] = $hospital_code;
                     $transfer['todept'] = $input['dept_code'];
                     $transfer['toward'] = $input['ward_code'];
-                    $transfer['date'] =  $input['datein'];
+                    $transfer['date'] = $input['datein'];
                     EncounterTransfer::create($transfer);
 
                     //cap nhat eid cho sinh hieu, thong tin tiep nhan, hang doi kham
@@ -170,12 +171,39 @@ class RadtController extends BaseController
                 }
 
             }
-        }
-        else {
+        } else {
             unset($input['datein']);
             $enc = Encounter::where('eid', $input['eid'])
                 ->update($input);
             echo $enc;
         }
+    }
+
+    public function putDischarged($eid, $type = 7)
+    {
+        $hospital_code = 74001;
+        $effect = Encounter::where("eid", $eid)
+            ->where("discharged",0)
+            ->update(array("discharged" => $type, "dateout" => time()));
+        //
+        if($effect==1){
+            $enc = Encounter::where('eid',$eid)->first();
+            $lasttransfer = EncounterTransfer::where('eid',$eid)
+                ->orderBy('id','DESC')
+                ->take(1)
+                ->first();
+
+            $transfer['type'] = $type; // mac dinh xuat vien
+
+            $transfer['eid'] = $enc->eid;
+            $transfer['pid'] = $enc->pid;
+            $transfer['fromhospital'] = $hospital_code;
+            $transfer['fromdept'] = $lasttransfer->todept;
+            $transfer['fromward'] = $lasttransfer->toward;
+            $transfer['date'] = time();
+            $trans = EncounterTransfer::create($transfer);
+            echo $trans->id;
+        }
+
     }
 }

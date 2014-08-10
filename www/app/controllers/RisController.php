@@ -31,9 +31,7 @@ class RisController extends BaseController{
 
     }
     public function getResult($type,$id){
-        if($type=='sieuam'){
-            return SieuamResult::where('request_id',$id)->first()->tojson();
-        }
+            return RisResult::where('request_id',$id)->first()->tojson();
     }
     public function deleteDelchidinhcdha($id){
         echo RISRequest::find($id)->delete();
@@ -42,7 +40,11 @@ class RisController extends BaseController{
         $data['hospital'] = 74001;
         $data['type'] = 'sieuam';
         return View::make(Config::get('main.theme') . '.ris.sieuam', $data);
-
+    }
+    public function getXquang(){
+        $data['hospital'] = 74001;
+        $data['type'] = 'xquang';
+        return View::make(Config::get('main.theme') . '.ris.xquang', $data);
     }
 
     public function getLoadristemplate($type,$code){
@@ -53,23 +55,22 @@ class RisController extends BaseController{
             echo $template->template;
         }
     }
-    public function getLoadsieuamresult($id){
-        return SieuamResult::where('request_id',$id)->first()->tojson();
+    public function getLoadrisresult($id){
+        return RisResult::where('request_id',$id)->first()->tojson();
     }
-    public function postSavesieuam(){
+    public function postSaveris(){
         $hospital_code = 74001;
         $input = Input::get('data');
         $input['hospital_code'] = $hospital_code;
         $input['date'] = time();
         if(!isset($input['id']) || $input['id'] == 0)  {
-            $rs = SieuamResult::create($input);
+            $rs = RisResult::create($input);
             RISRequest::find($input['request_id'])->update(array('status'=>1));
             return Response::json($rs);
         }
         else{
-            echo SieuamResult::find($input['id'])->update($input);
+            echo RisResult::find($input['id'])->update($input);
         }
-
     }
 
     public function getLoadrisrequest($type,$date,$status=0){
@@ -78,38 +79,23 @@ class RisController extends BaseController{
         $request =  DB::table('dfck_ris_request AS r')
             ->join('dfck_person AS p','p.pid','=','r.pid')
             ->join('dfck_type_cdha AS t','t.code','=','r.position')
+            ->join('dfck_encounter AS e','r.eid','=','e.eid')
             ->where('r.type',$type)
             ->where('r.status',$status)
             ->where('r.date','>=',$datefrom)
             ->where('r.date','<=',$dateto)
-            ->select('r.*','p.lastname','p.firstname','p.yob','t.name AS positionname')
+            ->select('r.*','p.lastname','p.firstname','p.yob','t.name AS positionname','e.discharged')
             ->orderby('r.date')
             ->get();
         return Response::json($request);
     }
-    public function getLoadxquangrequest($date,$status=0){
-        $datefrom = strtotime($date);
-        $dateto = strtotime($date." 23:59:59");
-        $request =  DB::table('dfck_ris_request AS r')
-            ->join('dfck_person AS p','p.pid','=','r.pid')
-            ->where('r.type','xquang')
-            ->where('r.status',$status)
-            ->where('r.date','>=',$datefrom)
-            ->where('r.date','<=',$dateto)
-            ->select('r.*','p.lastname','p.firstname','p.yob')
-            ->orderby('r.date')
-            ->get();
-        return Response::json($request);
-    }
-    public function getXquang(){
-        $data['hospital'] = 74001;
-        $data['type'] = 'xquang';
-        return View::make(Config::get('main.theme') . '.ris.xquang', $data);
 
-    }
+
     public function getPacspatientbypid($pid){
         $param = array(
             'a' => 'pat_list',
+            'dfrom' => '',
+            'dto' => '',
             'pid' => $pid,
         );
         return $this->getPacsapi($param);
@@ -143,7 +129,11 @@ class RisController extends BaseController{
             'a' => 'pat_file',
             'series_id' => $series,
         );
-        return $this->getPacsapi($param);
+        //return $this->getPacsapi($param);
+        //test
+        return Response::json(array('data'=>array(
+            asset('images/xquang1.jpg'),
+            asset('images/xquang2.jpg'))));
     }
     public function getPacsapi($param){
         $ip = "http://192.168.1.25/pacsapi/?c=api";//sau nay se lay tu csdl tung benh vien
@@ -160,6 +150,22 @@ class RisController extends BaseController{
         else if($param['a']=='pat_file'){
             $url .='&a='.$param['a'].'&series_id='.$param['series_id'];
         }
-        echo file_get_contents($ip.$url);
+        $Context = stream_context_create(array(
+            'http' => array(
+                'method' => 'GET',
+                'timeout' => Config::get('main.timeout'), //<---- Here (That is in seconds)
+            )
+        ));
+            try{
+                $file = file_get_contents($ip.$url,false,$Context);
+                if($file === false){
+                    echo '';
+                }
+                else echo $file;
+            }
+            catch(\Exception $e){
+                echo '';
+            }
+
     }
 }

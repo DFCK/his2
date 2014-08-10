@@ -2,9 +2,9 @@
     <div class="row">
         <div class="col-xs-12">
             <h1 class="page-title @if($person->sex==2) txt-color-pink @else txt-color-blue @endif">
-                @if($person->sex==1)
+                @if($person->sex=='m')
                 <i class="fa fa-male"></i>
-                @elseif($person->sex==2)
+                @elseif($person->sex=='f')
                 <i class="fa fa-female"></i>
                 @endif
                 <strong>{{$person->lastname.' '.$person->firstname}}</strong>&nbsp;({{$person->pid}})
@@ -176,10 +176,6 @@
     */
    pageSetUp();
     var personController = function($scope,$http,$modal,$interval,ngProgress){
-        ngProgress.start();
-        $(document).ready(function(){
-            ngProgress.complete();
-        });
         $scope.$on('$destroy', function () {
             ngProgress.complete();
         });
@@ -219,6 +215,7 @@
 
 
         $scope.exchange = function(room){
+            if(ngProgress.status()<=0)
             ngProgress.start();
             $http.post('radt/savequeue',{
                 room:room,
@@ -288,6 +285,7 @@
            date:today
        }
        $scope.ok = function () {
+           if(ngProgress.status()<=0)
            ngProgress.start();
            $http.post('pas/savevitalsign',{
                data:$scope.sinhhieu
@@ -299,6 +297,7 @@
        };
        $scope.sumsinhhieuavail = 0;
        $scope.load = function(){
+           if(ngProgress.status()<=0)
            ngProgress.start();
            $http.get('pas/loadvitalsign/'+$scope.sinhhieu.pid)
                .success(function(data){
@@ -364,6 +363,7 @@
 
        });
        $scope.ok = function () {
+           if(ngProgress.status()<=0)
            ngProgress.start();
            $http.post('pas/saveadmissioninfo',{
                data:$scope.hoibenh
@@ -379,6 +379,7 @@
            $scope.hoibenh.date = $filter('date')($scope.hoibenh.date*1000,'dd-MM-yyyy HH:mm');
        }
        $scope.load = function(){
+           if(ngProgress.status()<=0)
            ngProgress.start();
            $http.get('pas/loadadmissioninfo/'+$scope.hoibenh.pid)
                .success(function(data){

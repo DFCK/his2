@@ -151,18 +151,14 @@
                                 <!-- widget content -->
                                 <div class="widget-body">
                         <div class="row">
-                            <div class="col col-xs-12 padding-bottom-10">
+                            <div class="col col-xs-12 padding-bottom-10" ng-if="Request.discharged==0">
                                     <button type="button" class="btn btn-warning" id="star"
                                             data-ng-click="camera()">
                                         Mở/Đóng
                                     </button>
                                     <button type="button" class="btn btn-info" id="snap"
-                                            data-ng-click="camcapture(1)">
-                                        Lấy hình 1
-                                    </button>
-                                    <button type="button" class="btn btn-info" id="snap2"
-                                            data-ng-click="camcapture(2)">
-                                        Lấy hình 2
+                                            data-ng-click="camcapture()">
+                                        Lấy hình
                                     </button>
                                     <button type="button" class="btn btn-success" id="snap2"
                                             data-ng-click="save()">
@@ -177,45 +173,33 @@
                                 <textarea class="summernote" ng-model="resulttext"></textarea>
                             </div>
                             <div class="col-xs-4">
-                                <div class="col-xs-12">
-                                    <div class="row">
-                                        <div ng-show="sieuamimage[1]" style="position: relative">
-                                            <img src="@{{sieuamimage[1]}}"
+                                <ul class="col-xs-12 list-unstyled">
+                                    <li data-ng-repeat="image in sieuamimage">
+                                        <div ng-show="image.length > 0" style="position: relative">
+                                            <img src="@{{image}}"
                                                  class="img-responsive img-thumbnail"
                                                  style="max-height: 210px">
                                             <i class="fa fa-minus-circle fa-2x"
-                                               data-ng-click="delimage(1)"
+                                               data-ng-click="delimage(image)"
                                                style="position: absolute;bottom:10px;left:15px"></i>
                                         </div>
-                                    </div>
-                                    <div class="row">
-                                        <div ng-show="sieuamimage[2]">
-                                            <img src="@{{sieuamimage[2]}}"
-                                                 class="img-responsive img-thumbnail"
-                                                 style="max-height: 210px">
-                                            <i class="fa fa-minus-circle fa-2x"
-                                               data-ng-click="delimage(2)"
-                                               style="position: absolute;bottom:10px;left:15px"></i>
-                                        </div>
-                                    </div>
-                                </div>
+                                    </li>
+
+                                </ul>
                             </div>
                         </div>
 
                         <div class="row">
-                            <div class="col col-xs-12 padding-bottom-10 padding-top-10">
+                            <div class="col col-xs-12 padding-bottom-10 padding-top-10" ng-if="Request.discharged==0">
                                 <button type="button" class="btn btn-warning" id="star"
                                         data-ng-click="camera()">
                                     Mở/Đóng
                                 </button>
                                 <button type="button" class="btn btn-info" id="snap"
-                                        data-ng-click="camcapture(1)">
-                                    Lấy hình 1
+                                        data-ng-click="camcapture()">
+                                    Lấy hình
                                 </button>
-                                <button type="button" class="btn btn-info" id="snap2"
-                                        data-ng-click="camcapture(2)">
-                                    Lấy hình 2
-                                </button>
+
                                 <button type="button" class="btn btn-success" id="snap2"
                                         data-ng-click="save()">
                                     Lưu
@@ -262,33 +246,60 @@
             $scope.opened = true;
         };
         $scope.Request = {};
+        $scope.sieuamimage = [];
         $scope.requestlist = [];
         $scope.status = 0;
         $scope.onajax = false;
         $scope.show = function (request) {
+            if(ngProgress.status()<=0)
+            ngProgress.start();
             angular.copy(request, $scope.Request);
             if(!$scope.status){
                 $http.get('ris/loadristemplate/sieuam/'+request.position)
                     .success(function(data){
                         $scope.resulttext = data;
                         $('.summernote').code(data);
-                        $scope.sieuamimage = ["","",""];
+                        $scope.sieuamimage = [];
+                        ngProgress.complete();
+                    })
+                    .error(function(){
+                        ngProgress.complete();
                     });
             }
             else{
-                $http.get('ris/loadsieuamresult/'+request.id)
+                $http.get('ris/loadrisresult/'+request.id)
                     .success(function(data){
                         $scope.Result = data;
                         $('.summernote').code($scope.Result.textresult);
-                        $scope.sieuamimage[1] = $scope.Result.image1;
-                        $scope.sieuamimage[2] = $scope.Result.image2;
+                        $scope.sieuamimage = $scope.Result.images.split("$$$");
+//                        console.log($scope.sieuamimage);
+                        ngProgress.complete();
                     });
             }
 
         }
+        $scope.viewImage = function (size,mainpic) {
+            var Result ={};
+            angular.copy($scope.Result,Result);
+            Result.images = Result.images.split("$$$");
+            var modalInstance = $modal.open({
+                templateUrl: "{{URL::to('tpl/viewimage')}}",
+                controller: ModalViewImages,
+                size: size,
+                resolve: {
+                    Result:function(){
+                        return Result;
+                    },
+                    mainpic:function(){
+                        return mainpic;
+                    }
+                }
+            });
+        };
         $scope.loadlist = function () {
             if (!$scope.onajax) {
                 $scope.onajax = true;
+                if(ngProgress.status()<=0)
                 ngProgress.start();
                 if ($scope.status) {
                     $scope.status = 1;
@@ -299,6 +310,8 @@
                 $http.get('ris/loadrisrequest/sieuam/' + $filter('date')($scope.date, 'dd-MM-yyyy') + "/" + $scope.status)
                     .success(function (data) {
                         ngProgress.complete();
+                        $('.summernote').code("");
+                        $scope.sieuamimage = [];
                         $scope.requestlist = data;
                         if ($scope.requestlist.length > 0) {
                             $scope.show($scope.requestlist[0]);
@@ -310,6 +323,7 @@
         }
         $scope.Result = {};
         $scope.save = function(){
+            if(ngProgress.status()<=0)
             ngProgress.start();
             $scope.Result = {
                 request_id: $scope.Request.id,
@@ -319,13 +333,12 @@
                 position: $scope.Request.position,
                 positionname: $scope.Request.positionname,
                 textresult: $('.summernote').code(),
-                image1:$scope.sieuamimage[1],
-                image2:$scope.sieuamimage[2],
+                images:$scope.sieuamimage.join("$$$"),
                 daterequest:$scope.Request.date,
                 date:'',
-                id: (($scope.Result.id)?$scope.Result.id:0),
+                id: (($scope.Result.id)?$scope.Result.id:0)
             };
-            $http.post('ris/savesieuam',{
+            $http.post('ris/saveris',{
                 data:$scope.Result
             }).success(function(data){
                     if(data==0){
@@ -345,15 +358,14 @@
             $scope.loadlist();
             $scope.Result = {};
         }
-        $scope.sieuamimage = ["","",""];
 
 
         $scope.stopcamera = function(){
             stopcamera();
         }
         $scope.iscamera = false;
-        $scope.delimage = function (index) {
-            $scope.sieuamimage[index] = "";
+        $scope.delimage = function (url) {
+            $scope.sieuamimage.pop(url);
         }
         $scope.camera = function () {
             if( !$scope.iscamera ) {
@@ -368,7 +380,7 @@
 
         $scope.camcapture = function (index) {
             context.drawImage(video, 0, 0, 640, 480, 0, 0, 640, 480);
-            $scope.sieuamimage[index] = canvas.toDataURL("image/jpeg");
+            $scope.sieuamimage.push(canvas.toDataURL("image/jpeg"));
         };
         $scope.today();
         $scope.loadlist();

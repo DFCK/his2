@@ -98,8 +98,8 @@
                                                 tabindex="3"
                                                 ui-keydown="{'enter': 'nextinputCallback($event)','shift-enter': 'submitCallback($event)'}">
                                             <option value="0">{{trans('pas.sex')}}</option>
-                                            <option value="1">{{trans('pas.men')}}</option>
-                                            <option value="2">{{trans('pas.femal')}}</option>
+                                            <option value="m">{{trans('pas.men')}}</option>
+                                            <option value="f">{{trans('pas.femal')}}</option>
                                         </select>
                                         <i></i>
                                     </label>
@@ -146,7 +146,7 @@
                                 <section class="col col-lg-2 col-xs-6 col-sm-2 col-md-2">
                                     <label class="label">{{trans('pas.shortcut')}}</label>
                                     <label class="input">
-                                        <input ng-model="person.shortcut" name="shortcut"
+                                        <input ng-model="shortcut" name="shortcut"
                                                tabindex="8"
                                                ui-keydown="{'enter': 'nextinputCallback($event)','shift-enter': 'submitCallback($event)'}"
                                                type="text" placeholder="{{trans('pas.shortcut')}}">
@@ -159,7 +159,7 @@
                                                 style="width:100%" class="select-2" tabindex="9"
                                                 ui-keydown="{'enter': 'nextinputCallback($event)','shift-enter': 'submitCallback($event)'}">
                                             <option data-ng-repeat="province in provinces"
-                                                    value="@{{province.code}}">
+                                                    value="@{{province.code}}"  ng-selected="province.code == person.province">
                                                 @{{province.name}}
                                             </option>
                                         </select>
@@ -174,7 +174,7 @@
                                                 ui-keydown="{'enter': 'nextinputCallback($event)','shift-enter': 'submitCallback($event)'}">
                                             <option data-ng-repeat="district in districts"
                                                     value="@{{district.code}}"
-                                                    ng-selected="@{{district.code == person.district}}">
+                                                    ng-selected="district.code == person.district">
                                                 @{{district.name}}
                                             </option>
 
@@ -190,7 +190,7 @@
                                                 ui-keydown="{'enter': 'nextinputCallback($event)','shift-enter': 'submitCallback($event)'}">
                                             <option data-ng-repeat="addressward in addresswards"
                                                     value="@{{addressward.code}}"
-                                                    ng-selected="@{{addressward.code == person.addressward}}">
+                                                    ng-selected="addressward.code == person.addressward">
                                                 @{{addressward.name}}
                                             </option>
 
@@ -585,6 +585,7 @@
 pageSetUp();
 //    console.log(smartApp);
 function personregistercontroller($scope, $http,ngProgress) {
+    if(ngProgress.status()<=0)
     ngProgress.start();
     $(document).ready(function(){
         ngProgress.complete();
@@ -627,6 +628,7 @@ function personregistercontroller($scope, $http,ngProgress) {
         relativeaddress: '',
         relativetype: ''
     };
+    $scope.shortcut = '';
     $scope.provinces = [];
     $scope.districts = [];
     $scope.addresswards = [];
@@ -634,8 +636,8 @@ function personregistercontroller($scope, $http,ngProgress) {
     $scope.labelage = "Tuổi";
     $scope.currHospitalCode = '20004';
     $scope.noavatar = {
-        1: "{{asset('images/noavatarm.jpg')}}",
-        2: "{{asset('images/noavatarf.jpg')}}"
+        m: "{{asset('images/noavatarm.jpg')}}",
+        f: "{{asset('images/noavatarf.jpg')}}"
     };
 
     $scope.save = function () {
@@ -643,6 +645,7 @@ function personregistercontroller($scope, $http,ngProgress) {
 //        return;
         if ($("#formpersoninfo").valid()) {
 //            console.log($scope.person);
+            if(ngProgress.status()<=0)
             ngProgress.start();
             $http.post('pas/saveperson', {
                 data: $scope.person
@@ -670,11 +673,11 @@ function personregistercontroller($scope, $http,ngProgress) {
 
     $scope.changeavatar = function () {
         if ($scope.person.avatar == "") {
-            if ($scope.person.sex == 1) {
-                document.getElementById("pasavatar").src = $scope.noavatar[1];
+            if ($scope.person.sex == m) {
+                document.getElementById("pasavatar").src = $scope.noavatar.m;
             }
             else {
-                document.getElementById("pasavatar").src = $scope.noavatar[2];
+                document.getElementById("pasavatar").src = $scope.noavatar.f;
             }
         }
 
@@ -867,8 +870,8 @@ function personregistercontroller($scope, $http,ngProgress) {
         var currentindex = parseInt($target.attr("tabindex"));
         if (currentindex == 8) {
             var shortcut = $($target).val();
-//                $scope.addresswards = [];
-//                $scope.districts = [];
+                $scope.person.addressward = 0;
+                $scope.person.district = 0;
             $scope.person.province = 0;
             if (shortcut.trim().length > 0) {
                 $http.get('pas/searchshortcut/' + shortcut)
@@ -1007,12 +1010,11 @@ var pagefunction = function () {
             },
             firstname: {
                 required: true,
-                minlength: 3,
+                minlength: 1,
                 maxlength: 20
             },
             sex: {
-                required: true,
-                min: 1
+                required: true
             },
             yob: {
                 required: true
@@ -1043,7 +1045,6 @@ var pagefunction = function () {
                 maxlength: 'Tối đa 20 kí tự'
             },
             sex: {
-                min: "Chưa có giới tính"
             },
             yob: {
                 required: 'Chưa có năm sinh'

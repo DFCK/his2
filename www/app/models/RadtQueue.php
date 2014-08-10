@@ -26,6 +26,9 @@ class RadtQueue extends Eloquent{
                     ->where('a.date','>=',$fromdate)
                     ->where('a.date','<=',$todate);
                 })
+            ->leftjoin('v_encounter AS e',function($join){
+                $join->on('e.eid','=','q.eid');
+            })
             ->where('q.room_code',$room)
             ->where('q.hospital_code',$hospital)
             ->where('q.date','>=',$fromdate)
@@ -35,7 +38,8 @@ class RadtQueue extends Eloquent{
             ->orderby('q.order','DESC')
             ->orderby('q.id')
             ->select('q.eid','q.id AS queueid','p.*','a.by','a.refplace','a.refplacecode','a.reason','a.date AS admitdate','a.status',
-                'v.height','v.weight','v.bloodpressure','v.temperature','v.heartbeat')
+                'v.height','v.weight','v.bloodpressure','v.temperature','v.heartbeat',
+                'e.datein','e.dateout','e.diagnosiscode','e.diagnosis','e.numrisrequest','e.numrisresult')
             ->get();
         return $queue;
     }

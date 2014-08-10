@@ -37,4 +37,7 @@ class TplController extends BaseController
     public function getKetquacdha(){
         return View::make(Config::get('main.theme').'.ris.modalketquacdha');
     }
+    public function getViewimage(){
+        return View::make(Config::get('main.theme').'.ris.modalviewimage');
+    }
 }

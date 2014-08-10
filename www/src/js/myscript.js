@@ -34,8 +34,7 @@ document.onkeydown = function (event) {
     var keyCode = event.keyCode;
     if (keyCode == 8 &&
         ((event.target || event.srcElement).tagName != "TEXTAREA") &&
-        ((event.target || event.srcElement).tagName != "INPUT") &&
-        !hasClass((event.target || event.srcElement),"note-editable") ) {
+        ((event.target || event.srcElement).tagName != "INPUT") && !hasClass((event.target || event.srcElement), "note-editable")) {
 
         if (navigator.userAgent.toLowerCase().indexOf("msie") == -1) {
             event.stopPropagation();
@@ -54,7 +53,7 @@ document.onkeydown = function (event) {
 window.URL = window.URL || window.webkitURL;
 
 navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia ||
-                         navigator.mozGetUserMedia || navigator.msGetUserMedia;
+    navigator.mozGetUserMedia || navigator.msGetUserMedia;
 
 var onFailSoHard = function (e) {
     console.log('Reeeejected!', e);
@@ -65,7 +64,7 @@ var canvas = null;
 var context = null;
 var localMediaStream = null;
 
-var stopcamera = function(){
+var stopcamera = function () {
     video.pause();
     localMediaStream.stop();
 };
@@ -82,5 +81,16 @@ var opencamera = function () {
         }, onFailSoHard);
     } else {
         alert('getUserMedia() is not supported in your browser');
+    }
+};
+
+var ModalViewImages = function ($scope, $modalInstance, Result,mainpic) {
+    $scope.Result = Result;
+    $scope.mainpic = mainpic;
+    $scope.cancel = function () {
+        $modalInstance.dismiss('cancel');
+    };
+    $scope.choseimg = function(url){
+        $scope.mainpic = url;
     }
 };
