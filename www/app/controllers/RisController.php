@@ -41,10 +41,25 @@ class RisController extends BaseController{
         $data['type'] = 'sieuam';
         return View::make(Config::get('main.theme') . '.ris.sieuam', $data);
     }
+    public function getNoisoi(){
+        $data['hospital'] = 74001;
+        $data['type'] = 'noisoi';
+        return View::make(Config::get('main.theme') . '.ris.noisoi', $data);
+    }
     public function getXquang(){
         $data['hospital'] = 74001;
         $data['type'] = 'xquang';
         return View::make(Config::get('main.theme') . '.ris.xquang', $data);
+    }
+    public function getCt(){
+        $data['hospital'] = 74001;
+        $data['type'] = 'ct';
+        return View::make(Config::get('main.theme') . '.ris.ct', $data);
+    }
+    public function getMri(){
+        $data['hospital'] = 74001;
+        $data['type'] = 'mri';
+        return View::make(Config::get('main.theme') . '.ris.mri', $data);
     }
 
     public function getLoadristemplate($type,$code){

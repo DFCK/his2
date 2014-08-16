@@ -243,13 +243,19 @@
                         ngProgress.complete();
                     });
                 });
+            $scope.datenow = Date.now();
             $http.get('radt/roomqueue/'+$filter('date')($scope.dt,'dd-MM-yyyy'))
                 .success(function (data) {
                     $scope.queue = data;
+                    console.log($scope.queue);
                 });
         }
-        $scope.discharged = function(eid,type){
-            $http.put('radt/discharged/'+eid+'/'+type)
+        $scope.discharged = function(enc,type){
+            if(enc.diagnosiscode=="") {
+                myalert("Thông báo","Bệnh nhân chưa có chẩn đoán chính nên chưa thể xuất viện.");
+                return;
+            }
+            $http.put('radt/discharged/'+enc.eid+'/'+type)
                 .success(function(data){
                     if(data > 0){
                         $scope.loadroom();

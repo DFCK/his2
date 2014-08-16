@@ -7,4 +7,6 @@ return array(
     'ct' => 'CT',
     'mri' => 'MRI',
     'noisoi' => 'Nội Soi',
+    'sieuamnoisoi' => 'Siêu âm-Nội soi',
+    'xquangctmri' => 'Xquang - CT- MRI',
 );

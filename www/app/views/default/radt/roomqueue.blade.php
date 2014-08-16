@@ -9,8 +9,8 @@
         </div>
         <div class="col-xs-7 no-padding">
             <p><strong><a href="#/pas/person/@{{person.pid}}">@{{person.lastname+" "+person.firstname}}</a></strong>
-                <span ng-if="person.dob != ''">@{{person.dob*1000 | date:"dd/MM/yyyy"}} (@{{person.dob*1000 | calmonth}}).</span>
-                <span ng-if="person.dob == ''">@{{person.yob}} (@{{person.yob | calmonth}}).</span>
+                <span ng-if="person.dob">@{{person.dob*1000 | date:"dd/MM/yyyy"}} (@{{person.dob*1000 | calmonth}}).</span>
+                <span ng-if="!person.dob">@{{person.yob}} (@{{person.yob | calmonth}}).</span>
                 <span ng-if="person.admitdate && person.admitdate != ''">Đến lúc <strong>@{{person.admitdate * 1000 | date:"HH:mm"}}</strong>.</span>
             </p>
             <p>
@@ -37,13 +37,13 @@
                 <p>
                     <a  ng-if="person.eid==0" class="btn btn-primary btn-xs" href="#/radt/admission/@{{person.pid}}/@{{person.queueid}}">Nhận bệnh</a>
                     <div class="btn-group" dropdown ng-if="person.eid >0">
-                        <a href="#/enc/info/@{{person.eid}}" class="btn btn-success btn-xs">Xem bệnh</a>
+                        <a href="#/enc/info/@{{person.eid + '/' + datenow}}" class="btn btn-success btn-xs">Xem bệnh</a>
                         <button type="button" class="btn btn-success dropdown-toggle btn-xs">
                             <span class="caret"></span>
                             <span class="sr-only">Split button!</span>
                         </button>
                         <ul class="dropdown-menu" role="menu" ng-if="person.discharged==0">
-                            <li><a data-ng-click="discharged(person.eid,7)">Xuất viện</a></li>
+                            <li><a data-ng-click="discharged(person,7)">Xuất viện</a></li>
                             <li><a href="#">Chuyển viện</a></li>
                             <li><a href="#">Trốn viện</a></li>
                         </ul>

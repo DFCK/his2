@@ -30,7 +30,7 @@
         </table>
     </div>
     <div id="ketquacdha" class="row">
-        <div ng-if="Result.type=='sieuam'">
+        <div ng-if="Result.type=='sieuam' || Result.type=='noisoi'">
             <h6 class="col-xs-12">Kết quả @{{Result.positionname}} - <span class="text-sm"><i class="fa fa-clock-o"></i> @{{Result.date * 1000 | date:"dd-MM-yyyy HH:mm"}}</span></h6>
             <div class="col-xs-8 table-responsive" data-ng-bind-html="Result.textresult">
 

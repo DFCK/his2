@@ -39,7 +39,7 @@ class RadtQueue extends Eloquent{
             ->orderby('q.id')
             ->select('q.eid','q.id AS queueid','p.*','a.by','a.refplace','a.refplacecode','a.reason','a.date AS admitdate','a.status',
                 'v.height','v.weight','v.bloodpressure','v.temperature','v.heartbeat',
-                'e.datein','e.dateout','e.diagnosiscode','e.diagnosis','e.numrisrequest','e.numrisresult')
+                'e.datein','e.dateout','e.diagnosiscode','e.diagnosis','e.numrisrequest','e.numrisresult','e.discharged')
             ->get();
         return $queue;
     }
