@@ -1,12 +1,12 @@
 #his 2
 <VirtualHost *:80>
     ServerAdmin admin@his
-    DocumentRoot "/Users/cot/www/his2/www"
+    DocumentRoot "E:/htdocs/his2/www"
     ServerName mywww.his2
     ServerAlias mywww.his2
     ErrorLog "/Users/cot/www/log/his2_error_log.txt"
     CustomLog "/Users/cot/www/log/his2_access_log.txt" common
-    <Directory /Users/cot/www/his2/www/>
+    <Directory E:/htdocs/his2/www/>
                 Options Indexes FollowSymLinks MultiViews
                 AllowOverride All
                 Order allow,deny

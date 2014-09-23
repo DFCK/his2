@@ -14,6 +14,7 @@ return array(
     'dmchucvu' => 'Danh mục chức vụ',
     'department' => 'Khoa Phòng',
     'init-hospital' => 'Thiết lập bệnh viện',
+    'address' => 'Danh mục địa chỉ',
 
     /**
      * Thao tác
