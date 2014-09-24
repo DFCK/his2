@@ -74,7 +74,7 @@
                             <!-- widget content -->
                             <div class="widget-body ">
                                 <div class="row">
-                                    <div class="col-sm-6">
+                                    <div class="col-sm-4">
                                         <p class="input-group">
                                             <input type="text" class="form-control"
                                                    datepicker-popup="@{{format}}"
@@ -92,11 +92,18 @@
                                   </span>
                                         </p>
                                     </div>
+                                    <div class="col-xs-12 col-sm-4">
+                                        <select class="form-control" ng-model="roomfilter">
+                                            <option value="0">Chưa xếp lịch</option>
+                                            <option data-ng-repeat="room in roomlist" value="@{{room.code}}" ng-selected="roomfilter==room.code">@{{room.name}}</option>
+                                        </select>
+                                    </div>
                                     <div class="col-xs-1 no-padding">
                                         <a class="" data-ng-click="loadroom()"><i class="fa  fa-2x fa-refresh padding-5"></i></a>
                                     </div>
                                 </div>
-                                <div data-ng-include="'{{URL::to('tpl/roomqueue')}}'"></div>
+                                <div ng-if="queue.length >= 1" data-ng-include="'{{URL::to('tpl/roomqueue')}}'"></div>
+                                <div ng-if="!queue.length">Chưa có bênh nhân hoặc tất cả đã được hẹn khám.</div>
 
                             </div>
                             <!-- end widget content -->
@@ -199,9 +206,10 @@
             $scope.opened = true;
         };
         //$filter('date')(new Date(),'dd-MM-yyyy HH:mm');
-
+        $scope.roomfilter = 0;
         $scope.deptcode = '{{$dept}}';
         $scope.deptinfo = {};
+        $scope.intiepnhan = true;
         var stoproom;
         $scope.autoloadroom = function () {
             if (angular.isDefined(stoproom)) {
@@ -209,7 +217,7 @@
             }
             stoproom = $interval(function () {
                 $scope.loadroom();
-            }, 15000);  //15s
+            }, 30000);  //30s
         };
         $scope.$watch('dt',function(){
             if($scope.dt){
@@ -236,23 +244,43 @@
                 .success(function(data){
                     $scope.deptinfo = data.deptinfo;
                     $scope.roomlist = data.roomlist;
+
+                });
+            $http.get('radt/roomqueue/'+$filter('date')($scope.dt,'dd-MM-yyyy')+"/"+$scope.roomfilter)
+                .success(function (data) {
+                    $scope.queue = data;
                     ngProgress.complete();
                 });
-//            $http.get('radt/outpatientroom')
-//                .success(function (data) {
-//                    $scope.roomlist = data;
-//                    angular.forEach(data,function(value,key){
-//                        if(value.code == $scope.myroom){
-//                            $scope.myroominfo = value;
-//                        }
-//                        ngProgress.complete();
-//                    });
-//                });
-//            $http.get('radt/roomqueue/'+$filter('date')($scope.dt,'dd-MM-yyyy'))
-//                .success(function (data) {
-//                    $scope.queue = data;
-//                    console.log($scope.queue);
-//                });
+        }
+        $scope.$watch('roomfilter',function(){
+            if($scope.roomfilter){
+                $scope.loadroom();
+            }
+        })
+        $scope.onDropComplete = function(person,event,room){
+            $scope.exchange(room,person);
+        }
+        $scope.exchange = function(room,person){
+            if(ngProgress.status()<=0)
+                ngProgress.start();
+            $http.post('radt/savequeue',{
+                room:room,
+                pid:person.pid,
+                eid:person.eid
+            }).success(function(data){
+                ngProgress.complete();
+                if(data > 0 ){
+                    $scope.loadroom();
+                }
+                if(data <=0){
+                    myalert("Lỗi","Có lỗi khi lưu");
+                }
+            }).error(function(){
+                myalert("Lỗi","Có lỗi khi lưu");
+            });
+        }
+        $scope.onDragComplete = function(data,event,index){
+//            $scope.queue.splice(index,1);
         }
         $scope.discharged = function(enc,type){
             if(enc.diagnosiscode=="") {

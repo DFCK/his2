@@ -140,6 +140,7 @@ ANGULAR: Handled via "ribbon" directive
 {{HTML::script('src/js/myscript.js')}}
 {{HTML::script('src/js/autocomplete.js')}}
 {{HTML::script('src/js/ngProgress.min.js')}}
+{{HTML::script('src/js/ngDraggable.js')}}
 
 @yield('jscript')
 

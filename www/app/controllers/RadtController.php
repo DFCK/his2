@@ -11,22 +11,26 @@ class RadtController extends BaseController
         if ($room)
             return Response::json($room);
     }
-    public function getTiepnhan(){
+
+    public function getTiepnhan()
+    {
         $hospital = '74001'; //change it when have session.
         $data['dept'] = 'kkb';
         $data['hrid'] = 1;
         return View::make(Config::get('main.theme') . '.radt.phongtiepnhan', $data);
     }
-    public function getTiepnhanupdate(){
+
+    public function getTiepnhanupdate()
+    {
         $hospital = '74001'; //change it when have session.
         $data['dept'] = 'kkb';
-        $deptinfo = Department::getDeptInfo($hospital,$data['dept']);
+        $deptinfo = Department::getDeptInfo($hospital, $data['dept']);
         $room = Room::getOutpatientRoom($hospital, $data['dept']);
         $return = array();
         if ($deptinfo)
             $return['deptinfo'] = $deptinfo;
         else $return['deptinfo'] = null;
-        if($room)
+        if ($room)
             $return['roomlist'] = $room;
         else $room = null;
         return Response::json($return);
@@ -71,11 +75,18 @@ class RadtController extends BaseController
         return View::make(Config::get('main.theme') . '.radt.phongkhambenh', $data);
     }
 
-    public function getRoomqueue($date = "")
+    public function getRoomqueue($date = "", $roomid = '')
     {
         $hospital = '74001'; //change it when have session.
-        $room = 'kkbpk1';
-        $queue = RadtQueue::getCurrentRoom($hospital, $room, $date);
+        if ($roomid == '')
+            $room = 'kkbpk1';
+        else
+            $room = $roomid;
+
+        if ($room == '0') {
+            $queue = null;
+        } else
+            $queue = RadtQueue::getCurrentRoom($hospital, $room, $date);
         return Response::json($queue);
     }
 
@@ -203,13 +214,13 @@ class RadtController extends BaseController
     {
         $hospital_code = 74001;
         $effect = Encounter::where("eid", $eid)
-            ->where("discharged",0)
+            ->where("discharged", 0)
             ->update(array("discharged" => $type, "dateout" => time()));
         //
-        if($effect==1){
-            $enc = Encounter::where('eid',$eid)->first();
-            $lasttransfer = EncounterTransfer::where('eid',$eid)
-                ->orderBy('id','DESC')
+        if ($effect == 1) {
+            $enc = Encounter::where('eid', $eid)->first();
+            $lasttransfer = EncounterTransfer::where('eid', $eid)
+                ->orderBy('id', 'DESC')
                 ->take(1)
                 ->first();
 

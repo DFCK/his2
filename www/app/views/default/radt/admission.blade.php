@@ -346,7 +346,7 @@
                         <li  ng-if="typedischarged == 0">
                             <a><i class="fa fa-flask"></i> Chỉ định Xét nghiệm </a>
                         </li>
-                        <li  ng-if="typedischarged == 0"><a data-ng-click="discharged(person.eid,7)">Xuất viện</a></li>
+                        <li  ng-if="typedischarged == 0"><a data-ng-click="discharged(person.eid,7)"><i class="fa  fa-sign-out"></i> Xuất viện</a></li>
 
                     </ul>
                 </div>
@@ -387,6 +387,7 @@
         $scope.$on('$destroy', function () {
             ngProgress.complete();
         });
+        $scope.admithistory = {{Encounter::getAdmithistory($person->pid)}};
         $scope.admission = {
             pid:'{{$person->pid}}',
             eid : '',

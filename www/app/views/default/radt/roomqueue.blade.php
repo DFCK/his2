@@ -1,7 +1,7 @@
-<div class="panel panel-default" data-ng-repeat="person in queue">
+<div class="panel panel-default" data-ng-repeat="person in queue track by $index" >
     <div class="panel-body">
         <div class="row">
-        <div class="col-xs-2">
+        <div class="col-xs-2" ng-drag="true" ng-drag-data="person" ng-drag-success="onDragComplete($data,$event,$index)">
             <img src="@{{person.avatar}}" class="img-responsive" ng-if="person.avatar != ''">
             <img src="{{asset('images/noavatarm.jpg')}}" class="img-responsive" ng-if="person.sex==1 && person.avatar == ''">
             <img src="{{asset('images/noavatarf.jpg')}}" class="img-responsive" ng-if="person.sex==2 && person.avatar == ''">
@@ -28,14 +28,14 @@
                <span ng-if="person.personhistory && person.personhistory != ''">Tiền sử bệnh: <i>@{{person.personhistory}}</i>.</span>
             </p>
             <p ng-if="person.datein > 0">
-                Nhận bệnh lúc <i class="fa fa-clock-o"></i> <strong><em>@{{person.datein * 1000 | date:"dd/MM HH:mm"}}</em></strong>.
-                <span ng-if="person.dateout > 0" class="txt-color-red"> Ra viện lúc: @{{person.dateout * 1000 | date:"dd/MM HH:mm"}}</span>
+                <i class="fa fa-sign-in"></i>&nbsp;@{{person.datein * 1000 | date:"HH:mm dd/MM "}}&nbsp;
+                <span ng-if="person.dateout > 0" class="txt-color-red"><i class="fa fa-sign-out"></i>&nbsp;@{{person.dateout * 1000 | date:"HH:mm dd/MM"}}</span>
                 <span ng-if="person.diagnosis"> Chẩn đoán: <strong>@{{person.diagnosis}}</strong></span>
             </p>
         </div>
             <div class="col-xs-3">
                 <p>
-                    <a  ng-if="person.eid==0" class="btn btn-primary btn-xs" href="#/radt/admission/@{{person.pid}}/@{{person.queueid}}">Nhận bệnh</a>
+                    <a  ng-if="person.eid==0 && !intiepnhan" class="btn btn-primary btn-xs" href="#/radt/admission/@{{person.pid}}/@{{person.queueid}}">Nhận bệnh</a>
                     <div class="btn-group" dropdown ng-if="person.eid >0">
                         <a href="#/enc/info/@{{person.eid + '/' + datenow}}" class="btn btn-success btn-xs">Xem bệnh</a>
                         <button type="button" class="btn btn-success dropdown-toggle btn-xs">
@@ -53,7 +53,7 @@
                     <label class="label label-success" tooltip="Đã có @{{person.numrisresult}} kết quả CLS">@{{person.numrisresult}}</label>
                     <label class="label label-info" tooltip="Đã gửi @{{person.numrisrequest}} yêu cầu CLS">@{{person.numrisrequest}}</label>
                 </p>
-                <p><a tooltip="Gọi bệnh nhân"><i class="fa fa-bell"></i></a></p>
+<!--                <p><a tooltip="Gọi bệnh nhân"><i class="fa fa-bell"></i></a></p>-->
             </div>
         </div>
     </div>

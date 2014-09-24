@@ -71,3 +71,14 @@
 @endif
 </div>
 <div class="clear"></div>
+<ul class="list-unstyled" ng-if="admithistory.length >=1" style="max-height: 300px;overflow-y: auto">
+    <li data-ng-repeat="admit in admithistory" class="alert alert-info">
+        <a href="/#/enc/info/@{{admit.eid}}" class="blocka">
+            <h4><b>@{{admit.eid}}</b></h4>
+            <div><i class="fa fa-sign-in"></i>&nbsp;@{{admit.datein * 1000 | date:"HH:mm dd/MM/yyyy"}}</div>
+            <div ng-if="admit.dateout > 0" class="txt-color-red"><i class="fa fa-sign-out"></i>&nbsp;@{{admit.dateout * 1000 | date:"HH:mm dd/MM/yyyy"}}</div>
+            <div ng-if="admit.diagnosis"><i class="fa fa-stethoscope"></i> <strong>@{{admit.diagnosis}}</strong></div>
+        </a>
+    </li>
+</ul>
+<div class="clear"></div>

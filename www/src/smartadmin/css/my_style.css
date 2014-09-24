@@ -47,3 +47,9 @@
 /*}*/
 .roomlist{
 }
+.blocka{
+    display: block;
+}
+.blocka:hover{
+    text-decoration: none;
+}

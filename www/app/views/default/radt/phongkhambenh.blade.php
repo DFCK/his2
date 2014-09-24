@@ -209,7 +209,7 @@
             }
             stoproom = $interval(function () {
                 $scope.loadroom();
-            }, 15000);  //15s
+            }, 30000);  //30s
         };
         $scope.$watch('dt',function(){
             if($scope.dt){
@@ -247,8 +247,29 @@
             $http.get('radt/roomqueue/'+$filter('date')($scope.dt,'dd-MM-yyyy'))
                 .success(function (data) {
                     $scope.queue = data;
-                    console.log($scope.queue);
                 });
+        }
+        $scope.onDropComplete = function(person,event,room){
+            $scope.exchange(room,person);
+        }
+        $scope.exchange = function(room,person){
+            if(ngProgress.status()<=0)
+                ngProgress.start();
+            $http.post('radt/savequeue',{
+                room:room,
+                pid:person.pid,
+                eid:person.eid
+            }).success(function(data){
+                ngProgress.complete();
+                if(data > 0 ){
+                    $scope.loadroom();
+                }
+                if(data <=0){
+                    myalert("Lỗi","Có lỗi khi lưu");
+                }
+            }).error(function(){
+                myalert("Lỗi","Có lỗi khi lưu");
+            });
         }
         $scope.discharged = function(enc,type){
             if(enc.diagnosiscode=="") {

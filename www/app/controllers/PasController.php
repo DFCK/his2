@@ -12,13 +12,13 @@ class PasController extends BaseController
                 $data['person'] = $person;
                 return View::make(Config::get('main.theme') . '.pas.person', $data);
             }
-
             else return View::make(Config::get('main.theme') . '.pas.registration', array("message" => "Không tìm thấy mã " . $pid));
         }
         else
             return View::make(Config::get('main.theme') . '.pas.registration');
 
     }
+
 
 
     public function getEditperson($pid)

@@ -10,4 +10,14 @@ class Encounter extends Eloquent{
      * Định nghĩa các trường
      * discharged: 0: đang điều trị, 7: xuất viện, 8: chuyển viện, 9: trốn viện
      */
+
+
+    public static function getAdmithistory($pid){
+        $admithistory = Encounter::where('pid',$pid)->orderby('datein','DESC')->select('eid','datein','dateout','diagnosis')->get();
+        if($admithistory){
+            $admithistory = $admithistory->tojson();
+        }
+        else $admithistory = null;
+        return $admithistory;
+    }
 }

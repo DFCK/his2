@@ -1,4 +1,4 @@
-<div class="panel panel-default" data-ng-repeat="room in roomlist" ng-if="myroom!=room.code">
+<div class="panel panel-default" data-ng-repeat="room in roomlist  track by $index" ng-if="myroom!=room.code" ng-drop="true" ng-drop-success="onDropComplete($data,$event,room)" >
     <div class="panel-heading">
         <i class="fa fa-lightbulb-o txt-color-green"  rel="tooltip" title="Online"></i>
         <strong>Bác sĩ Nguyễn Văn A</strong>

@@ -13,7 +13,8 @@ var smartApp = angular.module('smartApp', [
     //load angular UI
     'ui.utils' ,
     'autocomplete',
-    'ngProgress'
+    'ngProgress',
+    'ngDraggable'
 ]);
 
 smartApp.filter('hospitalclose', function () {

@@ -71,8 +71,7 @@
                 @endif
                 <div class="jarviswidget " id="wid-id-passhow2"
                      data-widget-editbutton="false" data-widget-deletebutton="false"
-                     data-widget-sortable="false" data-widget-fullscreenbutton="false"
-                     data-widget-collapsed="true" >
+                     data-widget-sortable="false" data-widget-fullscreenbutton="false" >
                     <header>
                         <span class="widget-icon"> <i class="fa fa-history"></i> </span>
 
@@ -83,7 +82,19 @@
 
                         <!-- widget content -->
                         <div class="widget-body " style="min-height: 10px !important;">
-
+                            <ul class="list-unstyled" ng-if="admithistory.length >=1" style="max-height: 300px;overflow-y: auto">
+                                <li data-ng-repeat="admit in admithistory" class="alert alert-info">
+                                    <a href="/#/enc/info/@{{admit.eid}}" class="blocka">
+                                        <h4 class="col-xs-4"><b>@{{admit.eid}}</b></h4>
+                                        <div class="col-xs-8 text-right">
+                                            <span><i class="fa fa-sign-in"></i>&nbsp;@{{admit.datein * 1000 | date:"HH:mm dd/MM/yyyy"}}</span>
+                                            <span ng-if="admit.dateout > 0" class="txt-color-red"><i class="fa fa-sign-out"></i>&nbsp;@{{admit.dateout * 1000 | date:"HH:mm dd/MM/yyyy"}}</span>
+                                        </div>
+                                        <div class="clear"></div>
+                                        <div ng-if="admit.diagnosis"><i class="fa fa-stethoscope"></i> <strong>@{{admit.diagnosis}}</strong></div>
+                                    </a>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -184,6 +195,7 @@
         $scope.havevitalsign = @if($person->numvitalsign > 0) true @else false @endif ;
         $scope.havehoibenh = @if($person->numadmisinfo > 0) true @else false @endif ;
 
+        $scope.admithistory = {{Encounter::getAdmithistory($person->pid)}};
 
         var stoproom;
         $scope.autoloadroom = function() {
