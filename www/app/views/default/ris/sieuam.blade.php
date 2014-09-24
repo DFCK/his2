@@ -174,7 +174,7 @@
                             </div>
                             <div class="col-xs-4">
                                 <ul class="col-xs-12 list-unstyled">
-                                    <li data-ng-repeat="image in sieuamimage">
+                                    <li data-ng-repeat="image in sieuamimage" data-ng-click="viewImage('lg',sieuamimage)">
                                         <div ng-show="image.length > 0" style="position: relative">
                                             <img src="@{{image}}"
                                                  class="img-responsive img-thumbnail"
@@ -231,7 +231,7 @@
 </div>
 <script>
     pageSetUp();
-    var RisSieuamController = function ($scope, $filter, $http, ngProgress) {
+    var RisSieuamController = function ($scope, $filter, $http, ngProgress,$modal) {
 
         $scope.initDate = new Date();
         $scope.formats = ['dd-MM-yyyy'];
@@ -257,21 +257,24 @@
             if(!$scope.status){
                 $http.get('ris/loadristemplate/sieuam/'+request.position)
                     .success(function(data){
-                        $scope.resulttext = data;
-                        $('.summernote').code(data);
-                        $scope.sieuamimage = [];
-                        ngProgress.complete();
-                    })
-                    .error(function(){
+                        if(data){
+                            $scope.resulttext = data;
+                            $('.summernote').code(data);
+                            $scope.sieuamimage = [];
+                        }
+
                         ngProgress.complete();
                     });
             }
             else{
                 $http.get('ris/loadrisresult/'+request.id)
                     .success(function(data){
-                        $scope.Result = data;
-                        $('.summernote').code($scope.Result.textresult);
-                        $scope.sieuamimage = $scope.Result.images.split("$$$");
+                        if(data){
+                            $scope.Result = data;
+                            $('.summernote').code($scope.Result.textresult);
+                            $scope.sieuamimage = $scope.Result.images.split("$$$");
+                        }
+
 //                        console.log($scope.sieuamimage);
                         ngProgress.complete();
                     });
