@@ -11,6 +11,26 @@ class RadtController extends BaseController
         if ($room)
             return Response::json($room);
     }
+    public function getTiepnhan(){
+        $hospital = '74001'; //change it when have session.
+        $data['dept'] = 'kkb';
+        $data['hrid'] = 1;
+        return View::make(Config::get('main.theme') . '.radt.phongtiepnhan', $data);
+    }
+    public function getTiepnhanupdate(){
+        $hospital = '74001'; //change it when have session.
+        $data['dept'] = 'kkb';
+        $deptinfo = Department::getDeptInfo($hospital,$data['dept']);
+        $room = Room::getOutpatientRoom($hospital, $data['dept']);
+        $return = array();
+        if ($deptinfo)
+            $return['deptinfo'] = $deptinfo;
+        else $return['deptinfo'] = null;
+        if($room)
+            $return['roomlist'] = $room;
+        else $room = null;
+        return Response::json($return);
+    }
 
     public function postSavequeue()
     {

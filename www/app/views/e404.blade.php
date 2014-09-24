@@ -491,46 +491,11 @@
                     <br>
                     <div class="error-search well well-lg padding-10">
                         <div class="input-group">
-                            <input class="form-control input-lg" type="text" placeholder="tìm kiếm" id="search-error">
-                            <span class="input-group-addon"><i class="fa fa-fw fa-lg fa-search"></i></span>
+                            <input class="form-control input-lg" type="text" placeholder="tìm kiếm" name="param2" id="search-error">
+                            <span class="input-group-addon" onclick="submitsearch2()"><i class="fa fa-fw fa-lg fa-search"></i></span>
                         </div>
                     </div>
 
-                    <div class="row">
-
-<!--                        <div class="col-sm-12">-->
-<!--                            <ul class="list-inline">-->
-<!--                                <li>-->
-<!--                                    &nbsp;<a href="javascript:void(0);">Dashbaord</a>&nbsp;-->
-<!--                                </li>-->
-<!--                                <li>-->
-<!--                                    .-->
-<!--                                </li>-->
-<!--                                <li>-->
-<!--                                    &nbsp;<a href="javascript:void(0);">Inbox (14)</a>&nbsp;-->
-<!--                                </li>-->
-<!--                                <li>-->
-<!--                                    .-->
-<!--                                </li>-->
-<!--                                <li>-->
-<!--                                    &nbsp;<a href="javascript:void(0);">Calendar</a>&nbsp;-->
-<!--                                </li>-->
-<!--                                <li>-->
-<!--                                    .-->
-<!--                                </li>-->
-<!--                                <li>-->
-<!--                                    &nbsp;<a href="javascript:void(0);">Gallery</a>&nbsp;-->
-<!--                                </li>-->
-<!--                                <li>-->
-<!--                                    .-->
-<!--                                </li>-->
-<!--                                <li>-->
-<!--                                    &nbsp;<a href="javascript:void(0);">My Profile</a>&nbsp;-->
-<!--                                </li>-->
-<!--                            </ul>-->
-<!--                        </div>-->
-
-                    </div>
 
                 </div>
 
@@ -541,7 +506,13 @@
     </div>
 
     <!-- end row -->
-
+     <script>
+    function submitsearch2(){
+        var param = $("input[name=param2]").val();
+        window.location.href = "/#/search/"+param;
+        return false;
+    }
+</script>
     <script type="text/javascript">
         /* DO NOT REMOVE : GLOBAL FUNCTIONS!
          *

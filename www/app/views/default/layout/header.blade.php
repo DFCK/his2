@@ -69,9 +69,9 @@
     <!-- end search mobile button -->
 
     <!-- input: search field -->
-    <form action="#/misc/search" class="header-search pull-right">
-        <input id="search-fld"  type="text" name="param" data-localize="Find reports and more" placeholder="Tìm kiếm" data-autocomplete='[]'>
-        <button type="submit">
+    <form action="/#/search"  class="header-search pull-right">
+        <input id="search-fld"  type="text" name="param" data-localize="search" placeholder="Tìm kiếm bệnh nhân" data-autocomplete='[]'>
+        <button type="submit" onclick="return submitsearch()">
             <i class="fa fa-search"></i>
         </button>
         <a href="javascript:void(0);" id="cancel-search-js" title="Cancel Search"><i class="fa fa-times"></i></a>
@@ -103,3 +103,10 @@
 
 </div>
 <!-- end pulled right: nav area -->
+<script>
+    function submitsearch(){
+        var param = $("input[name=param]").val();
+        window.location.href = "/#/search/"+param;
+        return false;
+    }
+</script>

@@ -22,6 +22,7 @@ Route::controller('address','AddressController');
 Route::controller('radt','RadtController');
 Route::controller('enc','EncounterController');
 Route::controller('ris','RisController');
+Route::get('/search/{param?}','SearchController@getIndex');
 
 
 Route::get('/','HomeController@getIndex');
