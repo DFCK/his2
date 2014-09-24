@@ -7,6 +7,7 @@
                 <option value="3">3</option>
                 <option value="4">4</option>
                 <option value="6">6</option>
+                <option value="12">12</option>
                 </select>
         </div>
         <a class="pull-right margin-right-5" data-ng-click="typeview=1"><i class="fa fa-th-large"></i></a>
