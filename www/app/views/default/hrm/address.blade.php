@@ -16,58 +16,6 @@
 
 <!-- NEW WIDGET START -->
 <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-
-    <!-- Widget ID (each widget will need unique ID)-->
-    <div class="jarviswidget" id="wid-id-hrmtitle0"
-         data-widget-editbutton="true">
-        <header>
-            <span class="widget-icon"> <i class="fa fa-floppy-o"></i> </span>
-
-            <h2>Thông tin quốc gia</h2>
-
-        </header>
-        <!-- widget div-->
-        <div class="">
-
-            <!-- widget content -->
-            <div class="widget-body">
-                <div class="col col-xs-6">
-
-                </div>
-                <div class="col col-xs-6">
-                    <table class="table table-bordered">
-                        <thead>
-                        <tr>
-                            <th>Tên Quốc Gia</th>
-                            <th>Mã Quốc gia</th>
-                            <th>&nbsp;</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr data-ng-repeat="title in titlelist.data">
-                            <td>@{{title.name}}</td>
-                            <td>@{{title.code}}</td>
-                            <td>
-                                <a data-ng-click="edit(title)"><i class="fa fa-pencil-square"></i></a>
-                                <a data-ng-click="delete(title)"><i class="fa fa-trash-o"></i></a>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                    <ul class="list-inline">
-                        <li data-ng-repeat="page in [] | paginate:titlelist.last_page">
-                            <a href="#" data-ng-click="loadcountry(page)"> @{{page}} </a>
-                        </li>
-                    </ul>
-                </div>
-
-            </div>
-
-        </div>
-
-
-</article>
-<article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <!-- Widget ID (each widget will need unique ID)-->
     <div class="jarviswidget" id="wid-id-hrmtitle1" data-widget-editbutton="true">
         <header>
@@ -291,6 +239,58 @@
         </div>
     </div>
 </article>
+<article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+    <!-- Widget ID (each widget will need unique ID)-->
+    <div class="jarviswidget" id="wid-id-hrmtitle5"
+         data-widget-editbutton="true">
+        <header>
+            <span class="widget-icon"> <i class="fa fa-floppy-o"></i> </span>
+
+            <h2>Thông tin quốc gia</h2>
+
+        </header>
+        <!-- widget div-->
+        <div class="">
+
+            <!-- widget content -->
+            <div class="widget-body">
+                <div class="col col-xs-6">
+
+                </div>
+                <div class="col col-xs-6">
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th>Tên Quốc Gia</th>
+                            <th>Mã Quốc gia</th>
+                            <th>&nbsp;</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr data-ng-repeat="title in titlelist.data">
+                            <td>@{{title.name}}</td>
+                            <td>@{{title.code}}</td>
+                            <td>
+                                <a data-ng-click="edit(title)"><i class="fa fa-pencil-square"></i></a>
+                                <a data-ng-click="delete(title)"><i class="fa fa-trash-o"></i></a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <ul class="list-inline">
+                        <li data-ng-repeat="page in [] | paginate:titlelist.last_page">
+                            <a href="#" data-ng-click="loadcountry(page)"> @{{page}} </a>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+
+        </div>
+
+
+</article>
 </div>
 </section>
 </div>
@@ -363,10 +363,23 @@
             if ($tpl == 'dist') {
                 angular.copy($scope.initial, $scope.dist);
                 $scope.dist.id = "";
+
+                $http.get('pas/allprovince/').success(function (data) {
+                    $scope.listallprovince = data;
+                });
+                $scope.dist.province_code = $scope.listallprovince;
             }
             else if ($tpl == 'ward') {
                 angular.copy($scope.initial, $scope.ward);
                 $scope.ward.id = "";
+
+//                $http.get('pas/alldistrict/').success(function(data){
+//                    $scope.listalldistrict = data ;
+//                });
+                $http.get('pas/alldistrict/' + $scope.province.code).success(function (data) {
+                    $scope.listalldistrict = data;
+                });
+                $scope.ward.district_code = $scope.listalldistrict;
             }
         };
 
