@@ -3,8 +3,8 @@
         <div class="row">
         <div class="col-xs-2" ng-drag="true" ng-drag-data="person" ng-drag-success="onDragComplete($data,$event,$index)">
             <img src="@{{person.avatar}}" class="img-responsive" ng-if="person.avatar != ''">
-            <img src="{{asset('images/noavatarm.jpg')}}" class="img-responsive" ng-if="person.sex==1 && person.avatar == ''">
-            <img src="{{asset('images/noavatarf.jpg')}}" class="img-responsive" ng-if="person.sex==2 && person.avatar == ''">
+            <img src="{{asset('images/noavatarm.jpg')}}" class="img-responsive" ng-if="person.sex=='m' && person.avatar == ''">
+            <img src="{{asset('images/noavatarf.jpg')}}" class="img-responsive" ng-if="person.sex=='f' && person.avatar == ''">
 
         </div>
         <div class="col-xs-7 no-padding">

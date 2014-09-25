@@ -61,4 +61,29 @@ class Person extends Eloquent
             return $person[0];
         else return null;
     }
+    public static function getPersonComeToday($hospital){
+        $fromdate = strtotime(date("d-m-Y")." 00:00:00");
+        $todate = strtotime(date("d-m-Y")." 23:59:59");
+
+        $person = DB::table('dfck_person AS p')
+            ->leftjoin('dfck_person_admissioninfo AS i', function($join)  {
+                $join->on('i.pid','=','p.pid')
+                    ->where('i.eid','=','');
+            })
+            ->leftjoin('dfck_person_vitalsigns AS v', function($join) use($fromdate,$todate){
+                $join->on('v.pid','=','p.pid')
+                    ->where('v.date','>=',$fromdate)
+                    ->where('v.date','<=',$todate);
+            })
+            ->whereRaw(' p.pid NOT IN (select pid from dfck_radt_queue where date >= '.$fromdate.' AND date <= '.$todate.' AND hospital_code = '.$hospital.') ')
+            ->where("p.hospital_code", $hospital)
+            ->whereNull('i.deleted_at')
+            ->where('i.date','>=',$fromdate)
+            ->where('i.date','<=',$todate)
+            ->select('p.*', 'v.*','i.*')
+            ->get();
+        if ($person)
+            return $person;
+        else return null;
+    }
 }

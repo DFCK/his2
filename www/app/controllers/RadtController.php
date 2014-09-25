@@ -84,7 +84,7 @@ class RadtController extends BaseController
             $room = $roomid;
 
         if ($room == '0') {
-            $queue = null;
+            $queue = Person::getPersonComeToday($hospital);
         } else
             $queue = RadtQueue::getCurrentRoom($hospital, $room, $date);
         return Response::json($queue);
