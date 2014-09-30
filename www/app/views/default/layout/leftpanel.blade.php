@@ -36,10 +36,6 @@ will not initialize.
               title="{{trans($cat['lang'])}}" suftitle="{{trans('common.suftitle')}}"/>
         @endif
     @endforeach
-    <nav:group data-icon="fa fa-lg fa-fw fa-group" title="{{trans('hrm.hrm')}}">
-        <nav:item data-view="/hrm/employee" title="{{trans('hrm.adminemployee')}}"
-                  suftitle="{{trans('common.suftitle')}}"/>
-        </nav:group>
 
     <nav:group data-icon="fa fa-lg fa-fw fa-cogs" title="{{trans('common.administration')}}">
         <nav:item data-view="/admin/hospital" title="{{trans('common.init-hospital')}}"

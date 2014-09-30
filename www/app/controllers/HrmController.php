@@ -26,6 +26,17 @@ class HrmController extends BaseController{
         $count = Employeetitle::find($id)->delete();
         echo $count;
     }
+    public function getTransfer($pid=''){
+        $data['hospital_code'] = 74001;
+        $data['hospital'] = Hospital::all()->tojson();
+        $data['dept'] = Department::where('hospital_code',$data['hospital_code'])->get()->tojson();
+        $data['ward'] = Ward::where('hospital_code',$data['hospital_code'])->get()->tojson();
+        $data['room'] = Room::where('hospital_code',$data['hospital_code'])->get()->tojson();
+        if($pid!='' && strlen($pid) == 12)
+            $data['person'] = Person::where('pid',$pid)->first()->tojson();
+        else $data['person'] = '{}';
+        return View::make(Config::get('main.theme').'.hrm.transfer',$data);
+    }
     public function getEmployee($pid=''){
         $data['hospital_code'] = 74001;
         $data['hospital'] = Hospital::all()->tojson();
@@ -44,9 +55,17 @@ class HrmController extends BaseController{
         }
     }
     public function getEmployeeinfo($pid){
-        $emp = Employee::where('pid',$pid)->first();
+        $emp = Employee::withTrashed()->where('pid',$pid)->first();
         if($emp) return $emp->tojson();
         else return '';
+    }
+    public function putChangestatusemp($pid,$type){
+        if($type==0){
+            echo Employee::where('pid',$pid)->delete();
+        }
+        else{
+            echo Employee::withTrashed()->where('pid',$pid)->restore();
+        }
     }
     public function postSave(){
         $input = Input::get('data');

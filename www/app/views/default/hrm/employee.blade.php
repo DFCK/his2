@@ -71,7 +71,10 @@
                                     <div class="row  ">
                                         <section class="col col-xs-12">
                                             <input type="hidden" ng-model="employee.id">
-                                            <p ng-if="employee.id != ''">ID nhân viên: <b>#@{{employee.id}}</b></p>
+                                            <p ng-if="employee.id != ''">ID nhân viên: <b>#@{{employee.id}}</b>
+                                            <span ng-if="employee.deleted_at"> (Nhân viên này đang tạm khóa)</span>
+                                            </p>
+                                            <p ng-if="employee.id == ''">Người này chưa là nhân viên</b></p>
                                             </section>
 
                                         <section class="col col-xs-12">
@@ -98,6 +101,8 @@
                                     </div>
                                 </fieldset>
                                 <footer>
+                                    <button ng-if="employee.id != '' && !employee.deleted_at" data-ng-click="changestatus(0)" class="btn btn-danger pull-left" title="Khóa nhân viên"><i class="fa fa-lock"></i></button>
+                                    <button ng-if="employee.deleted_at"  data-ng-click="changestatus(1)"  class="btn btn-success pull-left" title="Mở khóa nhân viên"><i class="fa fa-unlock"></i></button>
                                     <button class="btn btn-primary" data-ng-click="save()">Lưu</button>
                                 </footer>
                                 </form>
@@ -123,6 +128,14 @@
             $scope.hospital = {{$hospital}};
             $scope.emptitle = {{$emptitle}};
             $scope.person = {{$person}};
+            $scope.changestatus = function(type){
+                $http.put('hrm/changestatusemp/'+$scope.employee.pid+'/'+type)
+                    .success(function(data){
+                        if($scope.person){
+                            $scope.loademployee($scope.person.pid);
+                        }
+                    });
+            };
             $scope.search = function(){
                 $http.get('hrm/search/'+$scope.employeesearch)
                     .success(function(data){

@@ -1,5 +1,7 @@
 <h2 class="text-center margin-top-10">
-    <a href="/#/pas/person/@{{person.pid}}">@{{person.lastname +" "+person.firstname}}</a>
+    <a href="/#/pas/person/@{{person.pid}}">@{{person.lastname +" "+person.firstname}}
+    <br>
+    @{{person.pid}}</a>
 </h2>
 <div class="col-xs-12 text-align-center">
     <img ng-if="person.avatar!=''"  src="@{{person.avatar}}" class="img-responsive img-thumbnail" style="max-height: 180px">
