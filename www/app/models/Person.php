@@ -56,9 +56,10 @@ class Person extends Eloquent
             ->select('p.*', DB::raw(" IFNULL(en.eid,0) AS eid"),
                 'pr.name AS province_name', 'd.name AS district_name', 'w.name AS ward_name', 'j.namevn AS career',
                 'e.name AS ethnicname', 'n.name AS insurancename',DB::raw(" COUNT(v.id) AS numvitalsign "),DB::raw(" COUNT(i.id) AS numadmisinfo "))
-            ->get();
-        if ($person)
-            return $person[0];
+            ->first();
+        if ($person && $person->id != null){
+            return $person;
+        }
         else return null;
     }
     public static function getPersonComeToday($hospital){

@@ -3,7 +3,7 @@
                                 @if($person->avatar!='')
                                                       {{$person->avatar}}
                                                       @else
-                                                      @if($person->sex==1)
+                                                      @if($person->sex=='m')
                                 {{asset('images/noavatarm.jpg')}}
                                                       @else
                                 {{asset('images/noavatarf.jpg')}}

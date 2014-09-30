@@ -26,4 +26,13 @@ class HrmController extends BaseController{
         $count = Employeetitle::find($id)->delete();
         echo $count;
     }
+    public function getEmployee(){
+        return View::make(Config::get('main.theme').'.hrm.employee');
+    }
+    public function getSearch($key){
+        if(strlen($key)==12){
+            //pid
+            return Response::json(Person::getPersonInfo($key));
+        }
+    }
 }
