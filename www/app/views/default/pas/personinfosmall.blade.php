@@ -72,7 +72,7 @@
 </div>
 <div class="clear"></div>
 <ul class="list-unstyled" ng-if="admithistory.length >=1" style="max-height: 300px;overflow-y: auto">
-    <li data-ng-repeat="admit in admithistory" class="alert alert-info">
+    <li data-ng-repeat="admit in admithistory" class="panel panel-default padding-10">
         <a href="/#/enc/info/@{{admit.eid}}" class="blocka">
             <h4><b>@{{admit.eid}}</b></h4>
             <div><i class="fa fa-sign-in"></i>&nbsp;@{{admit.datein * 1000 | date:"HH:mm dd/MM/yyyy"}}</div>

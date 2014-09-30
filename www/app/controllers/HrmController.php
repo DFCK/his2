@@ -26,13 +26,38 @@ class HrmController extends BaseController{
         $count = Employeetitle::find($id)->delete();
         echo $count;
     }
-    public function getEmployee(){
-        return View::make(Config::get('main.theme').'.hrm.employee');
+    public function getEmployee($pid=''){
+        $data['hospital_code'] = 74001;
+        $data['hospital'] = Hospital::all()->tojson();
+        $data['emptitle'] = Employeetitle::all()->tojson();
+        if($pid!='' && strlen($pid) == 12)
+            $data['person'] = Person::where('pid',$pid)->first()->tojson();
+        else $data['person'] = '{}';
+        return View::make(Config::get('main.theme').'.hrm.employee',$data);
     }
     public function getSearch($key){
         if(strlen($key)==12){
             //pid
-            return Response::json(Person::getPersonInfo($key));
+            $person = Person::where('pid',$key)->first();
+            if($person) return $person->tojson();
+            else return '';
+        }
+    }
+    public function getEmployeeinfo($pid){
+        $emp = Employee::where('pid',$pid)->first();
+        if($emp) return $emp->tojson();
+        else return '';
+    }
+    public function postSave(){
+        $input = Input::get('data');
+        if($input['id']==''){
+            unset($input['id']);
+            $emp = Employee::create($input);
+            echo $emp->id;
+        }
+        else{
+            $rs = Employee::find($input['id'])->update($input);
+            echo $rs;
         }
     }
 }

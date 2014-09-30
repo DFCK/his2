@@ -9,6 +9,7 @@
                 @endif
                 <strong>{{$person->lastname.' '.$person->firstname}}</strong>&nbsp;({{$person->pid}})
                 <a href="#/pas/editperson/{{$person->pid}}/{{time()}}"><i class="fa fa-pencil-square"></i></a>
+                <a href="/#/hrm/employee/{{$person->pid}}" class="label label-info">Nhân viên</a>
             </h1>
 
         </div>
@@ -83,7 +84,7 @@
                         <!-- widget content -->
                         <div class="widget-body " style="min-height: 10px !important;">
                             <ul class="list-unstyled" ng-if="admithistory.length >=1" style="max-height: 300px;overflow-y: auto">
-                                <li data-ng-repeat="admit in admithistory" class="alert alert-info">
+                                <li data-ng-repeat="admit in admithistory" class="panel  panel-default padding-10">
                                     <a href="/#/enc/info/@{{admit.eid}}" class="blocka">
                                         <h4 class="col-xs-4"><b>@{{admit.eid}}</b></h4>
                                         <div class="col-xs-8 text-right">
@@ -101,9 +102,9 @@
             </article>
             @if($person->eid > 0)
             <div class="col col-xs-12 col-md-4">
-                <div class=" alert alert-warning">
-                    Bệnh nhân đang được điều trị
-                    <h3><a href="/#/enc/info/{{$person->eid}}">{{$person->eid}}</a></h3>
+                <div class="panel panel-default padding-10">
+                    <b>Bệnh nhân đang được điều trị</b>
+                    <p><a class="font-md" href="/#/enc/info/{{$person->eid}}"><b>{{$person->eid}}</b></a></p>
                 </div>
             </div>
             @endif
