@@ -5,4 +5,6 @@ return array(
      'adminemployee' => 'Quản lý nhân viên',
      'hrm' => 'Quản lý nhân sự',
      'transfer' => 'Phân bổ nhân sự',
+     'role' => 'Phân quyền',
+     'accountnrole' => 'Tài khoản & Phân quyền',
 );

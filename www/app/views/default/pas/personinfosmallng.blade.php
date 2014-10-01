@@ -15,11 +15,16 @@
 <div class="col-xs-12 padding-top-10 text-center" ng-if="employee.id">
     <p><a href="/#/hrm/employee/@{{employee.pid}}">Mã nhân viên <b>#@{{employee.id}}</b></a></p>
     <p ng-if="employee.deleted_at">Nhân viên đang tạm khóa</p>
-    <p><b>@{{employeetitle.name}}</b></p>
+    <p><b>@{{emptitlename}}</b></p>
 </div>
 <div class="clear"></div>
 <hr>
 <div>
-    <p class="text-center">Đang phân bổ tại phòng khoa</p>
+    <p class="text-center"><b>Đang phân bổ tại phòng khoa</b></p>
+    <ul ng-if="listtransfer" class="list-unstyled">
+        <li data-ng-repeat="item in listtransfer">
+            <i class="fa fa-caret-right"></i> @{{item.positionname}} tại @{{item.deptname}}<span ng-if="item.wardname">, @{{item.wardname}}</span><span ng-if="item.roomname">, @{{item.roomname}}</span>
+        </li>
+    </ul>
 </div>
 <div class="clear"></div>

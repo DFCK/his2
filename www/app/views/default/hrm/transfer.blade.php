@@ -131,7 +131,7 @@
                                         </div>
                                     </fieldset>
                                 <footer>
-                                    <button class="btn btn-success">Điều chuyển</button>
+                                    <button ng-if="employee.pid" class="btn btn-success" data-ng-click="save()">Điều chuyển</button>
                                 </footer>
                                 </form>
                         </div>
@@ -155,8 +155,14 @@
                     <!-- widget div-->
                     <div class="">
                         <!-- widget content -->
-                        <div class="widget-body no-padding">
-
+                        <div class="widget-body">
+                            <ul class="list-unstyled" style="max-height: 400px;overflow-y: auto">
+                                <li ng-if="(transfer.ward_code==0 || (transfer.ward_code != 0 && transfer.ward_code==item.ward_code)) && (transfer.room_code==0 || (transfer.room_code != 0 && transfer.room_code==item.room_code))" data-ng-repeat="item in listemployee">
+                                    <a href="/#/hrm/transfer/@{{item.pid}}">
+                                        <i class="fa fa-caret-right"></i>&nbsp;
+                                        @{{item.titlename}} @{{item.lastname}} @{{item.firstname}}</a>
+                                </li>
+                            </ul>
                         </div>
                         <!-- end widget content -->
                     </div>
@@ -179,6 +185,7 @@
                 $scope.person = {{$person}};
                 $scope.employee = {{$employee}};
                 $scope.employeetitle = {{$employeetitle}};
+                $scope.emptitlename = '';
                 $scope.clear = function(){
                     $scope.transfer = {
                         dept_code:0,
@@ -195,9 +202,14 @@
                         $scope.transfer['pid'] = $scope.employee.pid;
                         $scope.transfer['empid'] = $scope.employee.id;
                         $scope.transfer['title'] = $scope.employee.title;
-                        $scope.transfer['titlegroup'] = $scope.employeetitle.group;
+                        angular.forEach($scope.employeetitle,function(val,key){
+                            if(val.code == $scope.employee.title){
+                                $scope.transfer['titlegroup'] = val.group;
+                                $scope.emptitlename = val.name;
+                            }
+                        });
                     }
-                       console.log($scope.transfer);
+//                       console.log($scope.transfer);
                 }
                 $scope.clear();
                 $scope.search = function(){
@@ -209,11 +221,45 @@
                             }
                         });
                 };
+                $scope.loademployeetransfer = function(){
+                    if($scope.employee){
+                        $http.get('hrm/employeelisttransfer/'+$scope.employee.pid)
+                            .success(function(data){
+                                $scope.listtransfer = data;
+                            })
+                    }
+                }
+                $scope.save = function(){
+                    if($scope.transfer.dept_code == 0){
+                        myalert("Nhắc nhở","Ít nhất phải chọn khoa muốn điều chuyển");
+                        return false;
+                    }
+                    if($scope.transfer.position_code == 0){
+                        myalert("Nhắc nhở","Bạn chưa chọn chức vụ tại vị trí điều chuyển");
+                        return false;
+                    }
+                    $http.post('hrm/savetransfer',{
+                        data:$scope.transfer
+                    })
+                        .success(function(data){
+                            $scope.loademployee($scope.transfer.pid);
+                            $scope.loadlistemployee();
+                            if(data > 0){
+                                myalert("Thông báo","Điều chuyển thành công");
+                            }
+                            else{
+                                myalert("Lỗi","Có lỗi khi thao tác, vui lòng thử lại.");
+                            }
+                        })
+                }
                 $scope.loademployee = function(pid){
                     $http.get('hrm/employeeinfo/'+pid)
                         .success(function(data){
-                            if(angular.isObject(data))
+                            if(angular.isObject(data)){
                                 $scope.employee = data;
+                                $scope.loademployeetransfer();
+                                $scope.clear();
+                            }
                             else{
                                 $scope.employee = {
                                     hospital_code : "{{$hospital_code}}",
@@ -224,9 +270,28 @@
                             }
                         })
                 }
+                $scope.loadlistemployee = function(){
+                    $http.get('hrm/listemployee/'+$scope.transfer.hospital_code+"/"+$scope.transfer.dept_code)
+                        .success(function(data){
+                            $scope.listemployee = data;
+                        });
+                };
+                $scope.$watch('transfer.dept_code',function(){
+                    if($scope.transfer.dept_code){
+                        $scope.loadlistemployee();
+                        $scope.transfer.ward_code = 0;
+                        $scope.transfer.room_code = 0;
+                    }
+                });
+                $scope.$watch('transfer.ward_code',function(){
+                    if($scope.transfer.ward_code){
+                        $scope.transfer.room_code = 0;
+                    }
+                });
                 if($scope.person){
                     $scope.loademployee($scope.person.pid);
                 }
+            $scope.loadlistemployee();
 
                 }
 

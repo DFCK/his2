@@ -35,7 +35,8 @@ class HrmController extends BaseController{
         $data['position'] = EmployeePosition::all()->tojson();
         $data['person'] = '{}';
         $data['employee'] = '{}';
-        $data['employeetitle'] = '{}';
+        $data['employeetitle'] = Employeetitle::all()->tojson();
+
         if($pid!='' && strlen($pid) == 12){
             $person = Person::where('pid',$pid)->first();
             if($person){
@@ -43,12 +44,51 @@ class HrmController extends BaseController{
                 $emp = Person::withTrashed()->find($person->id)->employee;
                 if($emp){
                     $data['employee'] = $emp->tojson();
-                    $data['employeetitle'] = Employee::withTrashed()->find($emp->id)->emptitle->tojson();
                 }
 
             }
         }
         return View::make(Config::get('main.theme').'.hrm.transfer',$data);
+    }
+    public function getEmployeelisttransfer($pid){
+        $list = DB::table('dfck_employee_transfer AS t')
+            ->leftjoin('dfck_employee_position AS p','p.code','=','t.position_code')
+            ->leftjoin('dfck_hospital_department AS d','d.code','=','t.dept_code')
+            ->leftjoin('dfck_hospital_ward AS w','w.code','=','t.ward_code')
+            ->leftjoin('dfck_hospital_room AS r','r.code','=','t.room_code')
+            ->where('t.pid',$pid)
+            ->select('t.*','p.name AS positionname','p.code AS position_code','d.name AS deptname','w.name AS wardname','r.name AS roomname')
+            ->get();
+        if($list){
+            return Response::json($list);
+        }
+        else return "";
+
+    }
+    public function getListemployee($hospital_code,$dept_code = '0'){
+        if($dept_code !='0')
+        $list = DB::table('dfck_employee AS e')
+            ->join('dfck_person AS p','e.pid','=','p.pid')
+            ->join('dfck_employee_title AS t','e.title','=','t.code')
+            ->join('dfck_employee_transfer AS tr','tr.pid','=','e.pid')
+            ->leftjoin('dfck_employee_position AS po','tr.position_code','=','po.code')
+            ->where('e.hospital_code','=',''.$hospital_code)
+            ->where('tr.hospital_code','=',$hospital_code)
+            ->where('tr.dept_code','=',$dept_code)
+            ->select('e.*','p.lastname','p.firstname','p.dob','p.yob','t.name AS titlename','po.name AS positionname',
+            'tr.*');
+        else
+            $list = DB::table('dfck_employee AS e')
+                ->join('dfck_person AS p','e.pid','=','p.pid')
+                ->join('dfck_employee_title AS t','e.title','=','t.code')
+                ->where('e.hospital_code','=',''.$hospital_code)
+            ->select('e.*','p.lastname','p.firstname','p.dob','p.yob','t.name AS titlename');
+        $list = $list->get();
+        return Response::json($list);
+    }
+    public function getRole($pid=''){
+        $data['hospital_code'] = 74001;
+        return View::make(Config::get('main.theme').'.hrm.role',$data);
     }
     public function getEmployee($pid=''){
         $data['hospital_code'] = 74001;
@@ -67,6 +107,14 @@ class HrmController extends BaseController{
             //pid
             $person = Person::where('pid',$key)->first();
             if($person) return $person->tojson();
+            else return '';
+        }
+        else{
+            $person = DB::table('dfck_employee AS e')
+                ->join('dfck_person AS p','p.pid','=','e.pid')
+                ->where('e.id','=',$key)
+                ->select('p.*')->first();
+            if($person) return Response::json($person);
             else return '';
         }
     }
@@ -93,6 +141,21 @@ class HrmController extends BaseController{
         else{
             $rs = Employee::find($input['id'])->update($input);
             echo $rs;
+        }
+    }
+    public function postSavetransfer(){
+        $input = Input::get('data');
+        if(isset($input['pid']) && $input['hospital_code'] != '0' && $input['dept_code'] != '0'){
+            $trans = EmployeeTransfer::where('pid',$input['pid'])
+                ->where('hospital_code',$input['hospital_code'])
+                ->where('dept_code',$input['dept_code']);
+            if($trans->count()>0){
+                echo $trans->update($input);
+            }
+            else{
+                $trans = EmployeeTransfer::create($input);
+                echo $trans->id;
+            }
         }
     }
 }
