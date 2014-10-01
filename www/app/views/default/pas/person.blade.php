@@ -9,7 +9,6 @@
                 @endif
                 <strong>{{$person->lastname.' '.$person->firstname}}</strong>&nbsp;({{$person->pid}})
                 <a href="#/pas/editperson/{{$person->pid}}/{{time()}}"><i class="fa fa-pencil-square"></i></a>
-                <a href="/#/hrm/employee/{{$person->pid}}" class="label label-info">Nhân viên</a>
             </h1>
 
         </div>
@@ -124,6 +123,11 @@
                         <!-- widget content -->
                         <div class="widget-body ">
                             <ul  class="nav nav-pills nav-stacked" >
+                                <li>
+                                    <a href="/#/hrm/employee/{{$person->pid}}">
+                                        <i class="fa fa-group"></i>
+                                        Nhân viên</a>
+                                </li>
                                 <li>
                                     <a data-ng-click="ttnhapvien('lg')"><i class="fa fa-stethoscope">
 

@@ -32,18 +32,34 @@ class HrmController extends BaseController{
         $data['dept'] = Department::where('hospital_code',$data['hospital_code'])->get()->tojson();
         $data['ward'] = Ward::where('hospital_code',$data['hospital_code'])->get()->tojson();
         $data['room'] = Room::where('hospital_code',$data['hospital_code'])->get()->tojson();
-        if($pid!='' && strlen($pid) == 12)
-            $data['person'] = Person::where('pid',$pid)->first()->tojson();
-        else $data['person'] = '{}';
+        $data['position'] = EmployeePosition::all()->tojson();
+        $data['person'] = '{}';
+        $data['employee'] = '{}';
+        $data['employeetitle'] = '{}';
+        if($pid!='' && strlen($pid) == 12){
+            $person = Person::where('pid',$pid)->first();
+            if($person){
+                $data['person'] = $person->tojson();
+                $emp = Person::withTrashed()->find($person->id)->employee;
+                if($emp){
+                    $data['employee'] = $emp->tojson();
+                    $data['employeetitle'] = Employee::withTrashed()->find($emp->id)->emptitle->tojson();
+                }
+
+            }
+        }
         return View::make(Config::get('main.theme').'.hrm.transfer',$data);
     }
     public function getEmployee($pid=''){
         $data['hospital_code'] = 74001;
         $data['hospital'] = Hospital::all()->tojson();
         $data['emptitle'] = Employeetitle::all()->tojson();
-        if($pid!='' && strlen($pid) == 12)
-            $data['person'] = Person::where('pid',$pid)->first()->tojson();
-        else $data['person'] = '{}';
+        $data['person'] = '{}';
+        if($pid!='' && strlen($pid) == 12){
+            $person = Person::where('pid',$pid)->first();
+            if($person)
+                $data['person'] = $person->tojson();
+        }
         return View::make(Config::get('main.theme').'.hrm.employee',$data);
     }
     public function getSearch($key){

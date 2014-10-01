@@ -103,6 +103,7 @@
                                 <footer>
                                     <button ng-if="employee.id != '' && !employee.deleted_at" data-ng-click="changestatus(0)" class="btn btn-danger pull-left" title="Khóa nhân viên"><i class="fa fa-lock"></i></button>
                                     <button ng-if="employee.deleted_at"  data-ng-click="changestatus(1)"  class="btn btn-success pull-left" title="Mở khóa nhân viên"><i class="fa fa-unlock"></i></button>
+                                    <a ng-if="employee.id != '' " href="/#/hrm/transfer/@{{employee.pid}}" class="btn btn-info pull-left" title="Phân bổ nhân viên"><i class="fa fa-exchange"> Phân bổ</i></a>
                                     <button class="btn btn-primary" data-ng-click="save()">Lưu</button>
                                 </footer>
                                 </form>

@@ -69,7 +69,7 @@
                             <section class="col col-xs-12">
                                 <label class="label">Bệnh viện</label>
                                 <label class="select">
-                                    <select ng-model="hospital_code">
+                                    <select ng-model="transfer.hospital_code">
                                         <option data-ng-repeat="item in hospital" value="@{{item.code}}">
                                             @{{item.name}}
                                         </option>
@@ -81,7 +81,7 @@
                                 <label class="label">Khoa</label>
 
                                 <label class="select">
-                                    <select ng-model="dept_code">
+                                    <select ng-model="transfer.dept_code">
                                         <option value="0">Chọn khoa</option>
                                         <option data-ng-repeat="item in dept" value="@{{item.code}}">
                                             @{{item.name}}
@@ -93,10 +93,10 @@
                             <section class="col col-xs-12">
                                 <label class="label">Khu</label>
                                 <label class="select">
-                                    <select ng-model="ward_code">
+                                    <select ng-model="transfer.ward_code">
                                         <option value="0">Chọn khu</option>
 
-                                        <option ng-if="item.dept_code == dept_code" data-ng-repeat="item in ward" value="@{{item.code}}">
+                                        <option ng-if="item.dept_code == transfer.dept_code" data-ng-repeat="item in ward" value="@{{item.code}}">
                                             @{{item.name}}
                                         </option>
                                     </select>
@@ -106,10 +106,22 @@
                             <section class="col col-xs-12">
                                 <label class="label">Phòng</label>
                                 <label class="select">
-                                    <select ng-model="room_code">
+                                    <select ng-model="transfer.room_code">
                                         <option value="0">Chọn phòng</option>
 
-                                        <option  ng-if="item.dept_code = dept_code && item.ward_code == ward_code" data-ng-repeat="item in room" value="@{{item.code}}">
+                                        <option  ng-if="item.dept_code = transfer.dept_code && item.ward_code == transfer.ward_code" data-ng-repeat="item in room" value="@{{item.code}}">
+                                            @{{item.name}}
+                                        </option>
+                                    </select>
+                                    <i></i>
+                                </label>
+                            </section>
+                            <section class="col col-xs-12">
+                                <label class="label">Chức vụ</label>
+                                <label class="select">
+                                    <select ng-model="transfer.position_code">
+                                        <option value="0">Chọn chức vụ</option>
+                                        <option  data-ng-repeat="item in position" value="@{{item.code}}">
                                             @{{item.name}}
                                         </option>
                                     </select>
@@ -160,15 +172,63 @@
 
             function HrmTransferController($scope, $http) {
                 $scope.hospital = {{$hospital}};
-                $scope.hospital_code = {{$hospital_code}};
                 $scope.dept = {{$dept}};
                 $scope.ward = {{$ward}};
                 $scope.room = {{$room}};
-                $scope.dept_code = 0;
-                $scope.ward_code = 0;
-                $scope.room_code = 0;
+                $scope.position = {{$position}};
+                $scope.person = {{$person}};
+                $scope.employee = {{$employee}};
+                $scope.employeetitle = {{$employeetitle}};
+                $scope.clear = function(){
+                    $scope.transfer = {
+                        dept_code:0,
+                        ward_code:0,
+                        room_code:0,
+                        position_code:0,
+                        hospital_code : '{{$hospital_code}}',
+                        pid:0,
+                        empid:0,
+                        title:'',
+                        titlegroup:''
+                    };
+                    if(angular.isObject($scope.employee)){
+                        $scope.transfer['pid'] = $scope.employee.pid;
+                        $scope.transfer['empid'] = $scope.employee.id;
+                        $scope.transfer['title'] = $scope.employee.title;
+                        $scope.transfer['titlegroup'] = $scope.employeetitle.group;
+                    }
+                       console.log($scope.transfer);
+                }
+                $scope.clear();
+                $scope.search = function(){
+                    $http.get('hrm/search/'+$scope.employeesearch)
+                        .success(function(data){
+                            $scope.person = data;
+                            if($scope.person){
+                                $scope.loademployee($scope.person.pid);
+                            }
+                        });
+                };
+                $scope.loademployee = function(pid){
+                    $http.get('hrm/employeeinfo/'+pid)
+                        .success(function(data){
+                            if(angular.isObject(data))
+                                $scope.employee = data;
+                            else{
+                                $scope.employee = {
+                                    hospital_code : "{{$hospital_code}}",
+                                    title : 0,
+                                    id:'',
+                                    pid:$scope.person.pid
+                                };
+                            }
+                        })
+                }
+                if($scope.person){
+                    $scope.loademployee($scope.person.pid);
+                }
 
-            }
+                }
 
             var pagefunction = function () {
             };

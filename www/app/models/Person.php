@@ -11,6 +11,9 @@ class Person extends Eloquent
         'careercode', 'ethnic', 'blood', 'phone', 'email',
         'relative', 'relativephone', 'relativeaddress', 'relativetype'
     );
+    public function employee(){
+        return $this->hasOne('Employee','pid','pid');
+    }
 
     public static function  calMonthAge($d1)
     {

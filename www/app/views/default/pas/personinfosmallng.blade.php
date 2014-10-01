@@ -12,4 +12,14 @@
     <p ng-if="person.dob">@{{person.dob*1000|date:"dd/MM/yyyy"}}</p>
     <p ng-if="!person.dob">@{{person.yob}}</p>
 </div>
+<div class="col-xs-12 padding-top-10 text-center" ng-if="employee.id">
+    <p><a href="/#/hrm/employee/@{{employee.pid}}">Mã nhân viên <b>#@{{employee.id}}</b></a></p>
+    <p ng-if="employee.deleted_at">Nhân viên đang tạm khóa</p>
+    <p><b>@{{employeetitle.name}}</b></p>
+</div>
+<div class="clear"></div>
+<hr>
+<div>
+    <p class="text-center">Đang phân bổ tại phòng khoa</p>
+</div>
 <div class="clear"></div>
