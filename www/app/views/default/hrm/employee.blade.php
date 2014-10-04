@@ -162,8 +162,11 @@
             $scope.loademployee = function(pid){
                 $http.get('hrm/employeeinfo/'+pid)
                     .success(function(data){
-                        if(angular.isObject(data))
+                        if(angular.isObject(data)){
                             $scope.employee = data;
+                            $scope.loademployeetransfer();
+                        }
+
                         else{
                             $scope.employee = {
                                 hospital_code : "{{$hospital_code}}",
@@ -174,7 +177,15 @@
                         }
 //                        console.log(angular.isObject(data) );
                     })
-            }
+            };
+            $scope.loademployeetransfer = function () {
+                if ($scope.employee) {
+                    $http.get('hrm/employeelisttransfer/' + $scope.employee.pid)
+                        .success(function (data) {
+                            $scope.listtransfer = data;
+                        })
+                }
+            };
             if($scope.person){
                 $scope.loademployee($scope.person.pid);
             }

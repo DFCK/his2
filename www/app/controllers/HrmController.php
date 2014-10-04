@@ -88,7 +88,27 @@ class HrmController extends BaseController{
     }
     public function getRole($pid=''){
         $data['hospital_code'] = 74001;
+        $data['person'] = '{}';
+        if($pid!='' && strlen($pid) == 12){
+            $person = Person::where('pid',$pid)->first();
+            if($person)
+                $data['person'] = $person->tojson();
+        }
         return View::make(Config::get('main.theme').'.hrm.role',$data);
+    }
+    public function postSaveaccount(){
+        $input = Input::get('data');
+        if($input['id']!=''){
+            $input['password'] = Hash::make($input['password']);
+            $user = User::create($input);
+            echo $user->id;
+        }
+        else{
+            $user = User::find($input['id']);
+            if($user){
+                echo User::find($input['id'])->update($input);
+            }
+        }
     }
     public function getEmployee($pid=''){
         $data['hospital_code'] = 74001;

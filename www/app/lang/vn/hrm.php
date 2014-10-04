@@ -6,6 +6,8 @@ return array(
      'hrm' => 'Quản lý nhân sự',
      'transfer' => 'Phân bổ nhân sự',
      'role' => 'Phân quyền',
+     'account' => 'Tài khoản',
+     'password' => 'Mật khẩu',
      'accountnrole' => 'Tài khoản & Phân quyền',
     'cdha' => 'Danh Mục Chẩn Đoán Hình Ảnh',
 );

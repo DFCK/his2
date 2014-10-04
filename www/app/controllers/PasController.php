@@ -199,7 +199,7 @@ class PasController extends BaseController
         $input['date'] = strtotime($d);
 //        else $input['date'] = strtotime(substr($d,4,4)."-".substr($d,2,2)."-".substr($d,0,2)." ".substr($d,8,2).":".substr($d,10,2));
         if($input['id']=='' || $input['id']==0){
-            $input['pid'] = (int)$input['pid'];
+//            $input['pid'] = (int)$input['pid'];
             PersonAdmissionInfo::where('pid',$input['pid'])
                 ->where('eid','0')
                 ->delete();

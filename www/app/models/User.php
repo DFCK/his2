@@ -7,8 +7,8 @@ class User extends Eloquent implements UserInterface{
 	 *
 	 * @var string
 	 */
-	protected $table = 'lauser';
-    protected $fillable = array('username', 'password','larole','lafullname','laemail','laphoto');
+	protected $table = 'dfck_users';
+    protected $fillable = array('username', 'password','pid','empid');
 
 	/**
 	 * The attributes excluded from the model's JSON form.
@@ -55,14 +55,5 @@ class User extends Eloquent implements UserInterface{
         $roles = $this->larole;
         return ($roles=='admin');
     }
-    public function getAll(){
-        return array(
-            'user_id' => $this->id,
-            'larole' => $this->larole,
-            'lapphoto' => $this->laphoto,
-            'laemail' => $this->laemail,
-            'lafullname' => $this->lafullname,
-            'username' => $this->username,
-        );
-    }
+
 }

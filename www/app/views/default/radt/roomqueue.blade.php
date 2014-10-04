@@ -50,8 +50,8 @@
                     </div>
                 </p>
                 <p>
-                    <label class="label label-success" tooltip="Đã có @{{person.numrisresult}} kết quả CLS">@{{person.numrisresult}}</label>
-                    <label class="label label-info" tooltip="Đã gửi @{{person.numrisrequest}} yêu cầu CLS">@{{person.numrisrequest}}</label>
+                    <label class="label label-success" tooltip="Đã gửi @{{person.numrisrequest}} yêu cầu CLS">@{{person.numrisrequest}}</label>
+                    <label class="label label-info" tooltip="Đã có @{{person.numrisresult}} kết quả CLS">@{{person.numrisresult}}</label>
                 </p>
 <!--                <p><a tooltip="Gọi bệnh nhân"><i class="fa fa-bell"></i></a></p>-->
             </div>
