@@ -168,7 +168,7 @@ class PasController extends BaseController
         $hospital_code = 74001;
         $input = Input::get('data');
         if($input['id']=='' || $input['id']==0){
-            $input['pid'] = (int)$input['pid'];
+//            $input['pid'] = (int)$input['pid'];
             VitalSign::where('pid',$input['pid'])
                 ->where('eid','0')
                 ->delete();
