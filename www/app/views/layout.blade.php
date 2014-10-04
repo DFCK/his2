@@ -78,6 +78,8 @@
 <!-- BOOTSTRAP JS -->
 {{HTML::script('src/smartadmin/js/bootstrap/bootstrap.min.js')}}
 
+{{HTML::script('src/smartadmin/js/bootstrap/bootstrap.min.js')}}
+
 <!-- CUSTOM NOTIFICATION -->
 {{HTML::script('src/smartadmin/js/notification/SmartNotification.min.js')}}
 

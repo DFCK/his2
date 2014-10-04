@@ -58,7 +58,7 @@ smartApp.filter('calmonth',function(){
 smartApp.filter('paginate', function() {
     return function(input, total) {
         total = parseInt(total);
-        for (var i=0; i<total; i++)
+        for (var i=1; i<=total; i++)
             input.push(i);
         return input;
     };

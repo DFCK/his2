@@ -52,11 +52,20 @@
                         </tr>
                         </tbody>
                     </table>
-                    <ul class="list-inline">
-                        <li data-ng-repeat="page in [] | paginate:listprovince.last_page">
-                            <a href="#" data-ng-click="loadprovince(page)">@{{page}}</a>
-                        </li>
-                    </ul>
+<!--                    <ul class="list-inline">-->
+<!--                        <li data-ng-repeat="page in [] | paginate:listprovince.last_page">-->
+<!--                            <a href="#" data-ng-click="loadprovince(page)">@{{page}}</a>-->
+<!--                        </li>-->
+<!--                    </ul>-->
+                    <div class="text-center">
+                        <ul class="pagination pagination-sm" style="margin: 0 auto">
+                            <li><a href="#" data-ng-click="loadprovince(1)">&laquo;</a></li>
+                            <li data-ng-repeat="page in [] | paginate:listprovince.last_page">
+                                <a href="#" data-ng-click="loadprovince(page)">@{{page}}</a>
+                            </li>
+                            <li><a href="#" data-ng-click="loadprovince(listprovince.last_page)">&raquo;</a></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
@@ -141,11 +150,22 @@
                         </tr>
                         </tbody>
                     </table>
-                    <ul class="list-inline">
+<!--                    <ul class="list-inline">-->
+<!--                        <li data-ng-repeat="page in [] | paginate:listdistrict.last_page">-->
+<!--                            <a href="#" data-ng-click="loaddistrict(page,province.code)">@{{page}}</a>-->
+<!--                        </li>-->
+<!--                    </ul>-->
+<!--                    <pagination boundary-links="true" total-items="listdistrict.last_page" max-size="listdistrict.last_page" ng-model="listdistrict.current_page"   class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>-->
+                    <div class="text-center">
+                    <ul class="pagination pagination-sm" style="
+                    margin: 0 auto">
+                        <li><a href="#" data-ng-click="loaddistrict(1,province.code)">&laquo;</a></li>
                         <li data-ng-repeat="page in [] | paginate:listdistrict.last_page">
-                            <a href="#" data-ng-click="loaddistrict(page)">@{{page}}</a>
+                            <a href="#" data-ng-click="loaddistrict(page,province.code)">@{{page}}</a>
                         </li>
+                        <li><a href="#" data-ng-click="loaddistrict(listdistrict.last_page,province.code)">&raquo;</a></li>
                     </ul>
+                    </div>
                 </div>
             </div>
         </div>
@@ -186,6 +206,14 @@
                                     </section>
 
                                     <section class="col col-lg-12 col-xs-12 col-sm-12 col-md-12">
+                                        <label class="label">Phím tắt</label>
+                                        <label class="input">
+                                            <input type="text" name="shortcut" placeholder="Phím tắt" ng-model="ward.shortcut">
+                                            <i class="icon-append fa fa-pencil-square"></i>
+                                        </label>
+                                    </section>
+
+                                    <section class="col col-lg-12 col-xs-12 col-sm-12 col-md-12">
                                         <label class="label">Thuộc Quận Huyện</label>
                                         <label class="select">
                                             <select ng-model="ward.district_code" name="group">
@@ -214,6 +242,7 @@
                             <tr>
                                 <th>Tên Phường Xã</th>
                                 <th>Mã Phường Xã</th>
+                                <th>Phím Tắt</th>
                                 <th>&nbsp;</th>
                             </tr>
                         </thread>
@@ -222,6 +251,7 @@
                             style="cursor: pointer">
                             <td>@{{item.name}}</td>
                             <td>@{{item.code}}</td>
+                            <td>@{{item.shortcut}}</td>
                             <td>
                                 <a data-ng-click="editward(item)"><i class="fa fa-pencil-square"></i> </a>
                                 <a data-ng-click="delete('ward',item.id)"><i class="fa fa-trash-o"></i></a>
@@ -229,21 +259,29 @@
                         </tr>
                         </tbody>
                     </table>
-                    <ul class="list-inline">
-                        <li data-ng-repeat="page in [] | paginate:listward.last_page">
-                            <a href="#" data-ng-click="loadward(page,item.code)">@{{page}}</a>
-                        </li>
-                    </ul>
+<!--                    <ul class="list-inline">-->
+<!--                        <li data-ng-repeat="page in [] | paginate:listward.last_page">-->
+<!--                            <a href="#" data-ng-click="loadward(page,item.code)">@{{page}}</a>-->
+<!--                        </li>-->
+<!--                    </ul>-->
+                    <div class="text-center">
+                        <ul class="pagination pagination-sm" style="margin: 0 auto">
+                            <li><a href="#" data-ng-click="loadward(1,district.code)">&laquo;</a></li>
+                            <li data-ng-repeat="page in [] | paginate:listward.last_page">
+                                <a href="#" data-ng-click="loadward(page,district.code)">@{{page}}</a>
+                            </li>
+                            <li><a href="#" data-ng-click="loadward(listward.last_page,district.code)">&raquo;</a></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </article>
-<article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 
+<article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <!-- Widget ID (each widget will need unique ID)-->
-    <div class="jarviswidget" id="wid-id-hrmtitle5"
-         data-widget-editbutton="true">
+    <div class="jarviswidget" id="wid-id-hrmtitle5" data-widget-editbutton="true">
         <header>
             <span class="widget-icon"> <i class="fa fa-floppy-o"></i> </span>
 
@@ -255,10 +293,10 @@
 
             <!-- widget content -->
             <div class="widget-body">
-                <div class="col col-xs-6">
+                <div class="col col-xs-6 col-md-6 col-sm-6 col-lg-6">
 
                 </div>
-                <div class="col col-xs-6">
+                <div class="col col-xs-6 col-md-6 col-sm-6 col-lg-6">
                     <table class="table table-bordered">
                         <thead>
                         <tr>
@@ -278,11 +316,20 @@
                         </tr>
                         </tbody>
                     </table>
-                    <ul class="list-inline">
-                        <li data-ng-repeat="page in [] | paginate:titlelist.last_page">
-                            <a href="#" data-ng-click="loadcountry(page)"> @{{page}} </a>
-                        </li>
-                    </ul>
+<!--                    <ul class="list-inline">-->
+<!--                        <li data-ng-repeat="page in [] | paginate:titlelist.last_page">-->
+<!--                            <a href="#" data-ng-click="loadcountry(page)"> @{{page}} </a>-->
+<!--                        </li>-->
+<!--                    </ul>-->
+                    <div class="text-center">
+                        <ul class="pagination pagination-sm" style="margin: 0 auto">
+                            <li><a href="#" data-ng-click="loadcountry(1)">&laquo;</a></li>
+                            <li data-ng-repeat="page in [] | paginate:titlelist.last_page">
+                                <a href="#" data-ng-click="loadcountry(page)">@{{page}}</a>
+                            </li>
+                            <li><a href="#" data-ng-click="loadcountry(titlelist.last_page)">&raquo;</a></li>
+                        </ul>
+                    </div>
                 </div>
 
             </div>
@@ -314,7 +361,8 @@
             id: "",
             name: "",
             code: "",
-            district_code: ""
+            district_code: "",
+            shortcut:""
         };
         $scope.save = function ($tpl) {
 
@@ -368,6 +416,7 @@
                     $scope.listallprovince = data;
                 });
                 $scope.dist.province_code = $scope.listallprovince;
+                $scope.selectedItem = event;
             }
             else if ($tpl == 'ward') {
                 angular.copy($scope.initial, $scope.ward);
@@ -423,7 +472,9 @@
         $scope.loaddistrict = function (page, code) {
             $http.get('address/districttitle/' + page + "/" + code).success(function (data) {
                 $scope.listdistrict = data;
+                console.log($scope.listdistrict);
             });
+
         };
 
         $scope.loadprovince = function (page) {
@@ -462,6 +513,7 @@
         $scope.loadcountry(1);
         $scope.loadprovince(1);
         $scope.loaddistrict(1, 701);
+
         $scope.loadward(1, 82305);
     }
     var pagefunction = function () {

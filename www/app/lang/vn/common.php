@@ -15,6 +15,7 @@ return array(
     'department' => 'Khoa Phòng',
     'init-hospital' => 'Thiết lập bệnh viện',
     'address' => 'Danh mục địa chỉ',
+    'dmcdha' => 'Danh mục chẩn đoán hình ảnh',
 
     /**
      * Thao tác

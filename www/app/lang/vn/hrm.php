@@ -7,4 +7,5 @@ return array(
      'transfer' => 'Phân bổ nhân sự',
      'role' => 'Phân quyền',
      'accountnrole' => 'Tài khoản & Phân quyền',
+    'cdha' => 'Danh Mục Chẩn Đoán Hình Ảnh',
 );
