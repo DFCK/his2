@@ -3,9 +3,9 @@
 				<span> <!-- User image size is adjusted inside CSS, it should stay as is -->
 
 					<a href="javascript:void(0);" id="show-shortcut" data-action="toggleShortcut">
-                        <img src="img/avatars/sunny.png" alt="me" class="online"/>
+                        <img src="@if(Session::get('user.avatar')!='') {{Session::get('user.avatar')}} @endif" alt="me" class="online"/>
 						<span data-localize="john.doe">
-							Admin
+							{{Session::get('user.name')}}
 						</span>
                         <i class="fa fa-angle-down"></i>
                     </a>
@@ -24,19 +24,23 @@ will not initialize.
     <nav:item data-view="/dashboard" data-icon="fa fa-lg fa-fw fa-home"
               title="{{trans('common.dashboard')}}" suftitle="{{trans('common.suftitle')}}"/>
     @foreach($categories as $cat)
-        @if(count($cat['children'])>0)
+        @if(count($cat['children'])>0 && Employee::canViewFunction($cat['code']))
             <nav:group data-icon="{{$cat['icon']}}" title="{{trans($cat['lang'])}}">
                 @foreach($cat['children'] as $catchild)
+                    @if(Employee::canViewFunction($catchild['code']))
                 <nav:item data-icon="{{$catchild['icon']}}" data-view="{{$catchild['url']}}" title="{{trans($catchild['lang'])}}"
                           suftitle="{{trans('common.suftitle')}}"/>
+                    @endif
                 @endforeach
             </nav:group>
         @else
-    <nav:item data-view="{{$cat['url']}}" data-icon="{{$cat['icon']}}"
+            @if(Employee::canViewFunction($cat['code']))
+            <nav:item data-view="{{$cat['url']}}" data-icon="{{$cat['icon']}}"
               title="{{trans($cat['lang'])}}" suftitle="{{trans('common.suftitle')}}"/>
+            @endif
         @endif
     @endforeach
-
+    @if(Session::get('user.title_group')=='admin')
     <nav:group data-icon="fa fa-lg fa-fw fa-cogs" title="{{trans('common.administration')}}">
         <nav:item data-view="/admin/hospital" title="{{trans('common.init-hospital')}}"
                   suftitle="{{trans('common.suftitle')}}"/>
@@ -55,6 +59,7 @@ will not initialize.
         <nav:item data-view="/dmcdha" title="{{trans('common.dmcdha')}}"
                   suftitle="{{trans('common.suftitle')}}"/>
     </nav:group>
+    @endif
 
 </navigation>
 <span class="minifyme" data-action="minifyMenu"> <i class="fa fa-arrow-circle-left hit"></i> </span>

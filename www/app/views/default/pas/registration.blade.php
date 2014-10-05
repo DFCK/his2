@@ -14,12 +14,14 @@
             </span>{{trans('common.back')}}
             </a>
             @endif
+            @if((Employee::canWriteFunction($function_code) && !isset($person) ) || (isset($person) && Employee::canEditFunction($function_code)) )
             <button type="button" class="btn btn-labeled btn-success pull-right"
                     data-ng-click="save()">
          <span class="btn-label">
           <i class="fa fa-save txt-color-white"></i>
          </span>{{trans('common.save')}}
             </button>
+            @endif
         </h1>
 
     </div>
@@ -567,12 +569,14 @@
 <div class="row ">
 
     <div class="col col-xs-12">
+        @if((Employee::canWriteFunction($function_code) && !isset($person) ) || (isset($person) && Employee::canEditFunction($function_code)) )
         <button type="button" class="btn btn-labeled btn-success pull-right" data-ng-click="save()"
                 tabindex="29">
          <span class="btn-label">
           <i class="fa fa-save"></i>
          </span>Lưu
         </button>
+        @endif
 
     </div>
 </div>
@@ -896,7 +900,9 @@ function personregistercontroller($scope, $http,ngProgress) {
     };
     $scope.submitCallback = function ($event) {
 //            console.log('call submit');
+        @if((Employee::canWriteFunction($function_code) && !isset($person) ) || (isset($person) && Employee::canEditFunction($function_code)) )
         $scope.save();
+        @endif
         $event.preventDefault();
     };
     $scope.$watch('person.province', function () {

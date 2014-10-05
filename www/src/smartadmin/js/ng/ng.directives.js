@@ -41,12 +41,12 @@ angular.module('app.main', [])
 				
 						// ask verification
 						$.SmartMessageBox({
-							title : "<i class='fa fa-sign-out txt-color-orangeDark'></i> Logout <span class='txt-color-orangeDark'><strong>" + $('#show-shortcut').text() + "</strong></span> ?",
+							title : "<i class='fa fa-sign-out txt-color-orangeDark'></i> Đăng xuất <span class='txt-color-orangeDark'><strong>" + $('#show-shortcut').text() + "</strong></span> ?",
 							content : $this.data('logout-msg') || "You can improve your security further after logging out by closing this opened browser",
-							buttons : '[No][Yes]'
-				
+							buttons : '[Bỏ qua][Đăng xuất]'
+
 						}, function(ButtonPressed) {
-							if (ButtonPressed == "Yes") {
+							if (ButtonPressed == "Đăng xuất") {
 								$.root_.addClass('animated fadeOutUp');
 								setTimeout(logout, 1000);
 							}

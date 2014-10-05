@@ -27,11 +27,20 @@ class HrmController extends BaseController{
         echo $count;
     }
     public function getTransfer($pid=''){
-        $data['hospital_code'] = 74001;
         $data['hospital'] = Hospital::all()->tojson();
-        $data['dept'] = Department::where('hospital_code',$data['hospital_code'])->get()->tojson();
-        $data['ward'] = Ward::where('hospital_code',$data['hospital_code'])->get()->tojson();
-        $data['room'] = Room::where('hospital_code',$data['hospital_code'])->get()->tojson();
+        if(Session::get('user.hospital_code') != ''){
+            $data['hospital_code'] = Session::get('user.hospital_code');
+            $data['dept'] = Department::where('hospital_code',$data['hospital_code'])->get()->tojson();
+            $data['ward'] = Ward::where('hospital_code',$data['hospital_code'])->get()->tojson();
+            $data['room'] = Room::where('hospital_code',$data['hospital_code'])->get()->tojson();
+        }
+        else{
+            $data['hospital_code'] = 0;
+            $data['dept'] = Department::all()->tojson();
+            $data['ward'] = Ward::all()->tojson();
+            $data['room'] = Room::all()->tojson();
+        }
+
         $data['position'] = EmployeePosition::all()->tojson();
         $data['person'] = '{}';
         $data['employee'] = '{}';
@@ -87,7 +96,7 @@ class HrmController extends BaseController{
         return Response::json($list);
     }
     public function getRole($pid=''){
-        $data['hospital_code'] = 74001;
+        $data['hospital_code'] = Session::get('user.hospital_code');
         $data['person'] = '{}';
         if($pid!='' && strlen($pid) == 12){
             $person = Person::where('pid',$pid)->first();
@@ -96,12 +105,17 @@ class HrmController extends BaseController{
         }
         return View::make(Config::get('main.theme').'.hrm.role',$data);
     }
+    public function getLoadaccount($pid){
+        $user =  User::where('pid',$pid)->first();
+        if($user) return Response::json($user);
+        else return '';
+    }
     public function postSaveaccount(){
         $input = Input::get('data');
-        if($input['id']!=''){
-            $input['password'] = Hash::make($input['password']);
+        $input['password'] = Hash::make($input['password']);
+        if($input['id']==''){
             $user = User::create($input);
-            echo $user->id;
+            return Response::json($user);
         }
         else{
             $user = User::find($input['id']);
@@ -111,7 +125,7 @@ class HrmController extends BaseController{
         }
     }
     public function getEmployee($pid=''){
-        $data['hospital_code'] = 74001;
+        $data['hospital_code'] = Session::get('user.hospital_code');
         $data['hospital'] = Hospital::all()->tojson();
         $data['emptitle'] = Employeetitle::all()->tojson();
         $data['person'] = '{}';

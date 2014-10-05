@@ -1,18 +1,18 @@
 <div id="logo-group">
 
     <!-- PLACE YOUR LOGO HERE -->
-    <span id="logo"> <img src="{{URL::to('src/smartadmin/img/logo.png')}}" alt="SmartAdmin"> </span>
+    <span id="logo"> <img src="{{URL::to('src/smartadmin/img/logo.png')}}" alt="DFCK MIS"> </span>
     <!-- END LOGO PLACEHOLDER -->
-				<span data-ng-controller="ActivityDemoCtrl">
-					<activity data-onrefresh="refreshCallback">
-                        <activity:button data-icon="fa fa-user" data-total="total" />
-                        <activity:content data-footer="footerContent">
-                            <activity:item data-src="item.src" data-onload="item.onload" data-active="item.active" data-ng-repeat="item in items">
-                                <span data-localize="@{{ item.title }}">@{{ item.title }}</span> (@{{ item.count }})
-                            </activity:item>
-                        </activity:content>
-                    </activity>
-				</span>
+<!--				<span data-ng-controller="ActivityDemoCtrl">-->
+<!--					<activity data-onrefresh="refreshCallback">-->
+<!--                        <activity:button data-icon="fa fa-user" data-total="total" />-->
+<!--                        <activity:content data-footer="footerContent">-->
+<!--                            <activity:item data-src="item.src" data-onload="item.onload" data-active="item.active" data-ng-repeat="item in items">-->
+<!--                                <span data-localize="@{{ item.title }}">@{{ item.title }}</span> (@{{ item.count }})-->
+<!--                            </activity:item>-->
+<!--                        </activity:content>-->
+<!--                    </activity>-->
+<!--				</span>-->
 </div>
 
 
@@ -30,7 +30,8 @@
     <ul id="mobile-profile-img" class="header-dropdown-list hidden-xs padding-5">
         <li class="">
             <a href="#" class="dropdown-toggle no-margin userdropdown" data-toggle="dropdown">
-                <img src="img/avatars/sunny.png" alt="John Doe" class="online" />
+                <img src="@if(Session::get('user.avatar')!='') {{Session::get('user.avatar')}} @endif"
+                     alt="{{Session::get('user.name')}}" class="online" />
             </a>
             <ul class="dropdown-menu pull-right">
                 <li>
@@ -58,7 +59,7 @@
 
     <!-- logout button -->
     <div id="logout" class="btn-header transparent pull-right">
-        <span> <a href="login.html" title="Sign Out" data-action="userLogout" data-logout-msg="You can improve your security further after logging out by closing this opened browser"><i class="fa fa-sign-out"></i></a> </span>
+        <span> <a href="logout" title="Đăng xuất" data-action="userLogout" data-logout-msg="Để đảm bảo an toàn, bạn nên tắt tab trình duyệt sau khi đăng xuất."><i class="fa fa-sign-out"></i></a> </span>
     </div>
     <!-- end logout button -->
 
@@ -87,13 +88,13 @@
     <!-- multiple lang dropdown : find all flags in the image folder -->
     <ul data-lang-menu="" class="header-dropdown-list hidden-xs" data-ng-controller="LangController">
         <li>
-            <input type="hidden" id="currentLangIndex" value="{{ ((Session::has('localeindex'))?Session::get('localeindex'):0) }}">
+            <input type="hidden" id="currentLangIndex" value="{{((Session::has('localeindex'))?Session::get('localeindex'):0)}}">
             <a href="" class="dropdown-toggle" data-toggle="dropdown">
                 <img alt="" class="flag flag-@{{ currentLang.flagCode }}" src="img/blank.gif"> <span> @{{ currentLang.translation }} </span> <i class="fa fa-angle-down"></i>
             </a>
             <ul class="dropdown-menu pull-right">
                 <li data-ng-class="{active: lang.langCode == currentLang}" data-ng-repeat="lang in languages">
-                    <a href="" data-ng-click="setLang($index)" ><img class="flag flag-@{{ lang.flagCode }}" src="img/blank.gif" /> @{{ lang.language }} (@{{ lang.translation }}) </a>
+                    <a href="#" data-ng-click="setLang($index)" ><img class="flag flag-@{{ lang.flagCode }}" src="img/blank.gif" /> @{{ lang.language }} (@{{ lang.translation }}) </a>
                 </li>
             </ul>
         </li>

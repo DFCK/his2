@@ -8,7 +8,9 @@
                 <i class="fa fa-female"></i>
                 @endif
                 <strong>{{$person->lastname.' '.$person->firstname}}</strong>&nbsp;({{$person->pid}})
+                @if(Employee::canEditFunction($function_code))
                 <a href="#/pas/editperson/{{$person->pid}}/{{time()}}"><i class="fa fa-pencil-square"></i></a>
+                @endif
             </h1>
 
         </div>

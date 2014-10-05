@@ -5,8 +5,13 @@ class RadtController extends BaseController
 
     public function getOutpatientroom($pid = '')
     {
-        $hospital = '74001'; //change it when have session.
-        $dept = 'kkb';
+        $data['function_code'] = 'paskb';
+        $hospital = Session::get('user.hospital_code'); //change it when have session.
+        $wardngoaitru = Employee::getNgoaitruWardRole($data['function_code']);
+        if($wardngoaitru == null || ($wardngoaitru != null && $wardngoaitru['room_code']=='') )
+            return '';
+        $dept = $wardngoaitru['dept_code'];
+//        $dept = 'kkb';
         $room = Room::getOutpatientRoom($hospital, $dept, '', $pid);
         if ($room)
             return Response::json($room);
@@ -14,7 +19,7 @@ class RadtController extends BaseController
 
     public function getTiepnhan()
     {
-        $hospital = '74001'; //change it when have session.
+        $hospital = Session::get('user.hospital_code'); //change it when have session.
         $data['dept'] = 'kkb';
         $data['hrid'] = 1;
         return View::make(Config::get('main.theme') . '.radt.phongtiepnhan', $data);
@@ -22,8 +27,13 @@ class RadtController extends BaseController
 
     public function getTiepnhanupdate()
     {
-        $hospital = '74001'; //change it when have session.
-        $data['dept'] = 'kkb';
+        $hospital = Session::get('user.hospital_code'); //change it when have session.
+        $data['function_code'] = 'pasadmit';
+        $wardngoaitru = Employee::getNgoaitruWardRole($data['function_code']);
+        if($wardngoaitru == null || ($wardngoaitru != null && $wardngoaitru['dept_code']=='') )
+            return '';
+        $dept = $wardngoaitru['dept_code'];
+        $data['dept'] = $dept;
         $deptinfo = Department::getDeptInfo($hospital, $data['dept']);
         $room = Room::getOutpatientRoom($hospital, $data['dept']);
         $return = array();
@@ -68,22 +78,37 @@ class RadtController extends BaseController
 
     public function getKhambenh()
     {
-        $hospital = '74001'; //change it when have session.
-        $data['dept'] = 'kkb';
-        $data['room'] = 'kkbpk1';
-        $data['hrid'] = 1;
+        $data['function_code'] = 'paskb';
+        $hospital = Session::get('user.hospital_code'); //change it when have session.
+
+        $wardngoaitru = Employee::getNgoaitruWardRole($data['function_code']);
+            if($wardngoaitru == null || ($wardngoaitru != null && $wardngoaitru['room_code']=='') )
+                return '';
+        $data['dept'] = $wardngoaitru['dept_code'];
+        $data['room'] = $wardngoaitru['room_code'];
+        $data['hrid'] = Auth::user()->empid;
         return View::make(Config::get('main.theme') . '.radt.phongkhambenh', $data);
     }
 
     public function getRoomqueue($date = "", $roomid = '')
     {
-        $hospital = '74001'; //change it when have session.
-        if ($roomid == '')
-            $room = 'kkbpk1';
+        $hospital = Session::get('user.hospital_code'); //change it when have session.
+        if ($roomid == ''){
+            $data['function_code'] = 'paskb';
+                $wardngoaitru = Employee::getNgoaitruWardRole($data['function_code']);
+            if($wardngoaitru == null || ($wardngoaitru != null && $wardngoaitru['room_code']=='') )
+                return '';
+            $room = $wardngoaitru['room_code'];
+        }
         else
             $room = $roomid;
 
-        if ($room == '0') {
+        if ($room == '-1') {
+//            $data['function_code'] = 'pasadmit';
+//            $wardngoaitru = Employee::getNgoaitruWardRole($data['function_code']);
+//            if($wardngoaitru == null || ($wardngoaitru != null && $wardngoaitru['dept_code']=='') )
+//            return '';
+//            $dept = $wardngoaitru['dept_code'];
             $queue = Person::getPersonComeToday($hospital);
         } else
             $queue = RadtQueue::getCurrentRoom($hospital, $room, $date);
@@ -92,10 +117,14 @@ class RadtController extends BaseController
 
     public function getAdmission($id = '', $queue_id = '')
     {
-        $hospital = '74001'; //change it when have session.
-        $dept = 'kkb';
-        $ward = 'khukb';
-        $room = 'kkbpk1';
+        $hospital = Session::get('user.hospital_code'); //change it when have session.
+        $data['function_code'] = 'paskb';
+        $wardngoaitru = Employee::getNgoaitruWardRole($data['function_code']);
+        if($wardngoaitru == null || ($wardngoaitru != null && $wardngoaitru['dept_code']=='') )
+            return '';
+        $dept = $wardngoaitru['dept_code'];
+        $ward = $wardngoaitru['ward_code'];
+        $room = $wardngoaitru['room_code'];
         if (strlen($id) == 12) {
             $pid = $id;
             $data['pid'] = $pid;
@@ -149,8 +178,8 @@ class RadtController extends BaseController
 
     public function postSaveadmission()
     {
-        $hospital_code = 74001;
-        $hospital_bhyt = '74001';
+        $hospital_code = Session::get('user.hospital_code');
+        $hospital_bhyt = Session::get('user.hospital_code');
         $input = Input::get('data');
         $input['subdiagnosiscodelist'] = implode(',', $input['subdiagnosiscodelist']);
         $input['subdiagnosislist'] = implode(',', $input['subdiagnosislist']);
@@ -212,7 +241,7 @@ class RadtController extends BaseController
 
     public function putDischarged($eid, $type = 7)
     {
-        $hospital_code = 74001;
+        $hospital_code = Session::get('user.hospital_code');
         $effect = Encounter::where("eid", $eid)
             ->where("discharged", 0)
             ->update(array("discharged" => $type, "dateout" => time()));

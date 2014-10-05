@@ -113,7 +113,7 @@
                 <div class="">
                     <!-- widget content -->
                     <div class="widget-body">
-
+                        <i>Comming soon...</i>
                     </div>
                     <!-- end widget content -->
                 </div>
@@ -147,6 +147,9 @@
                 .success(function (data) {
                     if (angular.isObject(data)) {
                         $scope.employee = data;
+                        $scope.loadaccount($scope.person.pid);
+
+
                         $scope.loademployeetransfer();
                     }
                     else {
@@ -159,6 +162,19 @@
                     }
                 })
         };
+        $scope.loadaccount = function(pid){
+            $http.get('hrm/loadaccount/'+pid)
+                .success(function(data){
+                    if(angular.isObject(data))
+                        $scope.account = data;
+                    else{
+                        $scope.account.pid = $scope.person.pid;
+                        $scope.account.empid = $scope.employee.id;
+                        $scope.account.username='';
+                        $scope.account.password='';
+                    }
+                })
+        }
         $scope.loademployeetransfer = function () {
             if ($scope.employee) {
                 $http.get('hrm/employeelisttransfer/' + $scope.employee.pid)
@@ -183,7 +199,16 @@
             $http.post('hrm/saveaccount',{
                 data:$scope.account
             }).success(function(data){
-
+                if(angular.isObject(data)){
+                    $scope.account = data;
+                    myalert("Tạo mới tài khoản","Tạo mới thành công");
+                }
+                else if(data > 0){
+                    myalert("Cập nhật","Cập nhật thành công");
+                }
+                else{
+                    myalert("Lỗi","Lưu thất bại, vui lòng thử lại");
+                }
             });
         }
 

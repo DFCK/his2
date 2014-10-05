@@ -85,7 +85,7 @@
                                     <label class="select">
                                         <select ng-model="transfer.dept_code">
                                             <option value="0">Chọn khoa</option>
-                                            <option data-ng-repeat="item in dept" value="@{{item.code}}">
+                                            <option ng-if="item.hospital_code == transfer.hospital_code" data-ng-repeat="item in dept" value="@{{item.code}}">
                                                 @{{item.name}}
                                             </option>
                                         </select>

@@ -6,7 +6,7 @@ class RisController extends BaseController{
             ->get()->tojson();
     }
     public function postSavechidinhcdha(){
-        $hospital = 74001;
+        $hospital = Session::get('user.hospital_code');
         $input = Input::get('data');
         $input['hospital_code'] = $hospital;
         $input['date'] = strtotime($input['date']);
@@ -37,27 +37,27 @@ class RisController extends BaseController{
         echo RISRequest::find($id)->delete();
     }
     public function getSieuam(){
-        $data['hospital'] = 74001;
+        $data['hospital'] = Session::get('user.hospital_code');
         $data['type'] = 'sieuam';
         return View::make(Config::get('main.theme') . '.ris.sieuam', $data);
     }
     public function getNoisoi(){
-        $data['hospital'] = 74001;
+        $data['hospital'] = Session::get('user.hospital_code');
         $data['type'] = 'noisoi';
         return View::make(Config::get('main.theme') . '.ris.noisoi', $data);
     }
     public function getXquang(){
-        $data['hospital'] = 74001;
+        $data['hospital'] = Session::get('user.hospital_code');
         $data['type'] = 'xquang';
         return View::make(Config::get('main.theme') . '.ris.xquang', $data);
     }
     public function getCt(){
-        $data['hospital'] = 74001;
+        $data['hospital'] = Session::get('user.hospital_code');
         $data['type'] = 'ct';
         return View::make(Config::get('main.theme') . '.ris.ct', $data);
     }
     public function getMri(){
-        $data['hospital'] = 74001;
+        $data['hospital'] = Session::get('user.hospital_code');
         $data['type'] = 'mri';
         return View::make(Config::get('main.theme') . '.ris.mri', $data);
     }
@@ -74,7 +74,7 @@ class RisController extends BaseController{
         return RisResult::where('request_id',$id)->first()->tojson();
     }
     public function postSaveris(){
-        $hospital_code = 74001;
+        $hospital_code = Session::get('user.hospital_code');
         $input = Input::get('data');
         $input['hospital_code'] = $hospital_code;
         $input['date'] = time();

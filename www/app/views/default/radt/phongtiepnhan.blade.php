@@ -94,7 +94,7 @@
                                     </div>
                                     <div class="col-xs-12 col-sm-4">
                                         <select class="form-control" ng-model="roomfilter">
-                                            <option value="0">Chưa xếp lịch</option>
+                                            <option value="-1">Chưa xếp lịch</option>
                                             <option data-ng-repeat="room in roomlist" value="@{{room.code}}" ng-selected="roomfilter==room.code">@{{room.name}}</option>
                                         </select>
                                     </div>
@@ -206,7 +206,7 @@
             $scope.opened = true;
         };
         //$filter('date')(new Date(),'dd-MM-yyyy HH:mm');
-        $scope.roomfilter = 0;
+        $scope.roomfilter = -1;
         $scope.deptcode = '{{$dept}}';
         $scope.deptinfo = {};
         $scope.intiepnhan = true;

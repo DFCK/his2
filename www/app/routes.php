@@ -10,23 +10,23 @@
 | and give it the Closure to execute when that URI is requested.
 |
 */
-
-Route::controller('tpl','TplController');
-Route::controller('dashboard','DashboardController');
-Route::controller('pas','PasController');
-Route::controller('admin','AdminController');
-Route::any('login',array('before'=>'guest','uses'=>'UserController@login'));
-Route::any('logout','UserController@logout');
-Route::controller('hrm','HrmController');
-Route::controller('address','AddressController');
-Route::controller('dmcdha','CDHAController');
-Route::controller('radt','RadtController');
-Route::controller('enc','EncounterController');
-Route::controller('ris','RisController');
-Route::get('/search/{param?}','SearchController@getIndex');
-
-
-Route::get('/','HomeController@getIndex');
+Route::any('login', array('before' => 'guest', 'uses' => 'HomeController@getLogin'));
+Route::any('logout', 'HomeController@getLogout');
+Route::group(array('before' => 'auth'), function() {
+    Route::controller('tpl', 'TplController');
+    Route::controller('dashboard', 'DashboardController');
+    Route::controller('pas', 'PasController');
+    Route::controller('admin', 'AdminController');
+    Route::controller('hrm', 'HrmController');
+    Route::controller('address', 'AddressController');
+    Route::controller('dmcdha', 'CDHAController');
+    Route::controller('radt', 'RadtController');
+    Route::controller('enc', 'EncounterController');
+    Route::controller('ris', 'RisController');
+    Route::controller('misc', 'MiscController');
+    Route::get('/search/{param?}', 'SearchController@getIndex');
+    Route::get('/', 'HomeController@getIndex');
+});
 
 
 

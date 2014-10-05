@@ -4,6 +4,7 @@ class PasController extends BaseController
 {
     public function getPerson($pid = '')
     {
+        $data['function_code'] = 'pasdk';
         if (strlen($pid) > 0) {
             $data['pid'] = $pid;
             $person = Person::getPersonInfo($pid);
@@ -15,7 +16,7 @@ class PasController extends BaseController
             else return View::make(Config::get('main.theme') . '.pas.registration', array("message" => "Không tìm thấy mã " . $pid));
         }
         else
-            return View::make(Config::get('main.theme') . '.pas.registration');
+            return View::make(Config::get('main.theme') . '.pas.registration',$data);
 
     }
 
@@ -23,6 +24,7 @@ class PasController extends BaseController
 
     public function getEditperson($pid)
     {
+        $data['function_code'] = 'pasdk';
         $data['pid'] = $pid;
         $person = Person::where("pid", $pid)->get();
 //        echo '<pre>';print_r($person);
@@ -105,7 +107,7 @@ class PasController extends BaseController
      */
     public function postSaveperson()
     {
-        $hospital_code = 74001;
+        $hospital_code = Session::get('user.hospital_code');
         $input = Input::get('data');
 //        return Response::json($input);
         if ($input['pid'] <= 0 || $input['pid']=='') {
@@ -165,7 +167,7 @@ class PasController extends BaseController
      * Quan ly sinh hieu
      */
     public function postSavevitalsign(){
-        $hospital_code = 74001;
+        $hospital_code = Session::get('user.hospital_code');
         $input = Input::get('data');
         if($input['id']=='' || $input['id']==0){
 //            $input['pid'] = (int)$input['pid'];
@@ -193,7 +195,7 @@ class PasController extends BaseController
      * Quan ly hoi benh
      */
     public function postSaveadmissioninfo(){
-        $hospital_code = 74001;
+        $hospital_code = Session::get('user.hospital_code');
         $input = Input::get('data');
         $d =  $input['date'];
         $input['date'] = strtotime($d);

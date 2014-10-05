@@ -16,7 +16,7 @@
             </style>
             <ul id="sparks" class="">
                 <li class="sparks-info">
-                    <h5> @{{myroominfo.deptname}}, @{{myroominfo.name}} <span class="txt-color-blue">BS: Nguyễn Văn X</span></h5>
+                    <h5> @{{myroominfo.deptname}}, @{{myroominfo.name}} <span class="txt-color-blue">{{Session::get('user.title_name').' '.Session::get('user.name')}}</span></h5>
 
                 </li>
                 <li class="sparks-info">

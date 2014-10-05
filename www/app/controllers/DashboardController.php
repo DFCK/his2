@@ -2,6 +2,8 @@
 class DashboardController extends BaseController
 {
     public function getIndex(){
+//        echo '<pre>';
+//        print_r(Session::all());
         return View::make(Config::get('main.theme').'.dashboard.dashboard');
     }
     public function getChangelang($index){

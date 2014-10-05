@@ -205,7 +205,7 @@
                         </ul>
                         <div class="row">
                         <ul class="col col-sm-12 col-lg-7 list-inline" id="instancechecklist">
-                            <li data-ng-repeat="ins in PacsInstanceList" class="text-align-center">
+                            <li data-ng-repeat="ins in PacsInstanceList" class="text-align-center col-xs-6">
                                 <a  data-ng-click="viewImage('lg',ins)"><img src="@{{ins}}" style="max-height: 150px"></a><br>
                                 <input type="checkbox" data-ng-click="checkimg(ins)" ng-checked="!statustmp">
                             </li>
