@@ -107,11 +107,15 @@ class PasController extends BaseController
      */
     public function postSaveperson()
     {
-        $hospital_code = Session::get('user.hospital_code');
+
         $input = Input::get('data');
+        if(Session::get('user.hospital_code') != 0)
+            $hospital_code = Session::get('user.hospital_code');
+        else $hospital_code = $input['hospital_code'];
 //        return Response::json($input);
         if ($input['pid'] <= 0 || $input['pid']=='') {
-            $province = 711;  // sua lai cho nay khi co danh sach benh vien
+            $hospital = Hospital::where('code',$hospital_code)->first();
+            $province = $hospital->province;  // sua lai cho nay khi co danh sach benh vien
             $pid = Autoid::buildPID($province);
             if ($pid > 0) {
                 $input['pid'] = $pid;
@@ -129,6 +133,7 @@ class PasController extends BaseController
                     $input['dateissue'] = strtotime(substr($input['dateissue'], 4, 4) . '-' . substr($input['dateissue'], 2, 2) . '-' . substr($input['dateissue'], 0, 2));
                 }
                 $input['hospital_code'] = $hospital_code;
+                $input['created_by'] = Session::get('user.pid');
                 $person = Person::create($input);
                 return $person->pid;
             }
@@ -172,10 +177,11 @@ class PasController extends BaseController
         if($input['id']=='' || $input['id']==0){
 //            $input['pid'] = (int)$input['pid'];
             VitalSign::where('pid',$input['pid'])
-                ->where('eid','0')
+                ->where('eid',$input['eid'])
                 ->delete();
             $input['date'] = strtotime($input['date']);
             $input['hospital_code'] = $hospital_code;
+            $input['created_by'] = Session::get('user.pid');
             $sh = VitalSign::create($input);
             echo $sh->id;
         }
@@ -203,9 +209,10 @@ class PasController extends BaseController
         if($input['id']=='' || $input['id']==0){
 //            $input['pid'] = (int)$input['pid'];
             PersonAdmissionInfo::where('pid',$input['pid'])
-                ->where('eid','0')
+                ->where('eid',$input['eid'])
                 ->delete();
             $input['hospital_code'] = $hospital_code;
+            $input['created_by'] = Session::get('user.pid');
             $sh = PersonAdmissionInfo::create($input);
             echo $sh->id;
         }

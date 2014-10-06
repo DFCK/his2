@@ -169,8 +169,30 @@ class AdminController extends BaseController
             ->count();
         if ($find <= 0) {
             if ($input['id'] == '' || $input['id'] <= 0) {
-                $dept = Hospital::create($input);
-                return $dept->id;
+                $hospital = Hospital::create($input);
+                if($hospital){
+                    Autoid::create(array(
+                        'name' => 'pid'.$input['province'],
+                        'current'=> 0,
+                        'year' => date('Y'),
+                        'month' => date('m'),
+                        'day' => date('d'),
+                        'province_code' => $input['province'],
+                        'hospital_code' => $input['code'],
+                        'length' => 12
+                    ));
+                    Autoid::create(array(
+                        'name' => 'eid'.$input['code'],
+                        'current'=> 0,
+                        'year' => date('Y'),
+                        'month' => date('m'),
+                        'day' => date('d'),
+                        'province_code' => $input['province'],
+                        'hospital_code' => $input['code'],
+                        'length' => 15
+                    ));
+                }
+                return $hospital->id;
             } else {
                 $effect = Hospital::find($input['id'])->update($input);
                 echo $effect;

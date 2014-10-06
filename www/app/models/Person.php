@@ -9,7 +9,7 @@ class Person extends Eloquent
         'doituong', 'insurancecode', 'insurancefromdate', 'insurancetodate', 'insurancecompany', 'insuranceplace',
         'avatar', 'country', 'route', 'cmnd', 'dateissue', 'placeissue',
         'careercode', 'ethnic', 'blood', 'phone', 'email',
-        'relative', 'relativephone', 'relativeaddress', 'relativetype'
+        'relative', 'relativephone', 'relativeaddress', 'relativetype','created_by'
     );
     public function employee(){
         return $this->hasOne('Employee','pid','pid');

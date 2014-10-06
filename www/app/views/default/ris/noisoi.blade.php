@@ -128,7 +128,8 @@
                     </p>
                     <p ng-if="Request.lamsang">Thông tin lâm sàn: @{{Request.lamsang}}</p>
                     <p ng-if="Request.note">Ghi chú: @{{Request.note}}</p>
-                    <p>Bác sĩ yêu cầu: <strong>@{{Request.staff}}</strong></p>
+                    <p>Bác sĩ yêu cầu: <strong>@{{Request.title_name+" "+Request.lastname+" "+Request.firstname}}</strong></p>
+
                 </div>
 
                     <article class="col-xs-12 no-padding">

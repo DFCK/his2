@@ -14,6 +14,7 @@ class RisController extends BaseController{
         $chidinh = 0;
         foreach($positions as $pos){
             $input['position'] = $pos;
+            $input['created_by'] = Session::get('user.pid');
             $rs = RISRequest::create($input);
             $chidinh+= $rs->id;
         }
@@ -24,8 +25,11 @@ class RisController extends BaseController{
     public function getLoadrequestris($eid){
         $rs = DB::table('dfck_ris_request AS r')
             ->join('dfck_type_cdha AS t','t.code','=','r.position')
+            ->leftjoin('dfck_employee AS e','e.pid','=','r.pid')
+            ->leftjoin('dfck_person AS p','p.pid','=','r.pid')
+            ->leftjoin('dfck_employee_title AS et','et.code','=','e.title')
             ->where('r.eid',$eid)
-            ->select('r.*','t.name AS positionname')
+            ->select('r.*','t.name AS positionname','p.lastname','p.firstname','et.name AS title_name')
             ->get();
         return Response::json($rs);
 
@@ -79,6 +83,7 @@ class RisController extends BaseController{
         $input['hospital_code'] = $hospital_code;
         $input['date'] = time();
         if(!isset($input['id']) || $input['id'] == 0)  {
+            $input['created_by'] = Session::get('user.pid');
             $rs = RisResult::create($input);
             RISRequest::find($input['request_id'])->update(array('status'=>1));
             return Response::json($rs);

@@ -70,6 +70,20 @@
                 <form class=" smart-form" id="formpersoninfo">
                     <fieldset>
                         <div class="row  ">
+                            @if(Session::get('user.hospital_code') == 0)
+                            <section class="col col-xs-6">
+                                {{--*/ $hospital = Hospital::all();/*--}}
+                                <label class="select">
+                                    <select name="hospital_code" ng-model="person.hospital_code">
+                                        @foreach($hospital as $item)
+                                        <option value="{{$item->code}}">{{$item->name}}</option>
+                                        @endforeach
+                                    </select>
+                                    <i></i>
+                                </label>
+                            </section>
+                            <div class="clear"></div>
+                            @endif
                             <div class="col-xs-9">
                                 <section class="col col-lg-3 col-xs-4 col-sm-3 col-md-3">
                                     <label class="label">{{trans('pas.lastname')}}</label>

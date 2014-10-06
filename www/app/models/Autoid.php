@@ -3,6 +3,7 @@
 class Autoid extends Eloquent
 {
     protected $table = 'dfck_autoid';
+    protected $fillable = array('name','current','year','month','day','province_code','hospital_code','length');
 
     public static function buildPID($province)
     {

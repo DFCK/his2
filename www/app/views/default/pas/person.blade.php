@@ -301,7 +301,8 @@
            temperature:'',
            heartbeat:'',
            id:'',
-           date:today
+           date:today,
+           eid:{{$person->eid}}
        }
        $scope.ok = function () {
            if(ngProgress.status()<=0)
@@ -337,6 +338,7 @@
            $scope.sinhhieu.breathing='';
            $scope.sinhhieu.temperature='';
            $scope.sinhhieu.heartbeat='';
+           $scope.sinhhieu.eid = {{$person->eid}};
        }
        $scope.edit = function(sh){
            angular.copy(sh,$scope.sinhhieu);
@@ -369,8 +371,9 @@
            familyhistory:'',
            process:'',
            id:'',
+           eid:{{ $person->eid }},
        };
-       $scope.$watch('hoibenh.refplacecode',function(){
+            $scope.$watch('hoibenh.refplacecode',function(){
            if($scope.hoibenh.refplacecode && $scope.hoibenh.refplacecode.length>=4){
                $http.get('pas/bvdkbd/' + $scope.hoibenh.refplacecode)
                    .success(function(data){
@@ -432,6 +435,8 @@
            $scope.hoibenh.personhistory='';
            $scope.hoibenh.familyhistory='';
            $scope.hoibenh.process='';
+           $scope.hoibenh.eid ={{ $person->eid }};
+
        }
 
        $scope.cancel = function () {

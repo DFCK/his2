@@ -4,7 +4,7 @@ class EncounterTransfer extends Eloquent{
     protected $fillable = array('eid','pid','type',
     'fromhospital','fromdept','fromward','fromroom','frombed',
     'tohospital','todept','toward','toroom','tobed',
-    'comment','date','staff');
+    'comment','date','staff','created_by');
 
     /**
      * Định nghĩa các cột type

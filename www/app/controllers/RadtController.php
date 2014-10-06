@@ -70,6 +70,7 @@ class RadtController extends BaseController
         if ($find->count()) {
             echo $find->update($input);
         } else {
+            $input['created_by'] = Session::get('user.pid');
             $queue = RadtQueue::create($input);
             echo $queue->id;
         }
@@ -214,6 +215,8 @@ class RadtController extends BaseController
                     $transfer['todept'] = $input['dept_code'];
                     $transfer['toward'] = $input['ward_code'];
                     $transfer['date'] = $input['datein'];
+                    $transfer['created_by'] = Session::get('user.pid');
+
                     EncounterTransfer::create($transfer);
 
                     //cap nhat eid cho sinh hieu, thong tin tiep nhan, hang doi kham

@@ -59,7 +59,8 @@ class HomeController extends BaseController {
                         'title_code' => $employee->title_code,
                         'title_name' => $employee->title_name,
                         'title_group' => $employee->title_group,
-                        'empid' => $employee->id
+                        'empid' => $employee->id,
+                        'pid' => $employee->pid
                     ));
                     Session::put('role',$role);
 //                    echo '<pre>';
@@ -76,7 +77,8 @@ class HomeController extends BaseController {
                         'title_code' => 0,
                         'title_name' => 'Quản trị hệ thống',
                         'title_group' => 'admin',
-                        'empid' => 0
+                        'empid' => 0,
+                        'pid' => 0
                     ));
                 }
 

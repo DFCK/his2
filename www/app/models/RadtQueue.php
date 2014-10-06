@@ -1,7 +1,7 @@
 <?php
 class RadtQueue extends Eloquent{
     protected $table='dfck_radt_queue';
-    protected $fillable = array('pid','hospital_code','dept_code','ward_code','room_code','eid','order','date');
+    protected $fillable = array('pid','hospital_code','dept_code','ward_code','room_code','eid','order','date','created_by');
 //    protected $softDelete = true;
 
     public static function getCurrentRoom($hospital,$room,$date=""){

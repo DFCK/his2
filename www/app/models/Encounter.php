@@ -4,7 +4,7 @@ class Encounter extends Eloquent{
     protected $fillable = array('pid','eid','firstdiagnosiscode','firstdiagnosis','diagnosiscode','diagnosis',
     'subdiagnosiscodelist','subdiagnosislist','tienluong','typeexam','summary','datein','dateout',
     'insurancecode','insurancefromdate','insurancetodate','insuranceplace',
-    'hospital_code','dept_code','ward_code');
+    'hospital_code','dept_code','ward_code','created_by');
 
     /**
      * Định nghĩa các trường
