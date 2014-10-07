@@ -83,4 +83,17 @@ class Employee extends Eloquent{
         }
         return null;
     }
+    public static function getNewsDept($function_code){
+        if(Session::has('role.'.$function_code)){
+            $func = Session::get('role.'.$function_code);
+            $dept = array();
+            foreach($func as $item){
+                if($item['role'] == 4) return 99;//duoc quyen post tin toan benh vien
+                else if($item['role']>1 && $item['role']<4){
+                    $dept[] = $item['dept_code'];//cac khoa duoc post tin
+                }
+            }
+        }
+        return null;
+    }
 }
