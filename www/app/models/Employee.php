@@ -93,6 +93,7 @@ class Employee extends Eloquent{
                     $dept[] = $item['dept_code'];//cac khoa duoc post tin
                 }
             }
+            return $dept;
         }
         return null;
     }

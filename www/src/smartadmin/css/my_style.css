@@ -23,6 +23,12 @@
 .smart-form fieldset{
     padding-top: 15px;
 }
+.smart-form .summernoteouter .btn{
+    padding: 6px 12px !important;
+}
+.smart-form .summernoteouter img{
+    max-height: 200px;
+}
 .clear{
     clear:both;
     min-height: 1px;

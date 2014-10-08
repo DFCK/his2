@@ -40,6 +40,42 @@
         </div>
 
     </div>
+    <section>
+        <div>
+            <article class="col col-xs-12 col-sm-6 ">
+
+                <!-- Widget ID (each widget will need unique ID)-->
+                <div class="jarviswidget" id="wid-id-miscnews1"
+                     data-widget-editbutton="false"
+                     data-widget-fullscreenbutton="false"
+                    >
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-list"></i> </span>
+
+                        <h2>Bản tin bệnh viện</h2>
+                    </header>
+                    <!-- widget div-->
+                    <div class="">
+                        <!-- widget content -->
+                        <div class="widget-body">
+                            <ul class="list-unstyled">
+                                <li data-ng-repeat="item in newslist.data" class="">
+                                    <a href="#" data-ng-click="edit(item.id)">
+                                        <i class="fa fa-caret-right"></i>&nbsp;
+                                                                         @{{item.title}}</a>&nbsp;
+                                    <em>(@{{item.created_time * 1000 | date:"H:m d/M/yyyy"}})</em>
+                                    <p>@{{item.shortinfo}}</p>
+                                </li>
+                            </ul>
+                            <ul class="list-inline" ng-if="newslist.last_page > 1">
+                                <li data-ng-repeat="item in [] | paginate:newslist.last_page"><a class="bordered padding-5" href="#" data-ng-click="load(item,news.place)">@{{item}}</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </section>
 </div>
 <script type="text/javascript">
     /* DO NOT REMOVE : GLOBAL FUNCTIONS!
@@ -53,6 +89,13 @@
         $scope.$on('$destroy', function () {
             ngProgress.complete();
         });
+        $scope.load = function(page,place){
+            $http.get('misc/loadlistnews/'+page+"/"+place)
+                .success(function(msg){
+                    $scope.newslist = msg;
+                });
+        };
+        $scope.load(1,99);
     };
     // pagefunction
     var pagefunction = function() {
