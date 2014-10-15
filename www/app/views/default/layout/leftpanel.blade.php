@@ -54,9 +54,9 @@ will not initialize.
                   suftitle="{{trans('common.suftitle')}}"/>
         <nav:item data-view="/admin/department" title="{{trans('common.department')}}"
                   suftitle="{{trans('common.suftitle')}}"/>
-        <nav:item data-view="/address" title="{{trans('common.address')}}"
+        <nav:item data-view="/admin/address" title="{{trans('common.address')}}"
                   suftitle="{{trans('common.suftitle')}}"/>
-        <nav:item data-view="/dmcdha" title="{{trans('common.dmcdha')}}"
+        <nav:item data-view="cdha" title="{{trans('common.dmcdha')}}"
                   suftitle="{{trans('common.suftitle')}}"/>
     </nav:group>
     @endif

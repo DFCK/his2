@@ -1,10 +1,15 @@
 <?php
 class CDHAController extends BaseController
 {
-    public function getDistricttitle($page = 1, $code)
+    public function getCdha($page = 1)
     {
         Input::merge(array('page' => $page));
-        return AddressDistrict::where("province_code", "=", "$code")->paginate(10)->toJson();
+        return TypeCDHA::paginate(10)->toJson();
+    }
+
+    public function getType($page=1){
+        Input::merge(array('page'=>$page));
+        return TypeCDHA::select("type")->paginate(10)->distinct()->toJson();
     }
 
     public function getIndex()

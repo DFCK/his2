@@ -5,6 +5,22 @@ class RisController extends BaseController{
             ->where('name','!=','default')
             ->get()->tojson();
     }
+    public function postSavecdha()
+    {
+        $param = Input::get('data');
+        if ($param['id'] == "") {
+            $title = TypeCDHA::create($param);
+            echo $title->id;
+        } else {
+            $count = TypeCDHA::find($param['id'])->update($param);
+            echo $count;
+        }
+    }
+    public function deleteDeletecdha($id)
+    {
+        $count = TypeCDHA::find($id)->delete();
+        echo $count;
+    }
     public function postSavechidinhcdha(){
         $hospital = Session::get('user.hospital_code');
         $input = Input::get('data');
