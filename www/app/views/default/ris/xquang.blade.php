@@ -159,7 +159,8 @@
                         </div>
                         <div class="col-xs-1">
 <!--                            <button class="btn btn-info" data-ng-click="loadbypid()">Ảnh của BN</button>-->
-                            <button class="btn btn-info" data-ng-click="getpacsinstance()"><i class="fa fa-search"></i></button>
+<!--                            <button class="btn btn-info" data-ng-click="getpacsinstance()"><i class="fa fa-search"></i></button>-->
+                            <button class="btn btn-info" data-ng-click="loadbypid()"><i class="fa fa-search"></i></button>
                         </div>
                         <div class="col-xs-3">
                         <p class="input-group">

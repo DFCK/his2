@@ -165,14 +165,14 @@ class RisController extends BaseController{
             'a' => 'pat_file',
             'series_id' => $series,
         );
-        //return $this->getPacsapi($param);
+        return $this->getPacsapi($param);
         //test
-        return Response::json(array('data'=>array(
-            asset('images/xquang1.jpg'),
-            asset('images/xquang2.jpg'))));
+//        return Response::json(array('data'=>array(
+//            asset('images/xquang1.jpg'),
+//            asset('images/xquang2.jpg'))));
     }
     public function getPacsapi($param){
-        $ip = "http://192.168.1.25/pacsapi/?c=api";//sau nay se lay tu csdl tung benh vien
+        $ip = "http://10.0.0.6/api/index.php?c=api";//sau nay se lay tu csdl tung benh vien
         $url = "";
         if($param['a']=='pat_list'){
             $url .='&a='.$param['a'].'&pid='.$param['pid'].'&dfrom='.$param['dfrom'].'&dto='.$param['dto'];
