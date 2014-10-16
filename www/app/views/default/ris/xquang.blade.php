@@ -95,7 +95,7 @@
                     <hr>
                     <ul class="nav nav-pills nav-stacked">
                         <li data-ng-repeat="rq in requestlist">
-                            <a data-ng-click="show(rq)">
+                            <a data-ng-click="showcdha(rq)">
                                 <i>#@{{rq.id}}</i> <strong>@{{rq.lastname}}
                                     @{{rq.firstname}}</strong>
                                 (@{{rq.yob}})
@@ -123,7 +123,7 @@
         </p>
         <p ng-if="Request.lamsang">Thông tin lâm sàn: @{{Request.lamsang}}</p>
         <p ng-if="Request.note">Ghi chú: @{{Request.note}}</p>
-        <p>Bác sĩ yêu cầu: <strong>@{{Request.title_name +" "+Request.lastname+" "+Request.firstname}}</strong></p>
+        <p>Bác sĩ yêu cầu: <strong>@{{Request.title_name +" "+Request.bslastname+" "+Request.bsfirstname}}</strong></p>
 
     </div>
 
@@ -178,7 +178,7 @@
                         </div>
                         <div class="col-xs-1">
                             <!--                            <button class="btn btn-info" data-ng-click="loadbypid()">Ảnh của BN</button>-->
-                            <!--                            <button class="btn btn-info" data-ng-click="getpacsinstance()"><i class="fa fa-search"></i></button>-->
+<!--                           <button class="btn btn-info" data-ng-click="getpacsinstance()"><i class="fa fa-search"></i></button>-->
                             <button class="btn btn-info" data-ng-click="loadbypid()"><i class="fa fa-search"></i></button>
                         </div>
 <!--                        <div class="col-xs-1">-->
@@ -208,10 +208,13 @@
                             </li>
                         </ul>
                         <div class="row">
+                        <div class="col-xs-12" ng-if="PacsInstanceList">
+                            <label class="checkbox"><input type="checkbox" data-ng-click="checkall()"> Check all</label>
+                        </div>
                         <ul class="col col-sm-12 col-lg-7 list-inline" id="instancechecklist">
                             <li data-ng-repeat="ins in PacsInstanceList" class="text-align-center col-xs-6">
                                 <a  data-ng-click="viewImage('lg',ins)"><img src="@{{ins}}" style="max-height: 150px"></a><br>
-                                <input type="checkbox" data-ng-click="checkimg(ins)" ng-checked="!statustmp">
+                                <input type="checkbox" data-ng-click="checkimg(ins)">
                             </li>
                         </ul>
                             <div class="col col-sm-12 col-lg-5">
@@ -240,6 +243,28 @@
             $scope.datesearch = new Date();
         };
         $scope.xquangimages = [];
+        $scope.togglecheckall = false;
+        $scope.checkall = function(){
+            $scope.togglecheckall = !$scope.togglecheckall;
+            if($scope.togglecheckall){
+                angular.forEach($scope.PacsInstanceList,function(val,index){
+                    if($scope.xquangimages.indexOf(val)==-1){
+                        $scope.xquangimages.push(val);
+                    }
+                });
+                $("#instancechecklist").find("input[type=checkbox]").prop("checked",true);
+            }
+            else{
+                angular.forEach($scope.PacsInstanceList,function(val,index){
+//                    console.log($scope.xquangimages.indexOf(val));
+//                    if($scope.xquangimages.indexOf(val)>-1){
+                        $scope.xquangimages.splice(index);
+//                    }
+                });
+                $("#instancechecklist").find("input[type=checkbox]").prop("checked",false);
+            }
+//            console.log($scope.xquangimages);
+        }
         $scope.checkimg = function(url){
             if($scope.xquangimages.indexOf(url)>-1){
                 $scope.xquangimages.pop(url);
@@ -331,10 +356,8 @@
 //        $scope.searcheid = "";
         $scope.PacsInstanceList = [];
         $scope.statustmp = 0;
-        $scope.show = function (request) {
+        $scope.showcdha = function (request) {
             angular.copy(request, $scope.Request);
-//            angular.copy($scope.Request.eid, $scope.searcheid);
-//            $scope.searcheid = $scope.Request.eid;
             $("#searcheid").val($scope.Request.eid);
             $scope.xquangimages = [];
             $('.summernote').code("");
@@ -356,6 +379,8 @@
                         $('.summernote').code($scope.Result.textresult);
                         $scope.xquangimages = $scope.Result.images.split("$$$");
                         angular.copy($scope.xquangimages,$scope.PacsInstanceList);
+                        $scope.togglecheckall = false;
+                        $scope.checkall();
                     });
             }
 
@@ -378,7 +403,7 @@
                         ngProgress.complete();
                         $scope.requestlist = data;
                         if ($scope.requestlist.length > 0) {
-                            $scope.show($scope.requestlist[0]);
+                            $scope.showcdha($scope.requestlist[0]);
                         }
                         $scope.onajax = false;
                     });

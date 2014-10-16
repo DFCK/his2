@@ -114,13 +114,14 @@ class RisController extends BaseController{
         $dateto = strtotime($date." 23:59:59");
         $request =  DB::table('dfck_ris_request AS r')
             ->join('dfck_person AS p','p.pid','=','r.pid')
+            ->join('dfck_person AS p2','p2.pid','=','r.created_by')
             ->join('dfck_type_cdha AS t','t.code','=','r.position')
             ->join('dfck_encounter AS e','r.eid','=','e.eid')
             ->where('r.type',$type)
             ->where('r.status',$status)
             ->where('r.date','>=',$datefrom)
             ->where('r.date','<=',$dateto)
-            ->select('r.*','p.lastname','p.firstname','p.yob','t.name AS positionname','e.discharged')
+            ->select('r.*','p.lastname','p.firstname','p2.lastname AS bslastname','p2.firstname AS bsfirstname','p.yob','t.name AS positionname','e.discharged')
             ->orderby('r.date')
             ->get();
         return Response::json($request);

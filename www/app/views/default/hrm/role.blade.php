@@ -172,6 +172,7 @@
                         $scope.account.empid = $scope.employee.id;
                         $scope.account.username='';
                         $scope.account.password='';
+                        $scope.account.id='';
                     }
                 })
         }

@@ -541,12 +541,12 @@
         $scope.room = {
             name:'',
             code:'',
-            bed:'',
+            bed:0,
             hospital_code:'',
             dept_code:'',
             ward_code:'',
             id:''
-        }
+        };
         $scope.roomlist = [];
         $scope.loadRoom = function(){
             $http.get('admin/loadhospitalroom/'+$scope.hospital.code+"/"+$scope.dept.code+"/"+$scope.ward.code).success(function(data){
@@ -554,7 +554,15 @@
             });
         }
         $scope.resetRoom =function(){
-            angular.copy($scope.initial,$scope.room);
+            $scope.room = {
+                name:'',
+                code:'',
+                bed:0,
+                hospital_code:$scope.hospital.code,
+                dept_code:$scope.dept.code,
+                ward_code:$scope.ward.code,
+                id:''
+            };
         }
         $scope.saveRoom = function(){
             $scope.room.hospital_code = $scope.hospital.code;
