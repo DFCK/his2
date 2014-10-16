@@ -178,7 +178,7 @@ class RisController extends BaseController{
             $url .='&a='.$param['a'].'&pid='.$param['pid'].'&dfrom='.$param['dfrom'].'&dto='.$param['dto'];
         }
         else if($param['a']=='study_list'){
-            $url .='&a='.$param['a'].'&pat_id='.$param['pat_id'];
+            $url .='&a='.$param['a'].'&pat_id='.$param['pat_id'].'&date='.$param['date'];
         }
         else if($param['a']=='series_list'){
             $url .='&a='.$param['a'].'&study_id='.$param['study_id'];
