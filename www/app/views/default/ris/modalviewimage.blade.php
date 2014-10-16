@@ -19,7 +19,7 @@
     <div ng-if="!typeview || typeview==0">
         <div class="row" id="">
             <div class="col-xs-12">
-                <img src="@{{mainpic}}" style="width=100%">
+                <img src="@{{mainpic}}" style="width:100%">
             </div>
 
         </div>

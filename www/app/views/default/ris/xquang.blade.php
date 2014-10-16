@@ -424,8 +424,13 @@
         }
         $scope.viewImage = function (size,mainpic) {
             var Result ={};
-            angular.copy($scope.Result,Result);
-            Result.images = Result.images.split("$$$");
+            if(!$scope.status)
+                Result.images = $scope.xquangimages;
+            else{
+                angular.copy($scope.Result,Result);
+                Result.images = Result.images.split("$$$");
+            }
+
             var modalInstance = $modal.open({
                 templateUrl: "{{URL::to('tpl/viewimage')}}",
                 controller: ModalViewImages,
