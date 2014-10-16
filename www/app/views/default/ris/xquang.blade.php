@@ -266,11 +266,10 @@
             $http.get('ris/pacspatientbypid/'+searcheid)
                 .success(function(data){
                     $scope.issearchapi = true;
-                    if(data.length > 0)
-                    $scope.Pacsresultlist = data.data;
+                    if(data.success)
+                        $scope.Pacsresultlist = data.data;
                     else $scope.Pacsresultlist = [];
                     console.log($scope.Pacsresultlist);
-                    console.log($scope.Pacsresultlist.length);
                     ngProgress.complete();
                 });
         }
