@@ -151,7 +151,7 @@
                         <form class="smart-form">
                                 <section class="col-xs-12">
                                     <label class="input">
-                                        <input type="text" ng-model="searcheid">
+                                        <input type="text" id="searcheid">
                                     </label>
                                 </section>
                         </form>
@@ -261,8 +261,9 @@
         $scope.loadbypid = function(){
             if(ngProgress.status()<=0)
             ngProgress.start();
-            console.log($scope.searcheid);
-            $http.get('ris/pacspatientbypid/'+$scope.searcheid)
+            var searcheid = $("#searcheid").val();
+            console.log(searcheid);
+            $http.get('ris/pacspatientbypid/'+searcheid)
                 .success(function(data){
                     $scope.issearchapi = true;
                     if(data.length > 0)
@@ -324,13 +325,14 @@
         $scope.requestlist = [];
         $scope.status = 0;
         $scope.onajax = false;
-        $scope.searcheid = "";
+//        $scope.searcheid = "";
         $scope.PacsInstanceList = [];
         $scope.statustmp = 0;
         $scope.show = function (request) {
             angular.copy(request, $scope.Request);
 //            angular.copy($scope.Request.eid, $scope.searcheid);
-            $scope.searcheid = $scope.Request.eid;
+//            $scope.searcheid = $scope.Request.eid;
+            $("#searcheid").val($scope.Request.eid);
             $scope.xquangimages = [];
             $('.summernote').code("");
             angular.copy($scope.status,$scope.statustmp);
