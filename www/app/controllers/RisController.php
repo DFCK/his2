@@ -149,7 +149,7 @@ class RisController extends BaseController{
         $param = array(
             'a' => 'study_list',
             'pat_id' => $pk,
-            'date' => "",
+            'date' => $date,
         );
         return $this->getPacsapi($param);
     }
