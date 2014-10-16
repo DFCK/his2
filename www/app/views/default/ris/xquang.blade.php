@@ -323,12 +323,12 @@
         $scope.requestlist = [];
         $scope.status = 0;
         $scope.onajax = false;
-        $scope.searcheid = 0;
+        $scope.searcheid = "";
         $scope.PacsInstanceList = [];
         $scope.statustmp = 0;
         $scope.show = function (request) {
             angular.copy(request, $scope.Request);
-            angular.copy(parseInt($scope.Request.eid), $scope.searcheid);
+            angular.copy($scope.Request.eid, $scope.searcheid);
 //            $scope.searcheid = $scope.Request.eid;
             $scope.xquangimages = [];
             $('.summernote').code("");
