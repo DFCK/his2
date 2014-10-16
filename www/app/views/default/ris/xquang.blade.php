@@ -269,6 +269,8 @@
                     if(data.length > 0)
                     $scope.Pacsresultlist = data.data;
                     else $scope.Pacsresultlist = [];
+                    console.log($scope.Pacsresultlist);
+                    console.log($scope.Pacsresultlist.length);
                     ngProgress.complete();
                 });
         }
