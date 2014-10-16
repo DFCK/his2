@@ -261,6 +261,7 @@
         $scope.loadbypid = function(){
             if(ngProgress.status()<=0)
             ngProgress.start();
+            console.log($scope.searcheid);
             $http.get('ris/pacspatientbypid/'+$scope.searcheid)
                 .success(function(data){
                     $scope.issearchapi = true;
@@ -328,8 +329,8 @@
         $scope.statustmp = 0;
         $scope.show = function (request) {
             angular.copy(request, $scope.Request);
-            angular.copy($scope.Request.eid, $scope.searcheid);
-//            $scope.searcheid = $scope.Request.eid;
+//            angular.copy($scope.Request.eid, $scope.searcheid);
+            $scope.searcheid = $scope.Request.eid;
             $scope.xquangimages = [];
             $('.summernote').code("");
             angular.copy($scope.status,$scope.statustmp);
