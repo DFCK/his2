@@ -318,6 +318,12 @@
                     console.log($scope.xquangimages);
                 })
         }
+        $scope.$watch('searcheid',function(){
+           if($scope.searcheid){
+               $scope.searcheid = $scope.searcheid;
+               console.log($scope.searcheid);
+           }
+        });
         $scope.Request = {};
         $scope.requestlist = [];
         $scope.status = 0;
