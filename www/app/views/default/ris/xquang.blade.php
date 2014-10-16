@@ -318,12 +318,7 @@
                     console.log($scope.xquangimages);
                 })
         }
-        $scope.$watch('searcheid',function(){
-           if($scope.searcheid){
-               $scope.searcheid = $scope.searcheid;
-               console.log($scope.searcheid);
-           }
-        });
+
         $scope.Request = {};
         $scope.requestlist = [];
         $scope.status = 0;
@@ -333,7 +328,8 @@
         $scope.statustmp = 0;
         $scope.show = function (request) {
             angular.copy(request, $scope.Request);
-            $scope.searcheid = $scope.Request.eid;
+            angular.copy($scope.Request.eid, $scope.searcheid);
+//            $scope.searcheid = $scope.Request.eid;
             $scope.xquangimages = [];
             $('.summernote').code("");
             angular.copy($scope.status,$scope.statustmp);
