@@ -328,7 +328,7 @@
         $scope.statustmp = 0;
         $scope.show = function (request) {
             angular.copy(request, $scope.Request);
-            angular.copy($scope.Request.eid, $scope.searcheid);
+            angular.copy((int)$scope.Request.eid, $scope.searcheid);
 //            $scope.searcheid = $scope.Request.eid;
             $scope.xquangimages = [];
             $('.summernote').code("");
