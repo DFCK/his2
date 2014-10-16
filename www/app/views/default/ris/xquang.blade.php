@@ -157,11 +157,7 @@
                         </form>
 
                         </div>
-                        <div class="col-xs-1">
-<!--                            <button class="btn btn-info" data-ng-click="loadbypid()">Ảnh của BN</button>-->
-<!--                            <button class="btn btn-info" data-ng-click="getpacsinstance()"><i class="fa fa-search"></i></button>-->
-                            <button class="btn btn-info" data-ng-click="loadbypid()"><i class="fa fa-search"></i></button>
-                        </div>
+
                         <div class="col-xs-3">
                         <p class="input-group">
                             <input type="text" class="form-control"
@@ -181,8 +177,14 @@
                         </p>
                         </div>
                         <div class="col-xs-1">
-                        <button class="btn btn-info" data-ng-click="loadbydate()"><i class="fa fa-search"></i></button>
+                            <!--                            <button class="btn btn-info" data-ng-click="loadbypid()">Ảnh của BN</button>-->
+                            <!--                            <button class="btn btn-info" data-ng-click="getpacsinstance()"><i class="fa fa-search"></i></button>-->
+                            <button class="btn btn-info" data-ng-click="loadbypid()"><i class="fa fa-search"></i></button>
                         </div>
+<!--                        <div class="col-xs-1">-->
+<!--                            -->
+<!--                        <button class="btn btn-info" data-ng-click="loadbydate()"><i class="fa fa-search"></i></button>-->
+<!--                        </div>-->
                         <div class="col-xs-3">
                         <button class="btn btn-success" data-ng-click="save()">{{trans('common.save')}}</button>
                         <button class="btn btn-primary" data-ng-click="close()">{{trans('common.close')}}</button>
@@ -262,14 +264,14 @@
             if(ngProgress.status()<=0)
             ngProgress.start();
             var searcheid = $("#searcheid").val();
-            console.log(searcheid);
-            $http.get('ris/pacspatientbypid/'+searcheid)
+//            console.log(searcheid);
+            $http.get('ris/pacspatientbypid/'+searcheid+"/"+$filter('date')($scope.datesearch, 'dd-MM-yyyy')+"/"+$filter('date')($scope.datesearch, 'dd-MM-yyyy'))
                 .success(function(data){
                     $scope.issearchapi = true;
                     if(data.success)
                         $scope.Pacsresultlist = data.data;
                     else $scope.Pacsresultlist = [];
-                    console.log($scope.Pacsresultlist);
+//                    console.log($scope.Pacsresultlist);
                     ngProgress.complete();
                 });
         }

@@ -127,11 +127,11 @@ class RisController extends BaseController{
     }
 
 
-    public function getPacspatientbypid($pid){
+    public function getPacspatientbypid($pid,$dfrom="",$dto=""){
         $param = array(
             'a' => 'pat_list',
-            'dfrom' => '',
-            'dto' => '',
+            'dfrom' => $dfrom,
+            'dto' => $dto,
             'pid' => $pid,
         );
         return $this->getPacsapi($param);
