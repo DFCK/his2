@@ -210,7 +210,7 @@
                         </ul>
                         <div class="row">
                         <div class="col-xs-12" ng-if="PacsInstanceList">
-                            <label class="checkbox"><input type="checkbox" data-ng-click="checkall()"> Check all</label>
+                            <label class="checkbox"><input type="checkbox" data-ng-click="checkall()"  id="checkall"> Check all</label>
                         </div>
                         <ul class="col col-sm-12 col-lg-7 list-inline" id="instancechecklist">
                             <li data-ng-repeat="ins in PacsInstanceList" class="text-align-center col-xs-6">
@@ -345,7 +345,9 @@
             ngProgress.start();
             $scope.xquangimages = [];
             $scope.issearchapi = false;
-            $("#instancechecklist").find("input[type=checkbox]").attr('checked',false);
+            $("#checkall").prop("checked",false);
+            $scope.togglecheckall = false;
+            $("#instancechecklist").find("input[type=checkbox]").prop('checked',false);
             $scope.statustmp = 1;
             $http.get('ris/pacspatientinstance/'+series_id)
                 .success(function(data){
