@@ -192,8 +192,9 @@
                     </div>
                     <div>
                         <p ng-if="Pacsresultlist.length == 0 && issearchapi">Chưa tìm thấy dữ liệu.</p>
-                        <ul class="col-xs-4">
-                            <li data-ng-repeat="patient in Pacsresultlist">
+                        <ul class="col-xs-4" style="max-height: 200px;overflow-y: auto">
+
+                        <li data-ng-repeat="patient in Pacsresultlist">
                                 <label><strong><a data-ng-click="getpacsstudy(patient.PK)">@{{patient.PAT_NAME}}</a></strong> (@{{patient.PAT_BIRTHDATE}})</label>
                             </li>
                         </ul>
@@ -293,6 +294,8 @@ var RisMRIController = function ($scope, $filter, $http, ngProgress,$modal) {
         if(ngProgress.status()<=0)
             ngProgress.start();
         var searcheid = $("#searcheid").val();
+        if(searcheid=='') searcheid = 0;
+
 //            console.log(searcheid);
         $http.get('ris/pacspatientbypid/'+searcheid+"/"+$filter('date')($scope.datesearch, 'dd-MM-yyyy')+"/"+$filter('date')($scope.datesearch, 'dd-MM-yyyy'))
             .success(function(data){

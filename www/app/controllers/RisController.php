@@ -128,12 +128,13 @@ class RisController extends BaseController{
     }
 
 
-    public function getPacspatientbypid($pid,$dfrom="",$dto=""){
+    public function getPacspatientbypid($pid,$dfrom="",$dto="",$mode=""){
         $param = array(
             'a' => 'pat_list',
             'dfrom' => $dfrom,
             'dto' => $dto,
             'pid' => $pid,
+            'mode' => $mode,
         );
         return $this->getPacsapi($param);
     }
@@ -176,7 +177,7 @@ class RisController extends BaseController{
         $ip = "http://10.0.0.6/api/index.php?c=api";//sau nay se lay tu csdl tung benh vien
         $url = "";
         if($param['a']=='pat_list'){
-            $url .='&a='.$param['a'].'&pid='.$param['pid'].'&dfrom='.$param['dfrom'].'&dto='.$param['dto'];
+            $url .='&a='.$param['a'].'&pid='.$param['pid'].'&dfrom='.$param['dfrom'].'&dto='.$param['dto'].'&mode='.$param['mode'];
         }
         else if($param['a']=='study_list'){
             $url .='&a='.$param['a'].'&pat_id='.$param['pat_id'].'&date='.$param['date'];

@@ -192,7 +192,7 @@
                     </div>
                     <div>
                         <p ng-if="Pacsresultlist.length == 0 && issearchapi">Chưa tìm thấy dữ liệu.</p>
-                        <ul class="col-xs-4">
+                        <ul class="col-xs-4" style="max-height: 200px;overflow-y: auto">
                             <li data-ng-repeat="patient in Pacsresultlist">
                                 <label><strong><a data-ng-click="getpacsstudy(patient.PK)">@{{patient.PAT_NAME}}</a></strong> (@{{patient.PAT_BIRTHDATE}})</label>
                             </li>
@@ -211,8 +211,8 @@
                             <div class="col-xs-12" ng-if="PacsInstanceList">
                                 <label class="checkbox"><input type="checkbox" data-ng-click="checkall()"> Check all</label>
                             </div>
-                            <ul class="col col-sm-12 col-lg-7 list-inline" id="instancechecklist">
-                                <li data-ng-repeat="ins in PacsInstanceList" class="text-align-center col-xs-6">
+                            <ul class="col col-sm-12 list-inline" id="instancechecklist">
+                                <li data-ng-repeat="ins in PacsInstanceList" class="text-align-center col-xs-4">
                                     <a  data-ng-click="viewImage('lg',ins)"><img src="@{{ins}}" style="max-height: 150px"></a><br>
                                     <input type="checkbox" data-ng-click="checkimg(ins)">
                                 </li>
@@ -293,8 +293,9 @@ var RisCTController = function ($scope, $filter, $http, ngProgress,$modal) {
         if(ngProgress.status()<=0)
             ngProgress.start();
         var searcheid = $("#searcheid").val();
+        if(searcheid=='') searcheid = 0;
 //            console.log(searcheid);
-        $http.get('ris/pacspatientbypid/'+searcheid+"/"+$filter('date')($scope.datesearch, 'dd-MM-yyyy')+"/"+$filter('date')($scope.datesearch, 'dd-MM-yyyy'))
+        $http.get('ris/pacspatientbypid/'+searcheid+"/"+$filter('date')($scope.datesearch, 'dd-MM-yyyy')+"/"+$filter('date')($scope.datesearch, 'dd-MM-yyyy')+"/CT")
             .success(function(data){
                 $scope.issearchapi = true;
                 if(data.success)
