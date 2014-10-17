@@ -26,7 +26,7 @@ class RadtController extends BaseController
             return '';
         $dept = $wardngoaitru['dept_code'];
         $data['dept'] = $dept;
-        $data['hrid'] = $wardngoaitru['empid'];
+        $data['hrid'] = Session::get('user.empid');
 //        $data['dept'] = 'kkb';
 //        $data['hrid'] = 1;
         return View::make(Config::get('main.theme') . '.radt.phongtiepnhan', $data);
