@@ -22,7 +22,8 @@ class CDHAController extends BaseController
     {
         $param = Input::get('data');
         if ($tpl == "dist") {
-            if ($param['id'] == "") {
+            if ($param['id'] == 0 || $param['id']=='') {
+                unset($param['id']);
                 $title = AddressDistrict::create($param);
                 echo $title->id;
             } else {

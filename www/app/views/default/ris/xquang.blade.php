@@ -402,7 +402,7 @@
                     .success(function (data) {
                         ngProgress.complete();
                         $scope.requestlist = data;
-                        if ($scope.requestlist.length > 0) {
+                        if ($scope.requestlist.length > 0 && angular.isObject($scope.requestlist[0])) {
                             $scope.showcdha($scope.requestlist[0]);
                         }
                         $scope.onajax = false;
@@ -444,8 +444,8 @@
             })
         }
         $scope.close = function(){
-            $scope.loadlist();
             $scope.Result = {};
+            $scope.loadlist();
         }
         $scope.viewImage = function (size,mainpic) {
             var Result ={};
