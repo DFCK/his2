@@ -20,8 +20,15 @@ class RadtController extends BaseController
     public function getTiepnhan()
     {
         $hospital = Session::get('user.hospital_code'); //change it when have session.
-        $data['dept'] = 'kkb';
-        $data['hrid'] = 1;
+        $data['function_code'] = 'pasadmit';
+        $wardngoaitru = Employee::getNgoaitruWardRole($data['function_code']);
+        if($wardngoaitru == null || ($wardngoaitru != null && $wardngoaitru['dept_code']=='') )
+            return '';
+        $dept = $wardngoaitru['dept_code'];
+        $data['dept'] = $dept;
+        $data['hrid'] = $wardngoaitru['empid'];
+//        $data['dept'] = 'kkb';
+//        $data['hrid'] = 1;
         return View::make(Config::get('main.theme') . '.radt.phongtiepnhan', $data);
     }
 

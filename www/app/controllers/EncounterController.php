@@ -2,9 +2,16 @@
 class EncounterController extends BaseController{
     public function getInfo($eid){
         $hospital = Session::get('user.hospital_code'); //change it when have session.
-        $dept = 'kkb';
-        $ward = 'khukb';
-        $room = 'kkbpk1';
+        $data['function_code'] = 'paskb';
+        $wardngoaitru = Employee::getNgoaitruWardRole($data['function_code']);
+        if($wardngoaitru == null || ($wardngoaitru != null && $wardngoaitru['room_code']=='') )
+            return '';
+        $dept = $wardngoaitru['dept_code'];
+        $ward = $wardngoaitru['ward_code'];
+        $room = $wardngoaitru['room_code'];
+//        $dept = 'kkb';
+//        $ward = 'khukb';
+//        $room = 'kkbpk1';
         if (strlen($eid) == 15) {
             $data['eid'] = $eid;
             $enc = vEncounter::where('eid',$eid)->first();
