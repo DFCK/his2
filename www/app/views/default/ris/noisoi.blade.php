@@ -114,8 +114,8 @@
                     </div>
                 </article>
             </div>
-            <div class="col-xs-12 col-sm-8" ng-show="Request.eid">
-                <div class="alert alert-info">
+            <div class="col-xs-12 col-sm-8" >
+                <div class="alert alert-info" ng-show="Request.eid">
                     <p>#@{{Request.id}} Bệnh nhân: <strong><a href="/#/pas/person/@{{Request.pid}}">@{{Request.lastname}}
                                                                                                     @{{Request.firstname}}</a></strong>
                        (@{{Request.yob}}). Mã tiếp đón <strong>@{{Request.eid}}</strong></p>
@@ -170,7 +170,7 @@
                                         Xong
                                     </button>
                             </div>
-                            <div class="col-xs-8">
+                            <div class="col-xs-8" ng-show="Request.eid">
                                 <textarea class="summernote" ng-model="resulttext"></textarea>
                             </div>
                             <div class="col-xs-4">

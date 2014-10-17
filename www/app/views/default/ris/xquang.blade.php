@@ -109,8 +109,8 @@
         </div>
     </article>
 </div>
-<div class="col-xs-12 col-sm-8" ng-show="Request.eid">
-    <div class="alert alert-info">
+<div class="col-xs-12 col-sm-8" >
+    <div class="alert alert-info" ng-show="Request.eid">
         <p>#@{{Request.id}} Bệnh nhân: <strong><a href="/#/pas/person/@{{Request.pid}}">@{{Request.lastname}}
                     @{{Request.firstname}}</a></strong>
             (@{{Request.yob}}). Mã tiếp đón <strong>@{{Request.eid}}</strong></p>
@@ -146,7 +146,7 @@
             <div>
                 <!-- widget content -->
                 <div class="widget-body">
-                    <div class="row" ng-if="Request.discharged==0">
+                    <div class="row" >
                         <div class="col-xs-3 ">
                         <form class="smart-form">
                                 <section class="col-xs-12">
@@ -185,7 +185,7 @@
 <!--                            -->
 <!--                        <button class="btn btn-info" data-ng-click="loadbydate()"><i class="fa fa-search"></i></button>-->
 <!--                        </div>-->
-                        <div class="col-xs-3">
+                        <div class="col-xs-4" ng-if="Request.discharged==0">
                         <button class="btn btn-success" data-ng-click="save()">{{trans('common.save')}}</button>
                         <button class="btn btn-primary" data-ng-click="close()">{{trans('common.close')}}</button>
                         </div>
@@ -217,7 +217,7 @@
                                 <input type="checkbox" data-ng-click="checkimg(ins)">
                             </li>
                         </ul>
-                            <div class="col col-sm-12 col-lg-5">
+                            <div class="col col-sm-12" ng-show="Request.eid">
                                 <textarea class="summernote"></textarea>
                             </div>
                         </div>
@@ -286,6 +286,10 @@
         $scope.issearchapi = false;
         $scope.Pacsresultlist = [];
         $scope.loadbypid = function(){
+            $scope.Pacsresultlist = [];
+            $scope.PacsStudylist = [];
+            $scope.PacsSerieslist = [];
+            $scope.PacsInstanceList = [];
             if(ngProgress.status()<=0)
             ngProgress.start();
             var searcheid = $("#searcheid").val();
