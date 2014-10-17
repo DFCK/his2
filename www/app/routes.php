@@ -19,7 +19,7 @@ Route::group(array('before' => 'auth'), function() {
     Route::controller('admin', 'AdminController');
     Route::controller('hrm', 'HrmController');
     Route::controller('address', 'AddressController');
-    Route::controller('dmcdha', 'CDHAController');
+    Route::controller('cdha', 'CDHAController');
     Route::controller('radt', 'RadtController');
     Route::controller('enc', 'EncounterController');
     Route::controller('ris', 'RisController');
