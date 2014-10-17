@@ -84,7 +84,7 @@ class RisController extends BaseController{
 
     public function getLoadristemplate($type,$code){
         $template = TypeCDHA::where('code',$code)->first();
-        if($template->template != "") echo $type->template;
+        if($template->template != "") echo $template->template;
         else{
             $template = TypeCDHA::where('code','=',$type.'0')->first();
             echo $template->template;
